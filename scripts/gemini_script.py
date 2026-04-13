@@ -260,6 +260,223 @@ SCRIPTS = [
         "tiktok_caption": "Here's exactly how much you need to retire 🧮 #retirement #retirementplanning #personalfinance",
         "hook": "Here's exactly how much money you need to retire comfortably."
     },
+    # ── Month 2 scripts ───────────────────────────────────────────────────────
+    {
+        "script": "Here's the truth about crypto that nobody tells beginners. Crypto is not a get-rich-quick scheme — it's a high-risk asset class. Here's how to approach it safely. Never invest more than 5 percent of your portfolio in crypto. Only buy the top 2 — Bitcoin and Ethereum. They have the longest track record and the most liquidity. Never buy based on social media hype. Dollar cost average — buy a fixed amount every week regardless of price. And never keep crypto on an exchange — move it to a hardware wallet. Invest smart, not emotional.",
+        "title": "Crypto for Beginners — How to Invest Without Losing Everything",
+        "description": "Cryptocurrency can be a legitimate part of a diversified portfolio when approached correctly. Learn the safe way to invest in crypto — position sizing, which coins to buy, dollar cost averaging, and securing your holdings. Avoid the mistakes that wipe out most beginners. Subscribe for more investing tips.",
+        "hashtags": ["crypto","bitcoin","cryptocurrency","personalfinance","investing","cryptoforbeginners","bitcoininvesting","moneytips","wealthbuilding","financialfreedom"],
+        "tiktok_caption": "The safe way to invest in crypto without losing everything 🔒 #crypto #bitcoin #personalfinance",
+        "hook": "Most crypto investors lose money — here's how to be the exception."
+    },
+    {
+        "script": "Real estate is the most common way people become millionaires. But you don't need to buy a house to invest in it. Here's how to get started with just 500 dollars. REITs — Real Estate Investment Trusts — let you invest in real estate like a stock. You buy shares and earn rental income as dividends. The best REITs have returned 10 to 12 percent annually over 20 years. You get real estate exposure without the mortgage, maintenance, or tenants. It's the easiest way to add real estate to your portfolio today.",
+        "title": "How to Invest in Real Estate With Just $500 — No House Needed",
+        "description": "Real estate is one of the best wealth-building assets but most people think they need a huge down payment to get started. REITs let you invest in real estate with as little as $500, earn rental income as dividends, and benefit from property appreciation. Learn how to add real estate to your portfolio today. Subscribe for more investing tips.",
+        "hashtags": ["realestate","REITs","investing","personalfinance","passiveincome","wealthbuilding","realestateInvesting","moneytips","financialfreedom","dividends"],
+        "tiktok_caption": "Invest in real estate with just $500 — no house needed 🏢 #realestate #REITs #investing",
+        "hook": "You can invest in real estate with just $500 — no house needed."
+    },
+    {
+        "script": "The average millionaire has 7 streams of income. Most people have 1. Here's how to build your second stream this month. Start a service business — offer one skill you already have. Graphic design, video editing, social media management, bookkeeping. Post on LinkedIn saying you're available for freelance work. You only need 2 clients at 500 dollars a month to add 1,000 to your income. That's 12,000 dollars a year. Reinvest it into index funds. In 10 years that's over 190,000 dollars. One skill. One post. One stream at a time.",
+        "title": "How to Build Your Second Income Stream This Month",
+        "description": "Millionaires average 7 income streams because they understand that one income source is a financial risk. Building a second income stream with a freelance service is the fastest path to financial security and wealth. Learn how to monetize skills you already have. Subscribe for more income-building strategies.",
+        "hashtags": ["multipleincomestreams","secondincome","sidehustle","personalfinance","freelancing","makemoremoney","wealthbuilding","financialfreedom","incomeideas","moneytips"],
+        "tiktok_caption": "Millionaires have 7 income streams — here's how to get your 2nd 💰 #multipleincomestreams #sidehustle #personalfinance",
+        "hook": "Millionaires have 7 income streams. You have 1. Here's how to fix that."
+    },
+    {
+        "script": "Most people make these 5 money mistakes in their 30s and regret it forever. Mistake one: not maxing out retirement accounts when income is higher. Mistake two: buying too much house and becoming house poor. Mistake three: ignoring life insurance when you have dependents. Mistake four: keeping up with friends and upgrading lifestyle constantly. Mistake five: not investing in your career through courses and skills. Your 30s are peak earning years. Every mistake in this decade costs you exponentially more than the same mistake in your 20s.",
+        "title": "5 Money Mistakes People Make in Their 30s and Regret Forever",
+        "description": "Your 30s are the decade where financial decisions have the biggest long-term consequences. These 5 common mistakes can set back your retirement by decades. Avoiding them requires awareness and discipline. Learn what to watch out for and how to course-correct if you're already making these mistakes. Subscribe for more financial guidance.",
+        "hashtags": ["moneymistakes","personalfinance","moneyin30s","financialadvice","wealthbuilding","moneytips","financialplanning","retirement","adulting","financialfreedom"],
+        "tiktok_caption": "5 money mistakes in your 30s that you'll regret forever 😬 #moneymistakes #personalfinance #moneyin30s",
+        "hook": "5 money mistakes people make in their 30s and regret forever."
+    },
+    {
+        "script": "Your morning routine could be worth millions. Here's how. Successful investors spend 30 minutes every morning reviewing their finances. Check your net worth tracker — apps like Personal Capital do this free. Review yesterday's spending. Read one financial article or book page. This daily awareness compounds into better decisions. People who track their net worth monthly grow it 3 times faster than those who don't. Awareness is the foundation of wealth. Start your day with your money, not social media.",
+        "title": "The Morning Routine That Builds Millionaire-Level Wealth",
+        "description": "A simple 30-minute morning financial routine can transform your wealth over time. Tracking your net worth, reviewing spending, and consuming financial education daily creates the awareness and habits that lead to financial success. Learn how to build a money-focused morning routine. Subscribe for more wealth-building habits.",
+        "hashtags": ["morningroutine","wealthbuilding","personalfinance","moneytips","networth","financialhabits","millionairemindset","richhabits","moneymindset","dailyhabits"],
+        "tiktok_caption": "The morning routine that builds millionaire wealth 🌅 #morningroutine #wealthbuilding #personalfinance",
+        "hook": "Your morning routine could be worth millions."
+    },
+    {
+        "script": "Student loans are crushing millions of people. Here's how to pay them off faster without earning more money. Strategy one: refinance to a lower interest rate — even dropping 1 percent saves thousands. Strategy two: pay bi-weekly instead of monthly — you make one extra payment per year without noticing. Strategy three: throw every tax refund and bonus at the principal. Strategy four: if you work in public service, research loan forgiveness programs — you may qualify for complete forgiveness after 10 years. Don't let student loans define your financial life.",
+        "title": "How to Pay Off Student Loans Faster — 4 Strategies That Work",
+        "description": "Student loan debt doesn't have to follow you for decades. With the right strategies — refinancing, bi-weekly payments, lump sum payments, and forgiveness programs — you can pay off student loans years faster and save thousands in interest. Take control of your student debt today. Subscribe for more debt freedom tips.",
+        "hashtags": ["studentloans","debtfree","personalfinance","studentloandebt","debtpayoff","moneytips","financialfreedom","loanforgiveness","debtfreecommunity","collegedebt"],
+        "tiktok_caption": "Pay off student loans YEARS faster with these 4 strategies 🎓 #studentloans #debtfree #personalfinance",
+        "hook": "Pay off your student loans years faster with these 4 strategies."
+    },
+    {
+        "script": "Here's a money concept that changed how I think about spending. Every dollar you spend is not just that dollar — it's the future value of that dollar. 100 dollars spent today at age 30 is actually 1,745 dollars lost at retirement, assuming 10 percent returns over 35 years. That designer bag isn't 500 dollars. It's 8,700 dollars in retirement money. This doesn't mean never spend — it means spend consciously. Ask: is this worth the future value? Sometimes yes. But knowing the real cost changes everything.",
+        "title": "The Real Cost of Everything You Buy (This Will Shock You)",
+        "description": "Every purchase has a hidden cost — its future value if invested instead. A $500 purchase at age 30 represents nearly $9,000 in retirement money. This concept of opportunity cost transforms how you make spending decisions. Learn to calculate the real price of your purchases. Subscribe for more money mindset shifts.",
+        "hashtags": ["opportunitycost","personalfinance","moneymindset","moneytips","wealthbuilding","smartspending","financialtips","consciousspending","investing","financialfreedom"],
+        "tiktok_caption": "The REAL cost of everything you buy will shock you 😱 #opportunitycost #personalfinance #moneymindset",
+        "hook": "That $500 purchase actually costs you $8,700 in retirement money."
+    },
+    {
+        "script": "Frugal living doesn't mean being cheap. It means being intentional. Here are the 5 best frugal habits that actually improve your quality of life. One: cook restaurant-quality meals at home — it's cheaper AND healthier. Two: buy experiences not things — memories last longer than products. Three: use the library for books, movies, and audiobooks — completely free. Four: exercise outside instead of gym memberships. Five: take a no-spend week every month. These habits save 500 dollars a month while making your life richer, not poorer.",
+        "title": "5 Frugal Habits That Save $500 a Month Without Sacrifice",
+        "description": "Frugal living is not about deprivation — it's about intentional spending that maximizes life satisfaction per dollar. These 5 habits save hundreds every month while actually improving your quality of life. Cook better food, have better experiences, and enjoy more freedom. Subscribe for more smart money lifestyle tips.",
+        "hashtags": ["frugalliving","savemoney","personalfinance","moneytips","frugalhabits","consciousspending","budgeting","moneyhacks","financialfreedom","simpleLiving"],
+        "tiktok_caption": "5 frugal habits that save $500/month without feeling poor 💪 #frugalliving #savemoney #personalfinance",
+        "hook": "Frugal living doesn't mean being cheap — it means being free."
+    },
+    {
+        "script": "Here's why your net worth matters more than your income. A doctor earning 300,000 a year with 500,000 in debt and no investments has a lower net worth than a teacher earning 50,000 who has been investing for 20 years. Net worth is assets minus liabilities. To grow your net worth: increase assets — investments, property, business. Decrease liabilities — pay off debt. Increase the gap between income and expenses. Track your net worth monthly. It's the most honest measure of your financial health. Income is vanity. Net worth is sanity.",
+        "title": "Why Net Worth Matters More Than Your Salary",
+        "description": "A high salary doesn't mean financial health. Net worth — assets minus liabilities — is the true measure of financial progress. Learn how to calculate and grow your net worth regardless of your income level. The habits that build net worth are the same at every income. Subscribe for more foundational money principles.",
+        "hashtags": ["networth","personalfinance","wealthbuilding","moneytips","financialhealth","assets","liabilities","moneymindset","financialfreedom","richhabits"],
+        "tiktok_caption": "Your salary doesn't matter as much as THIS 👇 #networth #personalfinance #wealthbuilding",
+        "hook": "Your salary is vanity. Your net worth is the real number."
+    },
+    {
+        "script": "Buying a new car is one of the worst financial decisions you can make. Here's the math. A new car loses 20 percent of its value the moment you drive off the lot. In 5 years it's worth 40 percent of what you paid. If you finance it at 7 percent interest, you pay even more. The smart move: buy a 3 to 5 year old certified pre-owned car with under 50,000 miles. You avoid the steepest depreciation, get a reliable car, and save 10,000 to 20,000 dollars. Invest the difference. The car you drive doesn't build wealth. The money you save does.",
+        "title": "Why Buying a New Car Is One of the Worst Financial Decisions",
+        "description": "New cars lose 20% of their value the moment you drive off the lot. The smart money move is buying a certified pre-owned vehicle that has already absorbed the steepest depreciation. Learn how choosing the right car can save you tens of thousands over your lifetime. Subscribe for more smart money decisions.",
+        "hashtags": ["carshopping","personalfinance","moneytips","newcar","usedcar","financialmistakes","savemoney","smartmoney","wealthbuilding","financialadvice"],
+        "tiktok_caption": "Buying a new car is throwing money away 🚗💸 Here's why #carshopping #personalfinance #moneytips",
+        "hook": "Buying a new car is one of the worst financial decisions you can make."
+    },
+    {
+        "script": "Here's how to build wealth on a minimum wage income. It sounds impossible but it's not. Step one: eliminate your two biggest expenses — housing and transport. Get a roommate. Use public transport or a bicycle. Step two: cook all your food at home. 300 dollars a month saved. Step three: invest even 25 dollars a week. That's 1,300 a year. Over 30 years at 10 percent return, that becomes 226,000 dollars. Step four: develop one skill on YouTube for free and get a better job within 12 months. Low income is temporary. Low financial knowledge is permanent until you change it.",
+        "title": "How to Build Wealth on Minimum Wage — It Is Possible",
+        "description": "Building wealth on a low income requires more discipline but is absolutely possible. By aggressively cutting the big expenses, cooking at home, investing small amounts consistently, and developing marketable skills, anyone can start building wealth regardless of their current income. Subscribe for more inclusive money tips.",
+        "hashtags": ["minimumwage","personalfinance","wealthbuilding","moneytips","lowincome","savemoney","investing","financialfreedom","budgeting","moneymotivation"],
+        "tiktok_caption": "Building wealth on minimum wage — yes it's possible 💪 #minimumwage #personalfinance #wealthbuilding",
+        "hook": "You can build wealth on minimum wage — here's exactly how."
+    },
+    {
+        "script": "Insurance is one of the most overlooked parts of personal finance. The right insurance protects everything you've built. Here are the 4 types everyone needs. One: health insurance — one hospital visit without it can bankrupt you. Two: term life insurance — if anyone depends on your income, get it. It's cheap in your 20s and 30s. Three: disability insurance — your income is your biggest asset. Protect it. Four: renters or homeowners insurance — your belongings and liability covered for pennies a day. Insurance isn't an expense. It's financial armor.",
+        "title": "4 Types of Insurance Everyone Needs to Protect Their Wealth",
+        "description": "Building wealth without the right insurance is like building a house without a foundation. One medical emergency, accident, or disaster can erase years of savings. Learn which 4 types of insurance are non-negotiable at every income level. Subscribe for more comprehensive personal finance guidance.",
+        "hashtags": ["insurance","personalfinance","healthinsurance","lifeinsurance","financialplanning","moneytips","financialprotection","wealthbuilding","adulting","financialsecurity"],
+        "tiktok_caption": "4 types of insurance that protect everything you've built 🛡️ #insurance #personalfinance #financialplanning",
+        "hook": "Without these 4 types of insurance, one bad day can erase your wealth."
+    },
+    {
+        "script": "The psychological tricks stores use to make you spend more — and how to beat them. One: sale prices. 50 percent off feels like saving but you're still spending. Only buy sale items you planned to buy anyway. Two: buy one get one. You buy double what you need. Three: the decoy effect — they put an overpriced option next to the one they want you to buy. Four: checkout aisle impulse buys — add nothing at checkout. Five: loyalty points that expire — they create urgency. Knowing the tricks makes you immune to them.",
+        "title": "5 Store Tricks That Make You Overspend and How to Beat Them",
+        "description": "Retail stores use psychological pricing tricks designed to bypass your rational thinking and get you to spend more. Understanding these tactics makes you a smarter shopper who saves money effortlessly. Learn to recognize and resist the most common spending traps. Subscribe for more smart consumer tips.",
+        "hashtags": ["savemoney","smartshopping","personalfinance","moneyhacks","consumerpsychology","moneytips","budgeting","frugalliving","consciousspending","shoppingtips"],
+        "tiktok_caption": "Stores use these tricks to empty your wallet 🛒 #savemoney #smartshopping #personalfinance",
+        "hook": "Stores use 5 psychological tricks to make you overspend — here they are."
+    },
+    {
+        "script": "Want to retire early? Here's the FIRE movement explained simply. FIRE stands for Financial Independence Retire Early. The goal: save 50 to 70 percent of your income, invest it aggressively, and retire in 10 to 15 years instead of 40. Here's the math. If you save 50 percent of your income, you can retire in about 17 years from any starting point. If you save 70 percent, just 8 years. The higher your savings rate, the faster you reach freedom. It requires sacrifice now for freedom forever. Is it worth it? You decide.",
+        "title": "The FIRE Movement — How to Retire in 10 Years Not 40",
+        "description": "The FIRE movement — Financial Independence Retire Early — is a growing community of people choosing to save aggressively and retire decades before the traditional age. Learn the math behind FIRE, how to calculate your savings rate, and whether early retirement is right for you. Subscribe for more financial independence strategies.",
+        "hashtags": ["FIRE","financialindependence","retirearly","personalfinance","savemoney","investing","wealthbuilding","frugalliving","financialfreedom","earlyretirement"],
+        "tiktok_caption": "Retire in 10 years not 40 — the FIRE movement explained 🔥 #FIRE #financialindependence #retirearly",
+        "hook": "What if you could retire in 10 years instead of 40?"
+    },
+    {
+        "script": "Here's how to use your tax refund to actually change your financial life. Most people spend their refund within 30 days on things they can't remember. Here's the 3-part formula. 50 percent goes to your highest interest debt or emergency fund. 30 percent goes to investments — buy index funds same day you receive the refund. 20 percent you spend on something meaningful — a course, an experience, something that adds value. A 3,000 dollar refund invested for 30 years becomes 52,000 dollars. Or you can buy a TV. Your choice.",
+        "title": "How to Use Your Tax Refund to Change Your Financial Life",
+        "description": "Most people waste their tax refund within weeks. Used strategically, a tax refund can eliminate debt, build your emergency fund, and start your investment journey all at once. Learn the exact formula to make your refund work for your future. Subscribe for more practical money strategies.",
+        "hashtags": ["taxrefund","personalfinance","moneytips","savemoney","investing","debtpayoff","smartmoney","financialtips","taxseason","wealthbuilding"],
+        "tiktok_caption": "Your tax refund can change your life — if you do this 💡 #taxrefund #personalfinance #moneytips",
+        "hook": "Your tax refund can change your financial life — if you don't waste it."
+    },
+    {
+        "script": "Here's the most underrated wealth-building strategy: living below your means for just 5 years. Not forever. Just 5 years. Imagine cutting your expenses by 20 percent for 5 years and investing every saved dollar. On a 3,000 dollar monthly income, that's 600 dollars a month invested. Over 5 years at 10 percent return, you'd have 46,000 dollars. That 46,000 dollars left invested for 25 more years becomes 500,000 dollars. Five years of discipline. A lifetime of options. Most people aren't willing to sacrifice 5 years. That's why most people aren't wealthy.",
+        "title": "Live Below Your Means for 5 Years — Change Your Life Forever",
+        "description": "You don't have to be frugal forever — just for 5 focused years. Living below your means and investing the difference for 5 years can create a financial foundation that compounds into life-changing wealth. Learn how short-term sacrifice creates long-term freedom. Subscribe for more wealth-building mindset tips.",
+        "hashtags": ["livebelowmeans","personalfinance","wealthbuilding","moneytips","savemoney","investing","financialfreedom","moneymindset","frugalliving","financialdiscipline"],
+        "tiktok_caption": "Live below your means for just 5 years — change everything 🏆 #livebelowmeans #personalfinance #wealthbuilding",
+        "hook": "Just 5 years of discipline can change your entire financial life."
+    },
+    {
+        "script": "Buying vs renting tools and equipment — the math might surprise you. Most people buy tools they use once or twice a year. A drill used 3 times a year costs 150 dollars to own. Renting it costs 20 dollars per use — 60 dollars a year. Ownership only wins when you use something more than once a month. The same logic applies to cars in cities, vacation homes, party equipment, and sports gear. The sharing economy exists because ownership is overrated. Before buying anything, ask: how often will I actually use this?",
+        "title": "Rent vs Buy — When Ownership Is Actually Losing You Money",
+        "description": "The assumption that buying is always better than renting extends beyond homes and into everyday purchases. For items you use infrequently, renting almost always wins financially. Learn to apply the rent vs buy calculation to every major purchase and keep more money in your pocket. Subscribe for more contrarian money tips.",
+        "hashtags": ["rentVsbuy","personalfinance","moneyhacks","savemoney","smartshopping","moneytips","minimalism","consciousspending","frugalliving","financialtips"],
+        "tiktok_caption": "Buying stuff you rarely use is costing you 🛠️ #rentVsbuy #personalfinance #moneyhacks",
+        "hook": "Sometimes renting is smarter than buying — here's when."
+    },
+    {
+        "script": "Here's how to make your money work 24 hours a day. Step one: put your emergency fund in a high-yield savings account earning 4 to 5 percent. Step two: invest spare cash in dividend ETFs that pay you every quarter. Step three: if you have a mortgage, make one extra payment per year — saves years of interest. Step four: automate all of this — savings transfer on payday, investment contribution on the 1st. Step five: review quarterly, not daily. Your money should work constantly. You should check occasionally. Set it and grow it.",
+        "title": "How to Make Your Money Work 24 Hours a Day",
+        "description": "The difference between rich and everyone else is that rich people's money works while they sleep. Through high-yield savings, dividend investments, extra mortgage payments, and automation, you can put your entire financial life on autopilot. Learn how to build a money machine. Subscribe for more passive wealth strategies.",
+        "hashtags": ["passiveincome","moneymachine","personalfinance","wealthbuilding","automation","dividends","hysa","moneytips","financialfreedom","investing"],
+        "tiktok_caption": "Make your money work 24/7 while you sleep 😴💰 #passiveincome #moneymachine #personalfinance",
+        "hook": "Your money should be working 24 hours a day — here's how."
+    },
+    {
+        "script": "Here's what nobody tells you about getting out of the paycheck-to-paycheck cycle. It's not about earning more — it's about creating margin. Margin is the gap between income and expenses. Most people have zero margin. Every raise gets spent. Every bonus disappears. To create margin: reduce your top 3 expenses by even 10 percent each. Cut one subscription. Pack lunch twice a week. That creates 200 to 300 dollars of margin. Immediately automate that margin into savings. Margin is oxygen. Without it, any financial emergency suffocates you.",
+        "title": "How to Escape the Paycheck-to-Paycheck Cycle for Good",
+        "description": "Living paycheck to paycheck is not just an income problem — it's a margin problem. Creating even a small gap between income and expenses and automating savings from that gap is the escape route. Learn how to create financial margin and break the cycle permanently. Subscribe for more foundational money strategies.",
+        "hashtags": ["paychecktopaycheck","personalfinance","budgeting","savemoney","moneytips","financialmargin","financialfreedom","moneymindset","wealthbuilding","debtfree"],
+        "tiktok_caption": "Break the paycheck-to-paycheck cycle for good 💪 #paychecktopaycheck #personalfinance #budgeting",
+        "hook": "Living paycheck to paycheck is a margin problem, not an income problem."
+    },
+    {
+        "script": "The 1 percent rule for improving your finances. Improve by just 1 percent every week. Week one: cancel one unused subscription. Week two: cook one more meal at home. Week three: automate 10 more dollars to savings. Week four: read one chapter of a finance book. 1 percent improvement per week compounds to 52 percent better in a year. You don't need dramatic changes. You need consistent tiny improvements. The most successful people in the world don't overhaul their lives — they improve their systems by 1 percent at a time.",
+        "title": "The 1% Rule That Will Transform Your Finances in One Year",
+        "description": "Dramatic financial overhauls rarely last. The 1 percent rule — making tiny consistent improvements every week — compounds into massive results over a year. No willpower required, no sacrifice needed, just small sustainable steps. Learn how to apply the 1 percent rule to every area of your financial life. Subscribe for more sustainable money strategies.",
+        "hashtags": ["onepercent","personalfinance","moneytips","financialhabits","wealthbuilding","consistengy","moneymindset","smallsteps","financialfreedom","continuousimprovement"],
+        "tiktok_caption": "Improve your finances by just 1% per week — watch what happens 📈 #onepercent #personalfinance #moneytips",
+        "hook": "Improve your finances by just 1% every week and watch what happens."
+    },
+    {
+        "script": "Here's why most people never become wealthy despite earning good money. They confuse income with wealth. Income is a river. Wealth is a lake. Most people let the river flow through them without filling the lake. The formula is simple: earn money, keep some, invest the rest, repeat. But lifestyle inflation drains the lake as fast as the river fills it. The solution: every time your income increases, increase your investment rate by the same percentage. Your lifestyle stays the same. Your wealth grows exponentially. Fill the lake.",
+        "title": "Why High Earners Stay Broke — The Income vs Wealth Trap",
+        "description": "Earning a high income and building wealth are not the same thing. Many high earners remain financially fragile because they confuse cash flow with net worth. Learn the critical distinction between income and wealth and how to make sure your river of income fills your lake of wealth. Subscribe for more financial wisdom.",
+        "hashtags": ["wealthmindset","personalfinance","highearners","moneytips","wealthbuilding","incomevswea lth","financialfreedom","richhabits","moneymindset","financialwisdom"],
+        "tiktok_caption": "Why high earners stay broke — income vs wealth explained 💡 #wealthmindset #personalfinance #highearners",
+        "hook": "You can earn great money and still stay broke — here's why."
+    },
+    {
+        "script": "Here's the smartest thing you can do with 100 dollars right now. Option A: spend it on something that brings temporary pleasure. Option B: invest it and let compound interest work. 100 dollars invested at 25 years old at 10 percent annual return becomes 4,526 dollars at 65. That's a 45x return. But here's the real lesson — it's not about the 100 dollars. It's about the habit. The person who invests 100 dollars today will invest 200 next month and 500 the month after. Wealth is a habit before it's a number.",
+        "title": "The Smartest Thing to Do With $100 Right Now",
+        "description": "What you do with small amounts of money reveals your financial habits and predicts your financial future. A 100 dollar investment at 25 becomes over 4,500 dollars by retirement. But more importantly, starting the habit of investing small amounts is the foundation of all wealth. Subscribe for more actionable money moves.",
+        "hashtags": ["invest100dollars","personalfinance","moneytips","investing","wealthbuilding","compoundinterest","moneyhabits","financialfreedom","beginnerinvesting","smartmoney"],
+        "tiktok_caption": "The smartest thing to do with $100 right now 💯 #invest100dollars #personalfinance #moneytips",
+        "hook": "Here's the smartest thing you can do with $100 right now."
+    },
+    {
+        "script": "Groceries are eating your budget alive. Here's how to cut your grocery bill in half without eating worse. One: shop with a list and never deviate — impulse buys add 30 percent to your bill. Two: buy store brands for basics — same product, half the price. Three: buy meat in bulk and freeze it. Four: plan meals around what's on sale that week. Five: use cashback apps like Ibotta every single shop. The average family wastes 1,500 dollars a year on groceries they throw away. Buy only what you'll eat. Plan what you'll buy.",
+        "title": "Cut Your Grocery Bill in Half With These 5 Simple Hacks",
+        "description": "Groceries are one of the most controllable expenses in any budget. With strategic shopping habits — lists, store brands, bulk buying, sale-based meal planning, and cashback apps — most families can cut their grocery bill by 30 to 50 percent without eating worse. Subscribe for more practical money-saving tips.",
+        "hashtags": ["groceryshopping","savemoney","personalfinance","moneyhacks","budgeting","moneytips","frugalliving","grocerysavings","mealplanning","financialtips"],
+        "tiktok_caption": "Cut your grocery bill in HALF with these 5 hacks 🛒 #groceryshopping #savemoney #personalfinance",
+        "hook": "You're wasting hundreds every month at the grocery store."
+    },
+    {
+        "script": "Here's the difference between being cheap and being frugal — and why it matters. Cheap people avoid all spending regardless of value. They buy the cheapest option even when it costs more long term. Frugal people maximize value. They spend on things that matter and cut ruthlessly on things that don't. A cheap person buys the 20-dollar shoes that fall apart in 3 months. A frugal person buys 80-dollar shoes that last 5 years. Total cost: cheap 80 dollars, frugal 80 dollars. Same price, better experience. Be frugal, not cheap.",
+        "title": "Cheap vs Frugal — Why the Difference Makes You Richer",
+        "description": "Being cheap and being frugal are not the same thing. Cheap focuses on spending less regardless of value. Frugal focuses on maximizing value per dollar spent. Understanding this distinction is key to a fulfilling financial life that doesn't feel like deprivation. Subscribe for more money mindset upgrades.",
+        "hashtags": ["frugalliving","cheapvfrugal","personalfinance","moneytips","smartspending","moneymindset","consciousspending","wealthbuilding","financialtips","savemoney"],
+        "tiktok_caption": "Cheap vs frugal — one makes you richer, one makes you miserable 😅 #frugalliving #cheapvfrugal #personalfinance",
+        "hook": "There's a big difference between being cheap and being frugal."
+    },
+    {
+        "script": "Here's how to invest when you're scared of losing money. Fear of loss is the number one reason people don't invest. Here's the truth: not investing guarantees you lose to inflation. Here's how to invest with confidence. Start with a high-yield savings account — 4 to 5 percent with zero risk. Then invest small amounts in a total market index fund — diversified across thousands of companies. Set it to automatic so emotions don't interfere. Never check it daily. Review quarterly. The stock market has never permanently lost value over any 20-year period in history. Time beats fear.",
+        "title": "How to Start Investing When You're Scared of Losing Money",
+        "description": "Fear of losing money keeps millions of people from investing and guarantees they lose to inflation instead. Learn how to start investing gradually and confidently, from high-yield savings accounts to diversified index funds. Time and automation are the antidotes to investment fear. Subscribe for more beginner investing guidance.",
+        "hashtags": ["investingforbeginners","personalfinance","fearofinvesting","indexfunds","moneytips","wealthbuilding","financialfreedom","beginnerinvesting","overcomefear","smartmoney"],
+        "tiktok_caption": "Scared to invest? Watch this first 😰➡️💪 #investingforbeginners #personalfinance #fearofinvesting",
+        "hook": "Scared of losing money investing? Here's how to start safely."
+    },
+    {
+        "script": "Your phone bill is probably costing you twice what it should. Here's how to cut it. First, check if you actually use all your data — most people use half their plan. Second, switch to a budget carrier like Mint Mobile, Visible, or Cricket. Same towers as major carriers, half the price. 25 dollars a month versus 80 dollars a month is 660 dollars saved per year. Third, remove insurance on older phones — replace it with your credit card's phone protection benefit. Four: negotiate every year — carriers always have retention deals. Your phone bill should not be 100 dollars a month.",
+        "title": "You're Overpaying for Your Phone Plan — Here's How to Fix It",
+        "description": "Most people overpay for their phone plan by $50 or more every month without realizing it. Switching to a budget carrier, right-sizing your data plan, dropping unnecessary insurance, and negotiating annually can save over $600 per year for the exact same service. Subscribe for more bill-cutting money hacks.",
+        "hashtags": ["phonebill","savemoney","personalfinance","moneyhacks","moneytips","budgeting","frugalliving","billsavings","moneysaving","financialtips"],
+        "tiktok_caption": "You're overpaying for your phone plan by $50+/month 📱💸 #phonebill #savemoney #personalfinance",
+        "hook": "You're probably paying double what you should for your phone plan."
+    },
+    {
+        "script": "Here's a hard truth about money that nobody wants to hear. Your financial situation is mostly your responsibility. Not the economy. Not your employer. Not the government. You choose how much to spend. You choose whether to invest. You choose whether to develop your skills. This isn't about blame — it's about power. The moment you accept responsibility for your finances, you gain the power to change them. Victims wait for things to change. Players make things change. You have more control over your financial future than you've been led to believe. Use it.",
+        "title": "The Hard Truth About Money Nobody Wants to Hear",
+        "description": "Personal responsibility is the foundation of personal finance. While systemic factors matter, the daily choices you make about spending, saving, and investing are within your control. Accepting this responsibility doesn't mean blaming yourself — it means empowering yourself to change your situation. Subscribe for more honest financial perspective.",
+        "hashtags": ["financialmindset","personalfinance","moneymindset","moneytips","wealthbuilding","hardtruth","financialresponsibility","moneymotivation","richhabits","financialfreedom"],
+        "tiktok_caption": "The hard truth about money nobody wants to hear 🎯 #financialmindset #personalfinance #moneymindset",
+        "hook": "The hard truth about money that nobody wants to hear."
+    },
 ]
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -302,8 +519,9 @@ def main():
     with open("./temp/script.json", "w", encoding="utf-8") as f:
         json.dump(script_data, f, indent=2, ensure_ascii=False)
 
-    print(f"Script {index + 1}/30 saved to ./temp/script.json")
-    print(f"Scripts used this cycle: {len(used)}/30")
+    total = len(SCRIPTS)
+    print(f"Script {index + 1}/{total} saved to ./temp/script.json")
+    print(f"Scripts used this cycle: {len(used)}/{total}")
     print(f"Title: {script_data['title']}")
     print(f"Hook:  {script_data['hook']}")
 
