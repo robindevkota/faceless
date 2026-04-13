@@ -19,23 +19,9 @@ fi
 # Shuffle and pick up to 4
 mapfile -t CLIPS < <(printf '%s\n' "${ALL_CLIPS[@]}" | shuf | head -n 4)
 
-# ── 2. Pick 1 valid music track ───────────────────────────────────────────────
+# ── 2. No background music for now ───────────────────────────────────────────
 MUSIC=""
-mapfile -t ALL_MUSIC < <(ls "$MUSIC_DIR"/*.mp3 2>/dev/null)
-for candidate in "${ALL_MUSIC[@]}"; do
-  # Use file command to verify it's real audio, not an image
-  FILETYPE=$(file --mime-type -b "$candidate")
-  if [[ "$FILETYPE" == audio/* ]]; then
-    MUSIC="$candidate"
-    echo "Using music: $MUSIC ($FILETYPE)"
-    break
-  else
-    echo "Skipping non-audio file: $candidate ($FILETYPE)"
-  fi
-done
-if [ -z "$MUSIC" ]; then
-  echo "No valid music found — continuing without background music"
-fi
+echo "No background music — voice only"
 
 # ── 3. Build FFmpeg clip list ─────────────────────────────────────────────────
 rm -f "$TEMP_DIR/clips.txt"
