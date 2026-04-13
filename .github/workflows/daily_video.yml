@@ -2,7 +2,8 @@ name: Daily Video Pipeline
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # every day at 6am UTC
+    - cron: '0 6 * * *'   # every day at 6am UTC  = 11:45am Nepal time
+    - cron: '0 12 * * *'  # every day at 12pm UTC = 5:45pm Nepal time
   workflow_dispatch:        # manual trigger from GitHub Actions tab
 
 jobs:
