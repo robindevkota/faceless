@@ -19,13 +19,22 @@ fi
 # Shuffle and pick up to 4
 mapfile -t CLIPS < <(printf '%s\n' "${ALL_CLIPS[@]}" | shuf | head -n 4)
 
-# ── 2. Pick 1 random music track ─────────────────────────────────────────────
+# ── 2. Pick 1 valid music track (verify it's real audio) ─────────────────────
+MUSIC=""
 mapfile -t ALL_MUSIC < <(ls "$MUSIC_DIR"/*.mp3 2>/dev/null)
-if [ ${#ALL_MUSIC[@]} -lt 1 ]; then
-  echo "WARNING: No music found in $MUSIC_DIR — continuing without background music"
-  MUSIC=""
-else
-  MUSIC="${ALL_MUSIC[RANDOM % ${#ALL_MUSIC[@]}]}"
+for candidate in "${ALL_MUSIC[@]}"; do
+  # Check if ffprobe sees an audio stream
+  if ffprobe -v error -select_streams a -show_entries stream=codec_type \
+     -of default=noprint_wrappers=1:nokey=1 "$candidate" 2>/dev/null | grep -q audio; then
+    MUSIC="$candidate"
+    echo "Using music: $MUSIC"
+    break
+  else
+    echo "Skipping invalid music file: $candidate"
+  fi
+done
+if [ -z "$MUSIC" ]; then
+  echo "WARNING: No valid music found — continuing without background music"
 fi
 
 # ── 3. Build FFmpeg clip list ─────────────────────────────────────────────────
