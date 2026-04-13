@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p stock music)",
+      "Bash(PIXABAY_API_KEY=\"55420439-e77b3d0d95e9e71de4e096e30\" python scripts/download_assets.py)"
+    ]
+  }
+}
