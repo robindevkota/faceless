@@ -74,10 +74,8 @@ SCRIPTS = [
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    # Pick script based on day of week so each day gets a different one
-    from datetime import datetime
-    day_index = datetime.now().weekday()  # 0=Monday, 6=Sunday
-    script_data = SCRIPTS[day_index % len(SCRIPTS)]
+    # Pick a random script each run
+    script_data = random.choice(SCRIPTS)
 
     os.makedirs("./temp", exist_ok=True)
     with open("./temp/script.json", "w", encoding="utf-8") as f:

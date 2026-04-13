@@ -24,9 +24,10 @@ rm -f "$TEMP_DIR/clips.txt"
 i=0
 for clip in "${CLIPS[@]}"; do
   out="$TEMP_DIR/clips_normalized/clip_${i}.mp4"
-  ffmpeg -y -i "$clip" \
+  # Loop each clip to ensure minimum 15 seconds, then trim to 15s
+  ffmpeg -y -stream_loop -1 -i "$clip" \
     -vf "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920" \
-    -r 30 -c:v libx264 -preset fast -crf 23 \
+    -r 30 -t 15 -c:v libx264 -preset fast -crf 23 \
     -an \
     "$out" 2>/dev/null
   echo "file '$(realpath "$out")'" >> "$TEMP_DIR/clips.txt"
