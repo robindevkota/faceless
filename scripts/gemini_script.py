@@ -264,14 +264,46 @@ SCRIPTS = [
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+USED_INDEX_FILE = "./temp/used_scripts.json"
+
+def load_used():
+    os.makedirs("./temp", exist_ok=True)
+    if os.path.exists(USED_INDEX_FILE):
+        with open(USED_INDEX_FILE) as f:
+            return json.load(f)
+    return []
+
+def save_used(used):
+    with open(USED_INDEX_FILE, "w") as f:
+        json.dump(used, f)
+
 def main():
-    script_data = random.choice(SCRIPTS)
+    used = load_used()
+    all_indices = list(range(len(SCRIPTS)))
+
+    # Find unused scripts
+    unused = [i for i in all_indices if i not in used]
+
+    # If all used, reset and start over
+    if not unused:
+        print("All 30 scripts used — resetting cycle.")
+        used = []
+        unused = all_indices
+
+    # Pick a random unused script
+    index = random.choice(unused)
+    script_data = SCRIPTS[index]
+
+    # Mark as used
+    used.append(index)
+    save_used(used)
 
     os.makedirs("./temp", exist_ok=True)
     with open("./temp/script.json", "w", encoding="utf-8") as f:
         json.dump(script_data, f, indent=2, ensure_ascii=False)
 
-    print(f"Script saved to ./temp/script.json")
+    print(f"Script {index + 1}/30 saved to ./temp/script.json")
+    print(f"Scripts used this cycle: {len(used)}/30")
     print(f"Title: {script_data['title']}")
     print(f"Hook:  {script_data['hook']}")
 
