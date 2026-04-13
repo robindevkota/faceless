@@ -1,0 +1,61 @@
+name: Daily Video Pipeline
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # every day at 6am UTC
+  workflow_dispatch:        # manual trigger from GitHub Actions tab
+
+jobs:
+  make-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # ── 1. Checkout repo ────────────────────────────────────────────────────
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # ── 2. Install system dependencies ──────────────────────────────────────
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pip python3-venv
+
+      # ── 3. Install Python dependencies ──────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip3 install -r requirements.txt
+
+      # ── 4. Generate script via Gemini ───────────────────────────────────────
+      - name: Generate script with Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 scripts/gemini_script.py
+
+      # ── 5. Generate voiceover via Edge TTS (free) ────────────────────────────
+      - name: Generate voiceover (Edge TTS)
+        run: python3 scripts/edge_tts_voice.py
+
+      # ── 6. Assemble video with FFmpeg ────────────────────────────────────────
+      - name: Assemble video
+        run: bash scripts/assemble.sh
+
+      # ── 7. Upload to YouTube ─────────────────────────────────────────────────
+      - name: Upload to YouTube
+        env:
+          YOUTUBE_CLIENT_ID:     ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python3 scripts/upload_youtube.py
+
+      # ── 8. Upload to TikTok ──────────────────────────────────────────────────
+      - name: Upload to TikTok
+        env:
+          TIKTOK_ACCESS_TOKEN: ${{ secrets.TIKTOK_ACCESS_TOKEN }}
+        run: python3 scripts/upload_tiktok.py
+
+      # ── 9. Upload to Facebook ────────────────────────────────────────────────
+      - name: Upload to Facebook
+        env:
+          FACEBOOK_PAGE_TOKEN: ${{ secrets.FACEBOOK_PAGE_TOKEN }}
+          FACEBOOK_PAGE_ID:    ${{ secrets.FACEBOOK_PAGE_ID }}
+        run: python3 scripts/upload_facebook.py

@@ -1,0 +1,16 @@
+# Temporary files generated during pipeline run
+temp/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets (never commit these)
+*.key
+secrets.json
