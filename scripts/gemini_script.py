@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-gemini_script.py — generates video script
-Uses pre-written scripts (30 days worth). Replace with API call when ready.
+gemini_script.py — picks a random unused psychology/mind fact script
 Output: ./temp/script.json
 """
 
@@ -9,473 +8,510 @@ import os
 import json
 import random
 
-# ── 30 Pre-written scripts ────────────────────────────────────────────────────
-
 SCRIPTS = [
     {
-        "script": "Did you know most people waste over 500 dollars a month without realizing it? Here are 3 simple ways to stop the bleeding. First, cancel subscriptions you forgot about. Check your bank statement right now — most people find at least 2 they don't use. Second, cook one extra meal at home per week. That alone saves 50 dollars a month. Third, use the 24-hour rule before any purchase over 30 dollars. Wait a day. You'll skip it half the time. Small changes, massive results. Follow for more money tips every day.",
-        "title": "3 Ways to Stop Wasting Money Every Month",
-        "description": "Most people waste hundreds of dollars every month without knowing it. In this video we reveal 3 simple habits that can save you over 500 dollars a month. Start with your subscriptions, cooking at home, and the 24-hour spending rule. These small changes add up fast. Subscribe for daily personal finance tips.",
-        "hashtags": ["moneytips","savemoney","personalfinance","budgeting","financialtips","moneyhacks","savingsgoals","frugalliving","moneyadvice","wealthbuilding"],
-        "tiktok_caption": "Stop wasting $500/month without knowing it 💸 3 simple fixes #moneytips #savemoney #personalfinance",
-        "hook": "You're wasting $500 a month and don't even know it."
+        "script": "Your brain makes 35,000 decisions every single day — and most of them happen without you even knowing it. Scientists call this the unconscious mind, and it controls about 95 percent of everything you do. Your posture, your tone of voice, the route you take to work — all automatic. Here's what's wild: the conscious part of your brain, the part you think is in charge, is really just the tip of the iceberg. The real power is underneath. Understanding your unconscious is the first step to changing your habits, your reactions, and your life.",
+        "title": "Your Brain Makes 35000 Decisions a Day Without You",
+        "description": "The unconscious mind controls 95% of your behavior. Learn how your brain makes thousands of automatic decisions daily and how understanding this can help you change habits and improve your life.",
+        "hashtags": ["psychology","mindfacts","brain","unconsciousmind","mentalhealth","mindpower","brainfacts","selfdevelopment","mindset","neuroscience"],
+        "tiktok_caption": "Your brain is making 35,000 decisions without you #psychology #mindfacts #brain",
+        "hook": "Your brain makes 35,000 decisions every day — without your permission."
     },
     {
-        "script": "The reason most people stay broke is not their income — it's their habits. Here's what rich people do differently. They pay themselves first. Before any bill, they move 10 percent of every paycheck into savings automatically. They track every dollar. Not to restrict themselves, but to stay aware. And they invest early, even small amounts. A hundred dollars a month invested at 20 years old becomes over 500,000 by retirement. The gap between rich and poor is habits, not luck. Start today.",
-        "title": "Why Most People Stay Broke — And How to Fix It",
-        "description": "The difference between wealthy and broke people isn't income — it's habits. Learn the 3 core money habits that separate the rich from everyone else. Pay yourself first, track your spending, and start investing early. These habits compound over time and build real wealth. Subscribe for daily financial tips.",
-        "hashtags": ["richhabits","personalfinance","moneymindset","investing","wealthbuilding","financialfreedom","moneyadvice","budgeting","savemoney","growyourwealth"],
-        "tiktok_caption": "Rich people aren't lucky — they just do this differently 💰 #richhabits #personalfinance #moneymindset",
-        "hook": "Rich people aren't lucky — they just have different habits."
+        "script": "Did you know that loneliness is as physically dangerous as smoking 15 cigarettes a day? Research from Brigham Young University found that social isolation increases the risk of early death by 26 percent. Your brain literally treats social rejection the same way it treats physical pain — the same neural pathways light up. This is why a breakup or being left out can feel so physically awful. Humans are wired for connection. It's not a luxury — it's a biological need. Make time for real relationships. Your life literally depends on it.",
+        "title": "Loneliness Is as Deadly as Smoking 15 Cigarettes a Day",
+        "description": "Science shows chronic loneliness is as harmful as smoking. Your brain treats social rejection like physical pain. Learn why human connection is a biological necessity, not a luxury.",
+        "hashtags": ["psychology","loneliness","mentalhealth","brainfacts","socialconnection","mindfacts","wellbeing","humanconnection","neuroscience","mindhealth"],
+        "tiktok_caption": "Loneliness is as deadly as smoking — science says so #psychology #loneliness #mentalhealth",
+        "hook": "Loneliness is as dangerous as smoking 15 cigarettes a day."
     },
     {
-        "script": "If you have no savings right now, here is your 30-day plan to change that. Week one: track every single expense. Just awareness. Week two: find one bill to cut — phone plan, streaming, insurance. Week three: sell something you own but don't use. Most people have 200 dollars sitting in their house. Week four: open a separate savings account and move whatever you saved into it. By day 30 you will have your first emergency fund started. Progress over perfection. Let's go.",
-        "title": "30-Day Savings Plan for Beginners With Zero Savings",
-        "description": "Starting from zero savings feels impossible but it's not. This 30-day plan breaks it into simple weekly steps anyone can follow. Track expenses, cut one bill, sell unused items, and open a dedicated savings account. By the end of the month you'll have momentum and real savings. Follow for more beginner-friendly money tips.",
-        "hashtags": ["savingmoney","beginnerfinance","30daychallenge","personalfinance","emergencyfund","moneytips","budgeting","financialgoals","savingsplan","zerosavings"],
-        "tiktok_caption": "Zero savings? Here's your 30-day fix 📅 #savingmoney #30daychallenge #personalfinance",
-        "hook": "Zero savings? Here's your exact 30-day plan to change that."
+        "script": "Here's a mind trick that can completely change how you see yourself. It's called cognitive reframing, and therapists use it to treat anxiety and depression. Instead of saying I failed, say I learned what doesn't work. Instead of I'm terrible at this, say I'm getting better at this. Your brain believes what you tell it. The words you use to describe your experiences physically shape the neural pathways in your mind. Positive reframing isn't toxic positivity — it's neuroscience. The story you tell yourself becomes the life you live.",
+        "title": "The Mind Trick Therapists Use to Rewire Your Brain",
+        "description": "Cognitive reframing is a proven therapy technique that changes how your brain interprets experiences. Learn how to shift your self-talk to literally rewire neural pathways and improve your mental outlook.",
+        "hashtags": ["psychology","cognitivereframing","mentalhealth","mindfacts","brainhacks","therapy","mindset","selftalk","brainscience","mindpower"],
+        "tiktok_caption": "This mind trick rewires your brain — therapists use it daily #psychology #cognitivereframing #mentalhealth",
+        "hook": "This one mind trick can completely change how you see yourself."
     },
     {
-        "script": "Inflation is silently stealing your money right now. Here's how to fight back. First, buy in bulk for items you use every week — rice, pasta, soap. You save 20 to 30 percent instantly. Second, switch to store brands. The product is often identical, made in the same factory. Third, time your purchases. Electronics drop 30 percent after new models launch. Clothes are cheapest end of season. Fighting inflation isn't about earning more — it's about spending smarter. Share this with someone who needs it.",
-        "title": "How Inflation Is Stealing Your Money and How to Stop It",
-        "description": "Inflation is reducing your purchasing power every single day. But there are smart strategies to fight back. Buying in bulk, switching to store brands, and timing your purchases strategically can save you hundreds every month. Subscribe for more money-saving strategies.",
-        "hashtags": ["inflation","savemoney","smartshopping","personalfinance","moneyhacks","budgeting","costofliving","financialtips","moneysaving","frugal"],
-        "tiktok_caption": "Inflation is robbing you daily — here's how to fight back 💪 #inflation #savemoney #smartshopping",
-        "hook": "Inflation is silently stealing your money right now."
+        "script": "The average person has between 60,000 and 80,000 thoughts per day. About 80 percent of those thoughts are negative, and 95 percent are the exact same thoughts you had yesterday. Your mind is stuck in a loop. This negativity bias evolved to keep our ancestors alive — always scanning for threats. But in modern life, it works against us. The fix? Mindfulness. When you notice a thought, you break the automatic loop. You become the observer, not the prisoner. Awareness is the first step to freedom.",
+        "title": "80 Percent of Your Daily Thoughts Are Negative Here Is the Fix",
+        "description": "Research shows most daily thoughts are negative and repetitive. This negativity bias is ancient evolution working against modern life. Learn how mindfulness breaks the cycle and gives you back control.",
+        "hashtags": ["psychology","negativitybias","mindfulness","mindfacts","brainfacts","mentalhealth","thoughts","mindpower","awareness","neuroscience"],
+        "tiktok_caption": "80% of your thoughts are negative — here's how to fix that #psychology #negativitybias #mindfulness",
+        "hook": "80 percent of your daily thoughts are negative — and most repeat every single day."
     },
     {
-        "script": "Most people think investing is only for rich people. It's not. Here's how to start with just 10 dollars. Open a free account on any major investing app. Buy one share of an index fund — it tracks the whole stock market so you're instantly diversified. Set up automatic investing of even 10 dollars a week. That's it. Over 10 years, that 10 dollars a week becomes over 7,000 dollars. Over 30 years, over 60,000 dollars. The best time to start was yesterday. The second best time is right now.",
-        "title": "How to Start Investing With Just $10 — Beginner Guide",
-        "description": "You don't need thousands of dollars to start investing. With just 10 dollars you can open an account, buy an index fund, and start building wealth today. Automatic weekly investing is the secret weapon of everyday millionaires. Subscribe for more investing tips.",
-        "hashtags": ["investing","beginnerinvesting","indexfunds","personalfinance","wealthbuilding","stockmarket","financialfreedom","moneytips","compoundinterest","invest"],
-        "tiktok_caption": "Start investing with just $10 today 📈 No excuses! #investing #beginnerinvesting #personalfinance",
-        "hook": "You can start investing today with just $10."
+        "script": "There's a psychological phenomenon called the Dunning-Kruger effect that explains why the least competent people are often the most confident. When you know very little about a subject, you don't know enough to know what you don't know. So you feel confident. As you learn more, you realize how complex it is and your confidence drops. Then, as you master it, confidence climbs again — but now it's real expertise. The most dangerous people in any room are often the ones who've read one article on a topic. True wisdom begins with knowing what you don't know.",
+        "title": "Why the Least Competent People Are Always the Most Confident",
+        "description": "The Dunning-Kruger effect explains why beginners overestimate their abilities while experts underestimate theirs. Understanding this helps you spot overconfidence in yourself and others.",
+        "hashtags": ["psychology","dunningkruger","mindfacts","brainfacts","cognitivebias","selfdevelopment","criticalthinking","mindset","awareness","psychology101"],
+        "tiktok_caption": "Why incompetent people are always so confident — the Dunning-Kruger effect #psychology #dunningkruger #mindfacts",
+        "hook": "The least skilled people are usually the most confident — here's the psychology."
     },
     {
-        "script": "Your credit score is costing you thousands of dollars. Here's how to fix it fast. Number one: pay every bill on time. Set up autopay for minimums so you never miss. Number two: keep your credit card balance below 30 percent of the limit. This alone can raise your score 50 points. Number three: don't close old cards even if you don't use them. Length of history matters. A good credit score means lower interest rates on everything — cars, homes, loans. That's worth tens of thousands over your lifetime.",
-        "title": "Fix Your Credit Score Fast — 3 Steps That Actually Work",
-        "description": "A bad credit score costs you thousands in higher interest rates on loans, cars, and mortgages. These 3 steps can significantly improve your credit score in 90 days or less. Pay on time, lower your utilization rate, and keep old accounts open. Subscribe for more credit and finance tips.",
-        "hashtags": ["creditscore","fixcredit","personalfinance","creditrepair","moneytips","financialtips","creditbuilding","goodcredit","creditadvice","financialhealth"],
-        "tiktok_caption": "Your credit score is costing you thousands 😤 Fix it with these 3 steps #creditscore #fixcredit #personalfinance",
-        "hook": "Your credit score is costing you thousands of dollars."
+        "script": "Your gut has its own nervous system with over 100 million neurons — more than your spinal cord. Scientists call it the second brain. It communicates directly with your actual brain through the vagus nerve, and 90 percent of the signals travel upward from gut to brain, not the other way around. This is why stress gives you stomach problems, and why your gut feelings are often right. The connection between digestive health and mental health is so strong that scientists believe poor gut health may contribute to depression and anxiety. Feed your gut well — you're feeding your mind.",
+        "title": "Your Gut Has 100 Million Neurons It Is Your Second Brain",
+        "description": "With 100 million neurons and a direct line to your brain, your gut influences mood, mental health, and decision-making in ways science is just beginning to understand.",
+        "hashtags": ["psychology","gutbrain","secondbrain","mindfacts","brainfacts","mentalhealth","guthealth","neuroscience","brainscience","mindpower"],
+        "tiktok_caption": "Your gut has 100 million neurons — it's literally your second brain #psychology #gutbrain #mindfacts",
+        "hook": "Your gut has its own brain with 100 million neurons."
     },
     {
-        "script": "Side hustles are not just for extra cash — they can replace your income. Here are 3 that work in 2026. First, freelance writing. Companies pay 50 to 300 dollars per article. Start on Upwork or Fiverr with no experience needed. Second, reselling. Buy items on sale locally and sell online for profit. People make 2,000 dollars a month doing this part time. Third, digital products. Create one template, guide, or preset and sell it forever with no extra work. The best side hustle is the one you start today. Which one will you try?",
-        "title": "3 Side Hustles That Can Replace Your Income in 2026",
-        "description": "Side hustles have never been more accessible. Freelance writing, reselling, and digital products are three proven ways to earn extra income in 2026 with minimal startup costs. Many people turn these into full-time income streams. Start small, stay consistent, and scale what works. Subscribe for more side hustle strategies.",
-        "hashtags": ["sidehustle","makemoneyonline","extraincome","personalfinance","freelancing","digitalproducts","reselling","incomeideas","workfromhome","financialfreedom"],
-        "tiktok_caption": "3 side hustles that can replace your 9-5 in 2026 🔥 #sidehustle #makemoneyonline #extraincome",
-        "hook": "These 3 side hustles can replace your full-time income."
+        "script": "Mirror neurons are one of the most fascinating discoveries in neuroscience. When you watch someone get hurt, the same neurons fire in your brain as if you were hurt yourself. When you watch someone smile, your mirror neurons activate a smile response in your own brain. This is the biological basis of empathy. It's also why yawning is contagious, why you flinch watching action movies, and why spending time with positive people literally changes your brain chemistry. You absorb the emotions of the people around you. Choose your circle wisely.",
+        "title": "Mirror Neurons Why You Feel What Others Feel",
+        "description": "Mirror neurons fire when you watch others experience something, creating the physical basis of empathy. This explains contagious yawning, emotional contagion, and why your social circle directly shapes your brain chemistry.",
+        "hashtags": ["psychology","mirrorneurons","empathy","mindfacts","neuroscience","brainfacts","emotionalintelligence","brainscience","mindpower","psychology101"],
+        "tiktok_caption": "Mirror neurons explain why you feel what others feel #psychology #mirrorneurons #empathy",
+        "hook": "When you watch someone get hurt, your brain responds as if it happened to you."
     },
     {
-        "script": "The 50-30-20 budget rule changed my financial life. Here's how it works. 50 percent of your income goes to needs — rent, food, transport. 30 percent goes to wants — entertainment, dining out, hobbies. 20 percent goes straight to savings and debt. That's it. No complicated spreadsheets. No tracking every coffee. Just three numbers. If you earn 3,000 a month, that's 1,500 for needs, 900 for fun, and 600 saved. Try this for 90 days and watch your finances transform.",
-        "title": "The 50-30-20 Budget Rule That Will Change Your Finances",
-        "description": "The 50-30-20 rule is the simplest budgeting method that actually works for beginners. Split your income into needs, wants, and savings with no complicated tracking required. This rule works on any income level and helps you save consistently while still enjoying life. Subscribe for more practical money tips.",
-        "hashtags": ["budgeting","503020rule","personalfinance","moneytips","savemoney","budgetingforbeginners","financialtips","moneymanagement","savingsgoals","financialplanning"],
-        "tiktok_caption": "The 50-30-20 rule will fix your finances 💡 So simple! #budgeting #503020rule #personalfinance",
-        "hook": "This one rule will completely fix your budget."
+        "script": "The Placebo Effect is one of the most powerful forces in medicine — and it works even when you know it's a placebo. Studies at Harvard showed that patients who were told they were taking sugar pills still experienced significant improvements in their symptoms. Your mind has the power to change your body's chemistry based purely on belief. Pain relief, immune response, even blood pressure — all influenced by belief alone. The flip side is the nocebo effect: negative expectations cause real harm. What you believe about your health literally shapes your biology.",
+        "title": "The Placebo Effect Works Even When You Know It Is Fake",
+        "description": "Harvard studies proved the placebo effect works even when patients know they're taking sugar pills. Your beliefs physically alter your body chemistry and health outcomes.",
+        "hashtags": ["psychology","placeboeffect","mindfacts","brainfacts","mindbody","mentalhealth","neuroscience","mindpower","healthpsychology","brainscience"],
+        "tiktok_caption": "The placebo effect works even when you know it's fake #psychology #placeboeffect #mindfacts",
+        "hook": "The Placebo Effect works even when you know you're taking a sugar pill."
     },
     {
-        "script": "What if I told you that your daily coffee habit isn't the reason you're broke? The real budget killers are the big three — housing, transport, and food. Most people spend 70 percent of their income on just these three things. Here's how to cut each one. Negotiate your rent or get a roommate. Buy a reliable used car instead of financing a new one. Meal prep on Sundays. Cutting each by just 10 percent frees up hundreds every month. Focus on the big wins, not the small sacrifices.",
-        "title": "The 3 Real Reasons You're Always Broke (It's Not Coffee)",
-        "description": "Cutting your daily coffee won't make you rich. The real money drains are housing, transportation, and food — the big three that eat up most people's budgets. Learn how to reduce each one by 10 percent and free up hundreds of dollars every month. Subscribe for honest money advice that makes a real difference.",
-        "hashtags": ["budgeting","personalfinance","moneytips","savemoney","financialadvice","moneymanagement","broketo rich","financialfreedom","moneyhacks","realadvice"],
-        "tiktok_caption": "Your coffee isn't why you're broke 😂 This is the real reason #budgeting #personalfinance #moneytips",
-        "hook": "Your daily coffee isn't why you're broke. This is."
+        "script": "The Baader-Meinhof phenomenon explains why once you notice something for the first time, you suddenly see it everywhere. You buy a red car and suddenly red cars are everywhere. You learn a new word and hear it three times that week. Your brain didn't create new things — it just started filtering for them. This is your reticular activating system at work. It filters the 11 million bits of information hitting your senses every second down to the 40 you can consciously process. What you focus on is what you see. Set your mental filter to what you want to attract.",
+        "title": "Why You See Something Everywhere After Learning About It",
+        "description": "The Baader-Meinhof phenomenon and your reticular activating system explain why new knowledge seems to appear everywhere. Your brain filters 11 million bits of data per second — and focus determines what you notice.",
+        "hashtags": ["psychology","baadermeinhof","mindfacts","brainfacts","reticularsystem","cognitivebias","brainscience","awareness","mindpower","psychology101"],
+        "tiktok_caption": "Once you notice something, you see it EVERYWHERE — here's why #psychology #baadermeinhof #mindfacts",
+        "hook": "Ever notice something new and then see it everywhere? Your brain is doing this on purpose."
     },
     {
-        "script": "Compound interest is the most powerful force in personal finance. Here's a simple example. You invest 1,000 dollars at age 25. At 10 percent return per year, by age 65 that single investment becomes 45,000 dollars. But if you wait until 35 to invest that same 1,000, it only becomes 17,000. Waiting 10 years cut your result by more than half. Time is the ingredient that makes compound interest work. Every year you wait is money you're leaving behind. Start now.",
-        "title": "Why Compound Interest Is the Secret to Getting Rich",
-        "description": "Compound interest is the eighth wonder of the world and the foundation of all wealth building. The earlier you start investing, the more time your money has to grow exponentially. Even small amounts invested early can grow into life-changing wealth. Subscribe to learn how to make compound interest work for you.",
-        "hashtags": ["compoundinterest","investing","wealthbuilding","personalfinance","financialfreedom","moneytips","investearly","retirementplanning","passiveincome","richhabits"],
-        "tiktok_caption": "Why waiting to invest is costing you EVERYTHING 😱 #compoundinterest #investing #wealthbuilding",
-        "hook": "Waiting 10 years to invest cuts your wealth in half."
+        "script": "Studies show that writing down your goals makes you 42 percent more likely to achieve them. When you write by hand, your brain engages both hemispheres — the logical left and the creative right. Writing activates your encoding process, which moves information from short-term to long-term memory. And when you describe your goal as if it's already happened, you trigger the same brain regions as when you actually experience something. Your brain doesn't distinguish much between vivid imagination and reality. Write your future into existence.",
+        "title": "Writing Your Goals Makes You 42 Percent More Likely to Achieve Them",
+        "description": "Handwriting goals engages both brain hemispheres and activates memory encoding. When written as already achieved, your brain treats them as real experiences.",
+        "hashtags": ["psychology","goalwriting","mindfacts","brainfacts","neuroscience","productivity","mindpower","journaling","brainscience","motivation"],
+        "tiktok_caption": "Write your goals down — it makes you 42% more likely to achieve them #psychology #goalwriting #mindfacts",
+        "hook": "Writing your goals down makes you 42 percent more likely to achieve them."
     },
     {
-        "script": "An emergency fund is not optional — it's the foundation of financial security. Without one, any unexpected expense sends you into debt. Here's how to build one fast. Step one: open a separate high-yield savings account. Keep it away from your main account so you don't touch it. Step two: automate a fixed transfer every payday — even 50 dollars. Step three: throw any windfalls in — tax refunds, bonuses, gifts. Your goal is 3 months of expenses. Start with 1,000 as your first milestone.",
-        "title": "How to Build an Emergency Fund From Scratch",
-        "description": "An emergency fund is the most important financial safety net you can have. Without one, any car repair, medical bill, or job loss sends you spiraling into debt. Learn how to build a 3-month emergency fund step by step even on a tight budget. Subscribe for more foundational money tips.",
-        "hashtags": ["emergencyfund","personalfinance","savemoney","financialsecurity","moneytips","savingsgoals","budgeting","financialplanning","moneyhacks","savingsaccount"],
-        "tiktok_caption": "No emergency fund = one bad day away from debt 😰 Here's how to build one #emergencyfund #personalfinance #savemoney",
-        "hook": "Without an emergency fund, you're one bad day away from debt."
+        "script": "Decision fatigue is real and it's why you make worse choices later in the day. Judges in Israel were studied and found to approve paroles 65 percent of the time in morning sessions — dropping to nearly zero by end of day. Your brain uses glucose to make decisions, and it runs low over time. This is why Mark Zuckerberg wears the same clothes every day — to eliminate one decision. The fix: make your most important decisions in the morning, automate small daily choices, and eat before big decisions. Guard your mental energy.",
+        "title": "Why You Make Worse Decisions as the Day Goes On",
+        "description": "Decision fatigue is proven by research — your brain burns glucose making choices, and performance deteriorates by end of day. Learn how to protect your mental energy.",
+        "hashtags": ["psychology","decisionfatigue","mindfacts","brainfacts","productivity","neuroscience","mentalenergy","brainscience","mindpower","psychology101"],
+        "tiktok_caption": "Why you make BAD decisions by evening — decision fatigue explained #psychology #decisionfatigue #mindfacts",
+        "hook": "Your brain makes worse decisions the more choices it makes — here's the science."
     },
     {
-        "script": "Debt is a trap and here's how to escape it faster than you think. Use the debt avalanche method. List all your debts from highest interest rate to lowest. Pay minimums on everything. Then throw every extra dollar at the highest interest debt first. Once it's gone, roll that payment into the next one. This saves the most money in interest over time. The average person using this method pays off all debt 2 years faster. Your income is your most powerful wealth-building tool — stop giving it to banks.",
-        "title": "Pay Off All Your Debt 2 Years Faster With This Method",
-        "description": "The debt avalanche method is mathematically the fastest way to become debt free. By targeting high-interest debt first and rolling payments forward, you save thousands in interest and pay off everything years sooner. Stop letting banks profit from your debt. Subscribe for more debt freedom strategies.",
-        "hashtags": ["debtfree","debtpayoff","personalfinance","debtavalanche","moneytips","financialfreedom","payoffdebt","debtfreecommunity","moneyadvice","creditcarddebt"],
-        "tiktok_caption": "Pay off all debt 2 YEARS faster with this method 🔥 #debtfree #debtpayoff #personalfinance",
-        "hook": "You can pay off all your debt 2 years faster with this one method."
+        "script": "The human brain physically changes shape based on what you repeatedly think and do. This is called neuroplasticity. London taxi drivers, who memorize thousands of routes, have a measurably larger hippocampus than average. Musicians who practice intensively develop thicker motor cortex regions. Meditators show structural changes in their prefrontal cortex after just 8 weeks. Your brain is not fixed — it's constantly being sculpted by your habits, thoughts, and experiences. Every repetition, every practice session, every chosen thought is literally reshaping your mind.",
+        "title": "Your Brain Physically Changes Shape Based on Your Habits",
+        "description": "Neuroplasticity proves the brain rewires and reshapes itself throughout life. Taxi drivers, musicians, and meditators all show measurable brain structural changes from repeated practice.",
+        "hashtags": ["psychology","neuroplasticity","mindfacts","brainfacts","brainhacks","neuroscience","brainscience","habits","mindpower","psychology101"],
+        "tiktok_caption": "Your brain literally changes shape based on your habits #psychology #neuroplasticity #mindfacts",
+        "hook": "Your brain is physically being reshaped right now by your habits."
     },
     {
-        "script": "Most people don't know that negotiating your salary is one of the highest ROI activities you can do. A 5,000 dollar raise compounded over a 30-year career is worth over 400,000 dollars. Here's how to do it. Research market rate on Glassdoor or LinkedIn Salary. Ask for 10 to 15 percent above your target. Never give the first number. Say: I'm looking for something in the range of X based on my research and experience. Silence after your ask is your friend. Most people leave hundreds of thousands on the table by never asking.",
-        "title": "How Negotiating Your Salary Can Make You $400K More",
-        "description": "Salary negotiation is the highest return on investment activity most people never do. A single successful negotiation can be worth hundreds of thousands over your career. Learn the exact script to ask for more money with confidence. Subscribe for career and money tips that change your financial future.",
-        "hashtags": ["salarynegotiation","careertips","personalfinance","makemoremoney","negotiation","moneytips","careergrowth","wealthbuilding","jobadvice","financialtips"],
-        "tiktok_caption": "Never negotiating your salary costs you $400K 😳 Here's the script #salarynegotiation #careertips #personalfinance",
-        "hook": "Never negotiating your salary costs you $400,000 over your career."
+        "script": "Color psychology is one of the most powerful and least talked about influences on human behavior. Red raises your heart rate and creates urgency — that's why sales signs are red. Blue creates trust and calm — why banks and hospitals use it. Yellow triggers anxiety in large amounts. Green reduces stress and is easiest on the eyes. Fast food chains use red and yellow together because they increase appetite and create urgency to eat quickly and leave. You are being emotionally manipulated by color every single day. Now you see it.",
+        "title": "How Colors Secretly Control Your Emotions and Behavior",
+        "description": "Color psychology shows that colors directly affect heart rate, appetite, trust, and anxiety. Marketers use this science to influence behavior without your knowledge.",
+        "hashtags": ["psychology","colorpsychology","mindfacts","brainfacts","behavioralpsychology","mindpower","marketing","brainscience","perception","psychology101"],
+        "tiktok_caption": "Colors are secretly controlling your emotions #psychology #colorpsychology #mindfacts",
+        "hook": "The colors around you are controlling your emotions without your knowledge."
     },
     {
-        "script": "Passive income sounds like a dream but it's very real. Here are 3 ways to earn money while you sleep. First, dividend stocks. Buy shares in companies that pay quarterly dividends. Even 10,000 dollars in dividend stocks can pay 300 to 500 dollars a year in passive income. Second, rental income. Even renting a spare room on Airbnb earns 500 to 1,500 per month. Third, digital products. Create an ebook, template, or course once and sell it forever. Passive income takes work upfront. But the payoff is freedom.",
-        "title": "3 Real Ways to Earn Passive Income in 2026",
-        "description": "Passive income is not a myth — it's a strategy. Dividend stocks, rental income, and digital products are three proven passive income streams anyone can start. Learn how to build income that works while you sleep and start your journey to financial freedom. Subscribe for more passive income strategies.",
-        "hashtags": ["passiveincome","makemoneyonline","financialfreedom","dividends","rentalincome","digitalproducts","wealthbuilding","personalfinance","incomeideas","sidehustle"],
-        "tiktok_caption": "3 ways to earn money while you sleep 😴💰 #passiveincome #makemoneyonline #financialfreedom",
-        "hook": "3 real ways to earn money while you sleep."
+        "script": "Studies from Harvard show that people spend 46.9 percent of their waking hours thinking about something other than what they're doing — and this mind-wandering makes them unhappy. The research found that how present you are in an activity is a stronger predictor of happiness than what activity you're doing. Washing dishes while focused on washing dishes makes people happier than washing dishes while thinking about something better. The present moment is the only place where life actually happens. Your ability to stay here, in this moment, is one of the most powerful skills you can develop.",
+        "title": "Harvard Study Being Present Is the Real Key to Happiness",
+        "description": "Harvard researchers found people spend 47% of waking hours mind-wandering, and it makes them unhappy. Presence in any activity predicts happiness more than the activity itself.",
+        "hashtags": ["psychology","mindfulness","happiness","mindfacts","presentmoment","brainfacts","wellbeing","awareness","psychology101","harvardresearch"],
+        "tiktok_caption": "Being present is the REAL key to happiness — Harvard proved it #psychology #mindfulness #happiness",
+        "hook": "Harvard found that people are unhappy 47% of the time — here's the single reason why."
     },
     {
-        "script": "Your 20s are the most important decade for your finances. Here's what to do before you turn 30. One: build your emergency fund — 3 months of expenses minimum. Two: invest in your employer's retirement plan and get the full company match — that's free money. Three: build your credit score to above 700. Four: learn one high-income skill — coding, sales, writing, design. Five: avoid lifestyle inflation when you get raises. The decisions you make in your 20s will define your financial life for decades. Make them count.",
-        "title": "5 Money Moves to Make Before You Turn 30",
-        "description": "Your 20s are the most powerful decade for building wealth. The financial decisions you make now will compound for decades. Build your emergency fund, invest early, build credit, learn a high-income skill, and avoid lifestyle inflation. These 5 moves will set you up for life. Subscribe for more money advice for young adults.",
-        "hashtags": ["moneyin20s","personalfinance","youngadults","financialtips","investing","wealthbuilding","moneymoves","financialfreedom","adulting","moneyadvice"],
-        "tiktok_caption": "Do these 5 money moves before 30 or you'll regret it 😬 #moneyin20s #personalfinance #youngadults",
-        "hook": "5 money moves you must make before turning 30."
+        "script": "There's a psychological phenomenon called the Spotlight Effect — the tendency to overestimate how much others notice us. When you trip in public, you think everyone saw and judged you. In reality, most people barely registered it because they're too busy worrying about themselves. Research at Cornell showed people consistently overestimate how much attention others pay to their appearance, mistakes, and behaviors. The audience in your head is almost entirely fictional. Most people are the main character in their own story — and barely an extra in yours. Stop performing for a crowd that isn't watching.",
+        "title": "The Spotlight Effect Nobody Is Actually Watching You",
+        "description": "The Spotlight Effect is our tendency to overestimate how much others notice us. Cornell research proves we dramatically overestimate our own visibility. Most people are too focused on themselves to notice your mistakes.",
+        "hashtags": ["psychology","spotlighteffect","mindfacts","socialpsychology","cognitivebias","selfdevelopment","anxiety","brainfacts","mindpower","psychology101"],
+        "tiktok_caption": "Nobody is watching you as much as you think — the Spotlight Effect #psychology #spotlighteffect #mindfacts",
+        "hook": "The Spotlight Effect: nobody is watching you nearly as much as you think."
     },
     {
-        "script": "Most people are overpaying for car insurance by hundreds of dollars every year. Here's how to fix it in 10 minutes. Call your insurance company and ask for a loyalty discount. Most give 5 to 10 percent just for asking. Then go to a comparison site and get 3 competing quotes. Call your insurer back with the lowest quote and ask them to match it. If they won't, switch. Also, increasing your deductible from 500 to 1,000 dollars can reduce your premium by 15 percent. One phone call. Hundreds saved.",
-        "title": "Stop Overpaying for Car Insurance — Save $300 This Year",
-        "description": "Millions of people overpay for car insurance every single year. With one phone call and 10 minutes of your time you can save hundreds of dollars annually. Learn how to negotiate your premium, use competing quotes, and adjust your deductible to cut costs without losing coverage. Subscribe for more money-saving hacks.",
-        "hashtags": ["carinsurance","savemoney","moneyhacks","personalfinance","insurancetips","moneysaving","financialtips","budgeting","adulting","moneytips"],
-        "tiktok_caption": "You're overpaying for car insurance — fix it in 10 mins 🚗💸 #carinsurance #savemoney #moneyhacks",
-        "hook": "You're overpaying for car insurance by hundreds every year."
+        "script": "Sleep is not just rest — it's a cognitive superpower. During sleep your brain activates the glymphatic system, which clears toxic waste proteins from your neural tissue — including proteins linked to Alzheimer's disease. Your brain also replays memories during sleep, moving them from short-term to long-term storage. Just one night of poor sleep reduces your cognitive performance by 40 percent. Chronic sleep deprivation has been linked to anxiety, depression, weight gain, and impaired immune function. Sleep is not laziness. It's the most productive thing you can do for your brain.",
+        "title": "What Your Brain Does While You Sleep Will Surprise You",
+        "description": "Sleep activates the glymphatic system that clears brain toxins, consolidates memories, and restores cognitive function. One poor night drops performance by 40%.",
+        "hashtags": ["psychology","sleep","brainfacts","mindfacts","neuroscience","brainhealth","sleepscience","mentalhealth","memory","brainpower"],
+        "tiktok_caption": "What your brain does while you sleep will shock you #psychology #sleep #brainfacts",
+        "hook": "Your brain is doing something incredible while you sleep."
     },
     {
-        "script": "The stock market seems scary but it doesn't have to be. Here's the simplest investing strategy that beats most professional fund managers. Buy an S&P 500 index fund every month no matter what the market is doing. This strategy is called dollar cost averaging. You buy more shares when prices are low and fewer when prices are high. Over any 20-year period in history, the S&P 500 has never lost money. You don't need to pick stocks. You don't need to time the market. Just keep buying.",
-        "title": "The Simplest Investment Strategy That Beats Most Experts",
-        "description": "Dollar cost averaging into an S&P 500 index fund is the simplest and most effective investment strategy for most people. No stock picking, no market timing, no financial advisor needed. This strategy has beaten the majority of professional fund managers over long periods. Subscribe for more beginner investing tips.",
-        "hashtags": ["investing","indexfunds","sp500","dollarcostAveraging","personalfinance","stockmarket","wealthbuilding","beginnerinvesting","moneytips","financialfreedom"],
-        "tiktok_caption": "This simple strategy beats most expert investors 📊 #investing #indexfunds #sp500",
-        "hook": "This simple strategy beats most professional investors."
+        "script": "Confirmation bias is the brain's tendency to seek out information that confirms what we already believe — and ignore everything that contradicts it. Once you form an opinion, your brain actively filters reality to protect it. This is why two people can watch the same news and walk away with completely opposite conclusions. It's also why people stay in bad relationships, bad jobs, and bad beliefs long after the evidence says to leave. The only antidote is deliberately seeking out opposing viewpoints. The most intelligent thing you can do is actively try to prove yourself wrong.",
+        "title": "Why Your Brain Only Sees What It Already Believes",
+        "description": "Confirmation bias causes your brain to filter reality to match existing beliefs. Understanding this cognitive bias is essential for better decision-making and healthier relationships.",
+        "hashtags": ["psychology","confirmationbias","mindfacts","cognitivebias","brainfacts","criticalthinking","awareness","mindpower","decisionmaking","psychology101"],
+        "tiktok_caption": "Your brain only sees what it already believes #psychology #confirmationbias #mindfacts",
+        "hook": "Your brain is filtering reality to protect your existing beliefs."
     },
     {
-        "script": "You're probably leaving free money on the table right now. Here are 5 types of free money most people never claim. One: employer 401k match — contribute enough to get the full match. Two: cash back credit cards — use them for regular purchases and pay in full. Three: bank account bonuses — banks pay 200 to 500 dollars to open a new account. Four: rebate apps like Rakuten — earn cash back on online shopping. Five: tax deductions — most people miss the home office, student loan interest, and charity deductions. Free money is everywhere.",
-        "title": "5 Types of Free Money You're Probably Not Claiming",
-        "description": "Free money exists everywhere if you know where to look. Employer matches, cashback cards, bank bonuses, rebate apps, and overlooked tax deductions are leaving thousands on the table for most people. Learn how to claim every dollar you're owed. Subscribe for more money hacks and tips.",
-        "hashtags": ["freemoney","moneyhacks","personalfinance","cashback","moneytips","financialtips","savemoney","401k","taxdeductions","wealthbuilding"],
-        "tiktok_caption": "5 types of FREE money you're missing out on 🤑 #freemoney #moneyhacks #personalfinance",
-        "hook": "You're leaving free money on the table right now."
+        "script": "Oxytocin, often called the love hormone, is released during hugging, eye contact, and acts of generosity. But here's what most people don't know: oxytocin also increases in-group bias. It makes you more loving toward your group while making you more suspicious toward outsiders. This is the neurochemistry behind tribalism. The same chemical that makes you hug your loved ones also makes you distrust strangers. Understanding this helps explain prejudice and group conflicts — not as moral failures alone, but as biological programming that requires conscious override.",
+        "title": "The Love Hormone Oxytocin Has a Dark Side Nobody Talks About",
+        "description": "Oxytocin increases love within groups but also amplifies distrust of outsiders. This neurochemical is the biological root of tribalism and in-group bias.",
+        "hashtags": ["psychology","oxytocin","mindfacts","neuroscience","brainfacts","tribalism","lovehormone","brainscience","socialpsychology","psychology101"],
+        "tiktok_caption": "Oxytocin — the love hormone — has a dark side nobody talks about #psychology #oxytocin #mindfacts",
+        "hook": "The love hormone has a dark side that explains tribalism and prejudice."
     },
     {
-        "script": "Renting versus buying a home — which is actually better? The truth is it depends on your situation. Buying builds equity over time but comes with hidden costs — property tax, maintenance, insurance, HOA fees. These can add 2 to 3 percent of the home value per year. Renting gives you flexibility and keeps capital free to invest. If you invest the down payment instead of buying, historically you end up in a similar financial position. The best home is the one that fits your life, not just your finances.",
-        "title": "Renting vs Buying a Home — The Truth Nobody Tells You",
-        "description": "The rent vs buy debate is more nuanced than most people think. Buying isn't always better — hidden costs, opportunity cost of the down payment, and reduced flexibility can make renting the smarter financial choice in many situations. Learn how to make the right decision for your specific situation. Subscribe for more financial truth.",
-        "hashtags": ["rentingvsbuying","personalfinance","homebuying","realestate","moneytips","financialadvice","firsttimehomebuyer","rentvsbuy","housingmarket","financialplanning"],
-        "tiktok_caption": "Renting vs buying — the truth nobody tells you 🏠 #rentingvsbuying #personalfinance #homebuying",
-        "hook": "Buying a home is not always the smartest financial decision."
+        "script": "The mere exposure effect is one of the most powerful forces in human attraction. The more you're exposed to something — or someone — the more you tend to like it. This is why songs grow on you after repeated plays. It's why you become attracted to people you see regularly. Advertisers use this to make you like their brand before you even buy it. In relationships, proximity and familiarity breed affection in ways that have nothing to do with objective qualities. You often fall for people simply because you see them often. Your preferences aren't entirely your own — exposure shapes them.",
+        "title": "Why You Like Things More the More You Are Exposed to Them",
+        "description": "The mere exposure effect shows repeated exposure increases liking for music, people, and products. This explains attraction, brand loyalty, and why familiarity breeds affection.",
+        "hashtags": ["psychology","mereexposure","mindfacts","attraction","socialpsychology","brainfacts","cognitivebias","relationships","mindpower","psychology101"],
+        "tiktok_caption": "You like things more just from seeing them repeatedly — here's why #psychology #mereexposure #mindfacts",
+        "hook": "You become attracted to people simply by seeing them often — here's the science."
     },
     {
-        "script": "If you got a 1,000 dollar windfall today — tax refund, bonus, gift — here's exactly how to use it. First 500: pay off the highest interest debt you have. If no debt, add to your emergency fund. Next 300: invest in an index fund. Open an account today if you don't have one. Last 200: spend on something that brings you joy — guilt free. The key is having a plan before the money arrives. Without a plan, windfalls disappear within 30 days. With a plan, they build wealth.",
-        "title": "What to Do With a $1,000 Windfall — The Smart Way",
-        "description": "Most people waste unexpected money within a month because they have no plan for it. Whether it's a tax refund, bonus, or gift, having a framework for windfalls turns them into wealth-building tools. Learn the exact split that maximizes your financial progress while still enjoying the money. Subscribe for more smart money strategies.",
-        "hashtags": ["windfall","moneytips","personalfinance","taxrefund","savemoney","investing","debtpayoff","smartmoney","financialplanning","moneyhacks"],
-        "tiktok_caption": "Got a $1000 windfall? Here's EXACTLY what to do with it 💰 #windfall #moneytips #personalfinance",
-        "hook": "Got $1,000 unexpectedly? Here's exactly what to do with it."
+        "script": "The human brain is the most energy-hungry organ in the body. It represents only 2 percent of your body weight but consumes 20 percent of your total energy. And it runs almost entirely on glucose. This is why mental work makes you feel physically tired, why you crave sugar after intense focus sessions, and why your willpower fades as the day goes on. What you eat directly affects how your brain performs — within hours. A meal high in refined sugar causes a cognitive crash. Complex carbohydrates and healthy fats provide steady brain fuel. You are literally what you eat — from the neck up.",
+        "title": "Your Brain Uses 20 Percent of Your Body Energy Here Is What That Means",
+        "description": "The brain consumes 20% of the body's energy. Glucose powers thinking, decision-making, and willpower. Learn how diet directly affects cognitive performance within hours.",
+        "hashtags": ["psychology","brainfacts","mindfacts","neuroscience","brainhealth","nutrition","brainpower","mentalperformance","mindpower","cognitivefuel"],
+        "tiktok_caption": "Your brain uses 20% of your body's energy — here's what that means #psychology #brainfacts #mindfacts",
+        "hook": "Your brain is a 2 percent organ that demands 20 percent of your energy."
     },
     {
-        "script": "Most people think they need a financial advisor to invest. You don't. Here's a complete beginner portfolio you can set up in 30 minutes. Put 60 percent in a total US stock market index fund. Put 30 percent in an international stock index fund. Put 10 percent in a bond index fund. Rebalance once a year. That's it. This three-fund portfolio has outperformed most actively managed funds over 20 years. Low fees. Low effort. High returns. You don't need Wall Street to build wealth.",
-        "title": "The 3-Fund Portfolio — All You Need to Build Wealth",
-        "description": "The three-fund portfolio is the simplest and most effective investment strategy for long-term wealth building. US stocks, international stocks, and bonds in the right proportions beat most managed funds over time. Set it up in 30 minutes and review once a year. No advisor needed. Subscribe for more DIY investing tips.",
-        "hashtags": ["threefundportfolio","investing","indexfunds","personalfinance","wealthbuilding","diyinvesting","stockmarket","financialfreedom","beginnerinvesting","moneytips"],
-        "tiktok_caption": "The only investment portfolio you'll ever need 📈 #threefundportfolio #investing #indexfunds",
-        "hook": "You only need 3 funds to build real wealth."
+        "script": "The Zeigarnik effect explains why unfinished tasks haunt you. Russian psychologist Bluma Zeigarnik noticed that waiters remembered the details of unpaid orders perfectly — but forgot them the moment the bill was settled. Your brain keeps unfinished tasks in an active mental loop, consuming cognitive resources until they're resolved. This is why you can't stop thinking about an argument you didn't resolve, or a project you didn't finish. The solution: write down every open loop in your head. Once your brain knows it's recorded, it releases the mental hold. Getting things out of your head is the first productivity superpower.",
+        "title": "Why Unfinished Tasks Haunt Your Mind The Zeigarnik Effect",
+        "description": "The Zeigarnik Effect explains why incomplete tasks dominate your thoughts. Writing things down closes those mental loops and frees cognitive resources.",
+        "hashtags": ["psychology","zeigarnikeffect","mindfacts","brainfacts","productivity","mentalhealth","brainscience","mindpower","focus","psychology101"],
+        "tiktok_caption": "Unfinished tasks live rent-free in your head — here's the psychology #psychology #zeigarnikeffect #mindfacts",
+        "hook": "Unfinished tasks haunt your mind until they're done — and here's why."
     },
     {
-        "script": "Lifestyle inflation is silently destroying your wealth. Here's how it works. You get a raise. Instead of saving the extra, you upgrade your car, move to a nicer apartment, eat out more. Your expenses rise to meet your income. You feel richer but your savings rate stays the same. The fix: every time you get a raise, save at least half of it before you touch it. Automate the transfer so you never see it. Live like you didn't get the raise. Do this consistently and you will retire wealthy even on an average income.",
-        "title": "Lifestyle Inflation Is Secretly Keeping You Broke",
-        "description": "Lifestyle inflation — spending more every time you earn more — is the silent wealth killer. Most people get raise after raise but never build real wealth because expenses always catch up with income. Learn how to break the cycle and actually benefit from earning more. Subscribe for more wealth-building strategies.",
-        "hashtags": ["lifestyleinflation","personalfinance","wealthbuilding","moneytips","savemoney","financialfreedom","moneyhabits","richhabits","budgeting","financialmindset"],
-        "tiktok_caption": "Getting raises but still broke? This is why 😩 #lifestyleinflation #personalfinance #wealthbuilding",
-        "hook": "Getting raises but still broke? This is why."
+        "script": "Studies show that exercise is one of the most powerful antidepressants ever studied — and it has zero side effects. A 2018 study in Lancet Psychiatry analyzed 1.2 million people and found those who exercised regularly had 43 percent fewer days of poor mental health. Exercise releases BDNF — brain-derived neurotrophic factor — which acts like fertilizer for neurons, helping them grow and connect. It also floods your brain with serotonin, dopamine, and endorphins. Moving your body is the most evidence-based mental health intervention that exists.",
+        "title": "Exercise Is One of the Most Powerful Antidepressants Ever Studied",
+        "description": "A study of 1.2 million people found exercisers had 43% fewer poor mental health days. Exercise releases BDNF, serotonin, and dopamine comparable to antidepressant medication.",
+        "hashtags": ["psychology","exercise","mentalhealth","mindfacts","brainfacts","depression","neuroscience","mindBody","brainhealth","BDNF"],
+        "tiktok_caption": "Exercise is more powerful than antidepressants — science confirms it #psychology #exercise #mentalhealth",
+        "hook": "Exercise is one of the most powerful antidepressants ever studied — and it's free."
     },
     {
-        "script": "Here's something schools never taught you about taxes. You can legally reduce how much you pay. Contribute to a 401k or IRA — every dollar you put in reduces your taxable income. Use an HSA if you have a high-deductible health plan — triple tax advantage. Claim every deduction you qualify for — home office, student loan interest, charitable donations. If you're self-employed, you can deduct a phone, internet, and business expenses. The average person overpays taxes by thousands every year just from lack of knowledge.",
-        "title": "Legal Ways to Pay Less Tax That Schools Never Taught You",
-        "description": "Most people overpay taxes every year because they don't know about legal deductions and tax-advantaged accounts. 401k contributions, HSA accounts, and proper deductions can save you thousands annually. This isn't tax evasion — it's using the system the way it was designed. Subscribe for more tax and money tips.",
-        "hashtags": ["taxes","taxhacks","personalfinance","moneytips","taxdeductions","401k","HSA","savemoney","financialtips","legaladvice"],
-        "tiktok_caption": "Legal ways to pay way less in taxes 💡 Schools never taught this #taxes #taxhacks #personalfinance",
-        "hook": "You're legally allowed to pay less in taxes — here's how."
+        "script": "Your brain has a hard limit on how many close relationships it can maintain — and the number is 150. British anthropologist Robin Dunbar discovered this after studying social group sizes in primates. He found humans consistently maintain about 150 stable social relationships — now called Dunbar's Number. Within that, you have concentric circles: 5 intimate friends, 15 close friends, 50 good friends. Beyond 150, the brain simply can't track trust, history, and relationship dynamics. This is why armies, companies, and villages throughout history have clustered around 150 people.",
+        "title": "Why Your Brain Can Only Handle 150 Friends Dunbars Number",
+        "description": "Robin Dunbar discovered humans can maintain only 150 stable social relationships — a limit set by brain size. This explains why ancient villages, military units, and effective companies all cluster near 150 people.",
+        "hashtags": ["psychology","dunbarsnumber","mindfacts","socialpsychology","brainfacts","anthropology","relationships","brainscience","humanconnection","psychology101"],
+        "tiktok_caption": "Your brain can only handle 150 friends — it's science #psychology #dunbarsnumber #mindfacts",
+        "hook": "Your brain has a hard limit of 150 relationships — and here's why."
     },
     {
-        "script": "The number one financial mistake young people make is waiting. Waiting to invest. Waiting to save. Waiting until they earn more. Here's the math that should scare you into action. If you invest 200 dollars a month starting at 25, at a 10 percent return you'll have 1.3 million at 65. If you start at 35, same amount, same return — only 456,000. That 10-year delay cost you nearly a million dollars. Time in the market always beats timing the market. Start today. Even 50 dollars a month. Just start.",
-        "title": "Starting to Invest at 25 vs 35 — The $1 Million Difference",
-        "description": "The cost of waiting to invest is staggering. Starting just 10 years earlier can result in nearly a million dollars more at retirement due to compound interest. Every month you delay investing is compounding working against you instead of for you. Subscribe for motivation and tips to start investing today.",
-        "hashtags": ["investing","compoundinterest","personalfinance","moneytips","startinvesting","wealthbuilding","financialfreedom","beginnerinvesting","retirementplanning","youngadults"],
-        "tiktok_caption": "Waiting 10 years to invest costs you $1 MILLION 😱 #investing #compoundinterest #personalfinance",
-        "hook": "Waiting 10 years to invest costs you nearly $1 million."
+        "script": "The Pygmalion effect proves that expectations shape reality. In a landmark study, researchers told teachers that certain students had scored high on an intelligence test and were expected to bloom academically — even though the students were chosen at random. By the end of the year, those students actually performed significantly better. The teachers' higher expectations changed how they interacted with the students — more encouragement, more challenging work, more belief. The students internalized those expectations and rose to meet them. What you expect from people — and from yourself — shapes what actually happens.",
+        "title": "The Pygmalion Effect Why Your Expectations Become Reality",
+        "description": "The Pygmalion Effect shows that high expectations literally cause higher performance. In a famous study, students performed better simply because teachers expected them to.",
+        "hashtags": ["psychology","pygmalioneffect","mindfacts","expectations","socialpsychology","selffulfilling","brainfacts","mindpower","motivation","psychology101"],
+        "tiktok_caption": "Your expectations literally shape reality — the Pygmalion Effect #psychology #pygmalioneffect #mindfacts",
+        "hook": "Your expectations about people shape what they actually become — here's the science."
     },
     {
-        "script": "Most people think budgeting means cutting out everything fun. It doesn't. Here's the anti-budget method. First, pay yourself — move your savings goal to a separate account the day you get paid. Then pay all your fixed bills. Whatever is left — spend freely on whatever you want. No tracking. No guilt. The key is saving first, not last. Most people save what's left after spending. Wealthy people spend what's left after saving. Flip the order and everything changes.",
-        "title": "The Anti-Budget Method — Save Money Without Tracking",
-        "description": "Traditional budgeting feels restrictive and most people quit within weeks. The anti-budget method flips the script — save first, then spend the rest however you want with zero guilt and zero tracking. This simple mindset shift is how millions of people build wealth without feeling deprived. Subscribe for more effortless money tips.",
-        "hashtags": ["antibudget","budgeting","personalfinance","savemoney","moneytips","financialtips","payourselffirst","moneyhacks","savingsgoals","financialfreedom"],
-        "tiktok_caption": "Budget without tracking every dollar 🙌 The anti-budget method #antibudget #budgeting #personalfinance",
-        "hook": "Save money every month without tracking a single dollar."
+        "script": "Fear and excitement are the same physiological state. Same elevated heart rate. Same adrenaline. Same heightened senses. The only difference is the story your brain tells about the sensation. Research at Harvard shows that telling yourself I am excited before a stressful event leads to significantly better performance than trying to calm down. Instead of fighting the feeling, re-label it. The anxiety before a presentation isn't dread — it's your body preparing for peak performance. Reinterpreting your arousal state is called cognitive appraisal — and it's one of the most effective mental performance tools that exists.",
+        "title": "Fear and Excitement Are the Same Your Brain Just Picks the Story",
+        "description": "Fear and excitement share identical physiological signatures. Harvard research shows relabeling anxiety as excitement improves performance more than trying to calm down.",
+        "hashtags": ["psychology","anxietyhacks","mindfacts","fear","excitement","performancepsychology","brainfacts","cognitiveappraisal","mindpower","psychology101"],
+        "tiktok_caption": "Fear and excitement are literally the SAME thing #psychology #anxietyhacks #mindfacts",
+        "hook": "Fear and excitement are physiologically identical — your brain just picks the story."
     },
     {
-        "script": "Financial freedom doesn't mean being rich. It means having enough passive income to cover your expenses. Here's how to calculate your freedom number. Add up all your monthly expenses. Multiply by 12 to get your annual expenses. Multiply that by 25. That's your financial freedom number — the amount you need invested to live off returns forever. If you spend 2,000 a month, your freedom number is 600,000. It sounds like a lot. But invested at 10 percent a year, 600,000 generates 60,000 dollars annually. Freedom is a math problem.",
-        "title": "Calculate Your Financial Freedom Number in 60 Seconds",
-        "description": "Financial freedom is not about being a millionaire — it's about having enough invested to cover your expenses from returns alone. Learn how to calculate your personal freedom number and build a plan to reach it. The math is simpler than you think. Subscribe for more financial independence strategies.",
-        "hashtags": ["financialfreedom","FIRE","personalfinance","financialindependence","moneytips","wealthbuilding","passiveincome","retirementplanning","freedomnumber","investing"],
-        "tiktok_caption": "Calculate your financial freedom number in 60 seconds ⏱️ #financialfreedom #FIRE #personalfinance",
-        "hook": "Financial freedom is a math problem — here's how to solve it."
+        "script": "The Ben Franklin effect is one of the strangest findings in social psychology. When Benjamin Franklin wanted to win over a political rival, he asked to borrow one of the man's rare books. The man who was hostile toward him lent the book — and afterward became a friend. The psychology: doing a favor for someone makes you like them more, not less. Your brain reasons backward: I helped him, so I must like him. Asking people for small favors actually increases their liking of you. It feels counterintuitive, but the act of helping rewires the helper's feelings toward you.",
+        "title": "The Ben Franklin Effect Ask for a Favor to Make Someone Like You",
+        "description": "The Ben Franklin Effect shows that doing a favor for someone makes you like them more. When people help you, their brain concludes they must like you.",
+        "hashtags": ["psychology","benfranklineffect","mindfacts","socialpsychology","relationships","brainfacts","influence","persuasion","mindpower","psychology101"],
+        "tiktok_caption": "Ask for a favor to make someone like you more — the Ben Franklin Effect #psychology #benfranklineffect #mindfacts",
+        "hook": "Asking for a favor makes people like you more — not less."
     },
     {
-        "script": "Here's why keeping all your money in a savings account is actually losing you money. Inflation runs at 3 percent per year on average. A regular savings account pays 0.1 percent. That means your money is losing 2.9 percent of its value every single year. A high-yield savings account pays 4 to 5 percent — beating inflation. And investing in index funds historically returns 10 percent per year. Keeping cash under the mattress or in a regular savings account is a choice to get poorer slowly. Move your money where it works.",
-        "title": "Why Keeping Money in a Savings Account Is Making You Poor",
-        "description": "A regular savings account is silently destroying your wealth through inflation. When your savings earn less than inflation, you're getting poorer every year. High-yield savings accounts and index fund investing are two ways to make your money actually grow. Subscribe for more tips on making your money work harder.",
-        "hashtags": ["savingsaccount","inflation","personalfinance","moneytips","hysa","investing","wealthbuilding","financialtips","makeyourmoneywork","financialfreedom"],
-        "tiktok_caption": "Your savings account is making you POORER 😳 Here's why #savingsaccount #inflation #personalfinance",
-        "hook": "Your savings account is making you poorer every year."
+        "script": "Studies show that gratitude physically alters the brain. When you regularly practice gratitude, it increases activity in the hypothalamus — which controls stress — and releases dopamine and serotonin. Research from UC Berkeley found that people who wrote gratitude letters showed significantly better mental health for weeks afterward, even if they never sent the letters. Writing gratitude activates neural pathways associated with positive emotion. After 21 days of daily gratitude practice, your brain starts scanning for positives by default. Gratitude isn't just a nice sentiment — it's a neurological rewiring tool.",
+        "title": "How Gratitude Physically Changes Your Brain in 21 Days",
+        "description": "Gratitude practice triggers dopamine and serotonin release and reduces stress hormones. UC Berkeley research showed gratitude writing improved mental health for weeks. Twenty-one days rewires your brain to default to positivity.",
+        "hashtags": ["psychology","gratitude","mindfacts","brainfacts","mentalhealth","neuroscience","happiness","brainscience","mindpower","positivepsychology"],
+        "tiktok_caption": "Gratitude physically changes your brain in 21 days #psychology #gratitude #mindfacts",
+        "hook": "Gratitude physically rewires your brain — and it takes only 21 days."
     },
     {
-        "script": "Here are 5 money habits to start this week that will change your finances in 90 days. One: check your bank balance every morning — awareness is everything. Two: pack lunch 3 days a week — saves 150 dollars a month. Three: unsubscribe from retail emails — out of sight out of mind. Four: set a spending alarm — most banking apps let you set alerts. Five: automate a 50-dollar weekly savings transfer. None of these are hard. All of them work. The only question is will you start today or keep waiting.",
-        "title": "5 Money Habits That Will Change Your Finances in 90 Days",
-        "description": "Small daily habits compound into massive financial results over time. These 5 money habits are simple enough to start this week and powerful enough to transform your finances within 90 days. Consistency beats intensity in personal finance every time. Subscribe for more actionable money habits.",
-        "hashtags": ["moneyhabits","personalfinance","moneytips","financialhabits","savemoney","budgeting","financialfreedom","wealthbuilding","moneymindset","dailyhabits"],
-        "tiktok_caption": "5 money habits that change everything in 90 days ✅ #moneyhabits #personalfinance #moneytips",
-        "hook": "5 money habits to start this week that will transform your finances."
+        "script": "The sunk cost fallacy is why people stay in bad relationships, bad movies, and bad investments long after they should have left. It's the irrational tendency to continue something because of resources you've already spent — time, money, or emotion — even when continuing will only cost you more. Five years in this relationship is not a reason to continue a toxic one. Your brain mistakes past investment for future value. The rational truth: past costs are gone regardless of your choice. The only question is what's the best path forward from here. Let sunk costs sink.",
+        "title": "The Sunk Cost Fallacy Why You Stay in Bad Situations Too Long",
+        "description": "The sunk cost fallacy causes people to continue bad decisions because of past investments. Understanding this cognitive bias is essential for making clearer decisions in relationships, careers, and finances.",
+        "hashtags": ["psychology","sunkcostfallacy","mindfacts","cognitivebias","brainfacts","decisionmaking","relationships","criticalthinking","mindpower","psychology101"],
+        "tiktok_caption": "Why you stay in bad situations too long — the sunk cost fallacy #psychology #sunkcostfallacy #mindfacts",
+        "hook": "The Sunk Cost Fallacy explains why people stay in bad situations way too long."
     },
     {
-        "script": "Most people don't realize that your biggest wealth-building asset is not your investments — it's your income. And the fastest way to increase income is to become more valuable. Here's how. Learn one skill that companies desperately need — data analysis, digital marketing, copywriting, or coding. You can learn any of these free on YouTube in 6 months. Then freelance on the side to build a portfolio. Then either go full-time freelance or use the skill to negotiate a higher salary. Invest the increase. Repeat. This is the wealth formula.",
-        "title": "The Real Wealth Formula Nobody Talks About",
-        "description": "Building wealth starts with increasing your income, not just cutting expenses. Learning high-demand skills, freelancing to build a portfolio, and investing the extra income is the most reliable path to financial freedom. Subscribe for more career and money strategies that actually work.",
-        "hashtags": ["wealthformula","personalfinance","highincomereskills","freelancing","moneytips","wealthbuilding","financialfreedom","investing","careergrowth","makemoremoney"],
-        "tiktok_caption": "The real wealth formula nobody talks about 💡 #wealthformula #personalfinance #highincomereskills",
-        "hook": "Your biggest wealth-building asset isn't your investments — it's your income."
+        "script": "There's a science to first impressions — and most of the judgment happens in 0.1 seconds. Research by Princeton psychologists found that people form assessments of trustworthiness and attractiveness from a glance lasting a tenth of a second. And more time looking doesn't dramatically change those initial judgments. The first 7 seconds of a meeting are 55 percent body language, 38 percent tone of voice, and only 7 percent the actual words. Your brain makes social snap judgments as a survival mechanism. Understanding this lets you be more intentional — and more forgiving.",
+        "title": "First Impressions Form in 0.1 Seconds and They Stick",
+        "description": "Princeton research shows character judgments form in 0.1 seconds and barely change with more time. First impressions are mostly body language and tone, not words.",
+        "hashtags": ["psychology","firstimpressions","mindfacts","socialpsychology","brainfacts","bodylanguage","communication","mindpower","perception","psychology101"],
+        "tiktok_caption": "First impressions form in 0.1 seconds and they're almost impossible to change #psychology #firstimpressions #mindfacts",
+        "hook": "First impressions form in 0.1 seconds — and they almost never change."
     },
     {
-        "script": "Here's the truth about credit cards. Used wrong, they're a debt trap. Used right, they're free money. Here's how to use them right. Only spend what you already have in your bank account. Pay the full balance every month — never just the minimum. Use a cashback card for all regular purchases — groceries, gas, bills. That's 1 to 5 percent back on money you were spending anyway. A family spending 2,000 a month on a 2 percent cashback card earns 480 dollars a year for free. Credit cards are tools. Master the tool.",
-        "title": "How to Use Credit Cards to Make Money Instead of Lose It",
-        "description": "Credit cards are either your best financial tool or your worst enemy — it all depends on how you use them. Learn the simple rules that turn credit cards into a cashback machine while building your credit score. Pay in full, use rewards wisely, and never pay interest. Subscribe for more smart money strategies.",
-        "hashtags": ["creditcards","cashback","personalfinance","moneytips","creditcardhacks","smartmoney","financialtips","creditbuilding","moneyhacks","rewardscards"],
-        "tiktok_caption": "How to make money with credit cards (legally) 💳💰 #creditcards #cashback #personalfinance",
-        "hook": "Credit cards can make you money — if you use them right."
+        "script": "Dopamine is not the pleasure chemical — it's the anticipation chemical. Your brain releases dopamine in the lead-up to a reward, not during it. This is why the pursuit of something often feels better than getting it. The chase releases dopamine. Achievement releases less. This is the neurological engine behind addiction, gambling, and endless social media scrolling — the next post might be the one. Understanding that you're chasing dopamine, not actual satisfaction, is the first step to breaking compulsive patterns. Create goals with milestones. Each milestone triggers a dopamine hit to keep you moving.",
+        "title": "Dopamine Is Not the Pleasure Chemical Here Is What It Really Does",
+        "description": "Dopamine is the anticipation chemical, not pleasure itself. Your brain releases it during the chase, not the achievement. This explains addiction, gambling, and social media compulsion.",
+        "hashtags": ["psychology","dopamine","mindfacts","brainfacts","neuroscience","addiction","motivation","brainscience","mindpower","psychology101"],
+        "tiktok_caption": "Dopamine isn't what you think — this will change how you see motivation #psychology #dopamine #mindfacts",
+        "hook": "Dopamine isn't about pleasure — it's about the chase. And this changes everything."
     },
     {
-        "script": "Retirement feels far away but the math makes it urgent. Here's what you need to save to retire comfortably. To replace 50,000 dollars a year in retirement you need 1.25 million invested. That sounds impossible but here's the math. Invest 500 dollars a month for 30 years at 10 percent return and you end up with 1.13 million. That's 16 dollars a day. Skip one restaurant meal and one coffee a day and you're there. Retirement is not a dream. It's a daily decision. Make the right one.",
-        "title": "How Much You Need to Retire — And How to Get There",
-        "description": "Retirement planning feels overwhelming but the math is surprisingly achievable. To retire comfortably you need roughly 25 times your annual expenses invested. Learn how much to save monthly based on your timeline and how to make it automatic. Subscribe for more retirement planning tips made simple.",
-        "hashtags": ["retirement","retirementplanning","personalfinance","moneytips","investing","401k","financialfreedom","retireearly","wealthbuilding","financialplanning"],
-        "tiktok_caption": "Here's exactly how much you need to retire 🧮 #retirement #retirementplanning #personalfinance",
-        "hook": "Here's exactly how much money you need to retire comfortably."
-    },
-    # ── Month 2 scripts ───────────────────────────────────────────────────────
-    {
-        "script": "Here's the truth about crypto that nobody tells beginners. Crypto is not a get-rich-quick scheme — it's a high-risk asset class. Here's how to approach it safely. Never invest more than 5 percent of your portfolio in crypto. Only buy the top 2 — Bitcoin and Ethereum. They have the longest track record and the most liquidity. Never buy based on social media hype. Dollar cost average — buy a fixed amount every week regardless of price. And never keep crypto on an exchange — move it to a hardware wallet. Invest smart, not emotional.",
-        "title": "Crypto for Beginners — How to Invest Without Losing Everything",
-        "description": "Cryptocurrency can be a legitimate part of a diversified portfolio when approached correctly. Learn the safe way to invest in crypto — position sizing, which coins to buy, dollar cost averaging, and securing your holdings. Avoid the mistakes that wipe out most beginners. Subscribe for more investing tips.",
-        "hashtags": ["crypto","bitcoin","cryptocurrency","personalfinance","investing","cryptoforbeginners","bitcoininvesting","moneytips","wealthbuilding","financialfreedom"],
-        "tiktok_caption": "The safe way to invest in crypto without losing everything 🔒 #crypto #bitcoin #personalfinance",
-        "hook": "Most crypto investors lose money — here's how to be the exception."
+        "script": "Imposter syndrome affects an estimated 70 percent of people at some point in their lives — including Nobel Prize winners, CEOs, and world-renowned artists. It's the persistent feeling that you're a fraud who will be found out, despite clear evidence of success. Here's what's fascinating: experiencing imposter syndrome is actually associated with higher competence. Less competent people rarely feel like frauds. If you feel like an imposter, it might mean you're more capable than you think.",
+        "title": "70 Percent of People Feel Like Frauds Including CEOs and Nobel Winners",
+        "description": "Imposter syndrome affects 70% of people including elite achievers. Feeling like a fraud is associated with higher competence — less skilled people rarely question themselves.",
+        "hashtags": ["psychology","impostersyndrome","mindfacts","mentalhealth","selfdevelopment","brainfacts","confidence","mindpower","selfworth","psychology101"],
+        "tiktok_caption": "70% of people feel like frauds — even CEOs and Nobel winners #psychology #impostersyndrome #mindfacts",
+        "hook": "70 percent of people feel like frauds — including the most successful people alive."
     },
     {
-        "script": "Real estate is the most common way people become millionaires. But you don't need to buy a house to invest in it. Here's how to get started with just 500 dollars. REITs — Real Estate Investment Trusts — let you invest in real estate like a stock. You buy shares and earn rental income as dividends. The best REITs have returned 10 to 12 percent annually over 20 years. You get real estate exposure without the mortgage, maintenance, or tenants. It's the easiest way to add real estate to your portfolio today.",
-        "title": "How to Invest in Real Estate With Just $500 — No House Needed",
-        "description": "Real estate is one of the best wealth-building assets but most people think they need a huge down payment to get started. REITs let you invest in real estate with as little as $500, earn rental income as dividends, and benefit from property appreciation. Learn how to add real estate to your portfolio today. Subscribe for more investing tips.",
-        "hashtags": ["realestate","REITs","investing","personalfinance","passiveincome","wealthbuilding","realestateInvesting","moneytips","financialfreedom","dividends"],
-        "tiktok_caption": "Invest in real estate with just $500 — no house needed 🏢 #realestate #REITs #investing",
-        "hook": "You can invest in real estate with just $500 — no house needed."
+        "script": "Your memory is not a recording — it's a reconstruction. Every time you remember something, you partially rewrite it. Research shows that memories are rebuilt from fragments each time you recall them, and they're influenced by your current mood, beliefs, and the questions you're asked. This is why two siblings remember the same childhood differently. It's why eyewitness testimony is unreliable. And it's why you remember past relationships as better than they were when you're lonely, or worse when you're angry. Your memories are stories your brain tells you — revised at every telling.",
+        "title": "Your Memory Is Not a Recording Your Brain Rewrites It Every Time",
+        "description": "Memory is reconstructive, not reproductive. Every time you recall something, your brain partially rewrites it influenced by current mood. This explains false memories and why the past isn't what you think.",
+        "hashtags": ["psychology","memory","mindfacts","brainfacts","neuroscience","falsememory","brainscience","cognitivescience","mindpower","psychology101"],
+        "tiktok_caption": "Your memories are being rewritten every time you remember them #psychology #memory #mindfacts",
+        "hook": "Your brain rewrites your memories every single time you recall them."
     },
     {
-        "script": "The average millionaire has 7 streams of income. Most people have 1. Here's how to build your second stream this month. Start a service business — offer one skill you already have. Graphic design, video editing, social media management, bookkeeping. Post on LinkedIn saying you're available for freelance work. You only need 2 clients at 500 dollars a month to add 1,000 to your income. That's 12,000 dollars a year. Reinvest it into index funds. In 10 years that's over 190,000 dollars. One skill. One post. One stream at a time.",
-        "title": "How to Build Your Second Income Stream This Month",
-        "description": "Millionaires average 7 income streams because they understand that one income source is a financial risk. Building a second income stream with a freelance service is the fastest path to financial security and wealth. Learn how to monetize skills you already have. Subscribe for more income-building strategies.",
-        "hashtags": ["multipleincomestreams","secondincome","sidehustle","personalfinance","freelancing","makemoremoney","wealthbuilding","financialfreedom","incomeideas","moneytips"],
-        "tiktok_caption": "Millionaires have 7 income streams — here's how to get your 2nd 💰 #multipleincomestreams #sidehustle #personalfinance",
-        "hook": "Millionaires have 7 income streams. You have 1. Here's how to fix that."
+        "script": "Chronic stress shrinks your brain. Research shows that prolonged elevated cortisol — the stress hormone — actually causes the hippocampus, your memory and learning center, to physically shrink. It also weakens the prefrontal cortex, the seat of rational decision-making, and strengthens the amygdala — your fear response center. This explains why people under chronic stress struggle to learn, make good decisions, and feel emotionally reactive. But the damage is largely reversible. Sleep, exercise, mindfulness, and social connection restore the hippocampus. Managing stress isn't optional — it's brain maintenance.",
+        "title": "Chronic Stress Literally Shrinks Your Brain Here Is the Science",
+        "description": "Prolonged stress elevates cortisol, which physically shrinks the hippocampus and weakens rational decision-making. The damage is largely reversible with sleep, exercise, and mindfulness.",
+        "hashtags": ["psychology","stress","brainfacts","mindfacts","cortisol","mentalhealth","neuroscience","brainhealth","mindpower","stressmanagement"],
+        "tiktok_caption": "Chronic stress literally shrinks your brain — here's the science #psychology #stress #brainfacts",
+        "hook": "Chronic stress is physically shrinking your brain right now."
     },
     {
-        "script": "Most people make these 5 money mistakes in their 30s and regret it forever. Mistake one: not maxing out retirement accounts when income is higher. Mistake two: buying too much house and becoming house poor. Mistake three: ignoring life insurance when you have dependents. Mistake four: keeping up with friends and upgrading lifestyle constantly. Mistake five: not investing in your career through courses and skills. Your 30s are peak earning years. Every mistake in this decade costs you exponentially more than the same mistake in your 20s.",
-        "title": "5 Money Mistakes People Make in Their 30s and Regret Forever",
-        "description": "Your 30s are the decade where financial decisions have the biggest long-term consequences. These 5 common mistakes can set back your retirement by decades. Avoiding them requires awareness and discipline. Learn what to watch out for and how to course-correct if you're already making these mistakes. Subscribe for more financial guidance.",
-        "hashtags": ["moneymistakes","personalfinance","moneyin30s","financialadvice","wealthbuilding","moneytips","financialplanning","retirement","adulting","financialfreedom"],
-        "tiktok_caption": "5 money mistakes in your 30s that you'll regret forever 😬 #moneymistakes #personalfinance #moneyin30s",
-        "hook": "5 money mistakes people make in their 30s and regret forever."
+        "script": "There's a reason you can remember lyrics to a song you haven't heard in 20 years but forget where you put your keys. Music is processed in multiple brain regions simultaneously — emotional, linguistic, motor, and memory centers all light up together. This multi-region encoding creates much stronger memory traces than ordinary experiences. Advertisers know this — hence jingles. Teachers are discovering it too — lessons set to music are remembered significantly better. If you want to memorize anything, set it to a rhythm or song. Your ancient brain evolved with music long before language.",
+        "title": "Why You Remember Song Lyrics but Forget Where You Left Your Keys",
+        "description": "Music activates emotional, linguistic, motor, and memory brain regions simultaneously, creating stronger memory traces than ordinary experience.",
+        "hashtags": ["psychology","musicandmemory","mindfacts","brainfacts","neuroscience","memory","brainscience","musicpsychology","mindpower","learning"],
+        "tiktok_caption": "Why you remember song lyrics but forget your keys #psychology #musicandmemory #mindfacts",
+        "hook": "You remember lyrics from 20 years ago but forgot where your keys are — here's the psychology."
     },
     {
-        "script": "Your morning routine could be worth millions. Here's how. Successful investors spend 30 minutes every morning reviewing their finances. Check your net worth tracker — apps like Personal Capital do this free. Review yesterday's spending. Read one financial article or book page. This daily awareness compounds into better decisions. People who track their net worth monthly grow it 3 times faster than those who don't. Awareness is the foundation of wealth. Start your day with your money, not social media.",
-        "title": "The Morning Routine That Builds Millionaire-Level Wealth",
-        "description": "A simple 30-minute morning financial routine can transform your wealth over time. Tracking your net worth, reviewing spending, and consuming financial education daily creates the awareness and habits that lead to financial success. Learn how to build a money-focused morning routine. Subscribe for more wealth-building habits.",
-        "hashtags": ["morningroutine","wealthbuilding","personalfinance","moneytips","networth","financialhabits","millionairemindset","richhabits","moneymindset","dailyhabits"],
-        "tiktok_caption": "The morning routine that builds millionaire wealth 🌅 #morningroutine #wealthbuilding #personalfinance",
-        "hook": "Your morning routine could be worth millions."
+        "script": "The Hawthorne Effect explains why people behave differently when they know they're being observed. Factory workers in the 1920s became dramatically more productive when researchers simply started measuring their output — regardless of any other changes. Just being watched improved performance. This is why fitness trackers increase exercise, why journaling improves self-awareness, and why having an accountability partner boosts success rates dramatically. Observation changes behavior. If you want to improve any habit, start tracking it. The act of measurement itself is a performance enhancer.",
+        "title": "Why Being Observed Makes You Perform Better The Hawthorne Effect",
+        "description": "The Hawthorne Effect shows people improve performance simply when they know they're being measured. This explains why fitness trackers, journaling, and accountability partners work.",
+        "hashtags": ["psychology","hawthorneeffect","mindfacts","behavioralpsychology","brainfacts","accountability","habits","productivity","mindpower","psychology101"],
+        "tiktok_caption": "Being observed literally makes you perform better #psychology #hawthorneeffect #mindfacts",
+        "hook": "Being watched makes you perform better — and here's the science behind why."
     },
     {
-        "script": "Student loans are crushing millions of people. Here's how to pay them off faster without earning more money. Strategy one: refinance to a lower interest rate — even dropping 1 percent saves thousands. Strategy two: pay bi-weekly instead of monthly — you make one extra payment per year without noticing. Strategy three: throw every tax refund and bonus at the principal. Strategy four: if you work in public service, research loan forgiveness programs — you may qualify for complete forgiveness after 10 years. Don't let student loans define your financial life.",
-        "title": "How to Pay Off Student Loans Faster — 4 Strategies That Work",
-        "description": "Student loan debt doesn't have to follow you for decades. With the right strategies — refinancing, bi-weekly payments, lump sum payments, and forgiveness programs — you can pay off student loans years faster and save thousands in interest. Take control of your student debt today. Subscribe for more debt freedom tips.",
-        "hashtags": ["studentloans","debtfree","personalfinance","studentloandebt","debtpayoff","moneytips","financialfreedom","loanforgiveness","debtfreecommunity","collegedebt"],
-        "tiktok_caption": "Pay off student loans YEARS faster with these 4 strategies 🎓 #studentloans #debtfree #personalfinance",
-        "hook": "Pay off your student loans years faster with these 4 strategies."
+        "script": "Your emotional state right now affects what memories you recall. This is called mood-congruent memory, and it creates a feedback loop that can trap you. When you're sad, your brain preferentially recalls sad memories, which makes you sadder, which recalls more sad memories. When you're happy, you remember happy times more easily. This is why forcing yourself to move your body can actually change your emotional trajectory — you shift the memory access pattern. To break a negative thought spiral, change your physical state first — walk, dance, exercise — then your memories will follow.",
+        "title": "Why Your Mood Determines What Memories You Can Access",
+        "description": "Mood-congruent memory means your emotional state filters which memories you recall, creating reinforcing loops. Changing your physical state breaks this cycle.",
+        "hashtags": ["psychology","moodmemory","mindfacts","brainfacts","emotion","mentalhealth","brainscience","mindpower","emotionalintelligence","psychology101"],
+        "tiktok_caption": "Your mood controls which memories your brain can access #psychology #moodmemory #mindfacts",
+        "hook": "Your current mood is controlling which memories your brain can access."
     },
     {
-        "script": "Here's a money concept that changed how I think about spending. Every dollar you spend is not just that dollar — it's the future value of that dollar. 100 dollars spent today at age 30 is actually 1,745 dollars lost at retirement, assuming 10 percent returns over 35 years. That designer bag isn't 500 dollars. It's 8,700 dollars in retirement money. This doesn't mean never spend — it means spend consciously. Ask: is this worth the future value? Sometimes yes. But knowing the real cost changes everything.",
-        "title": "The Real Cost of Everything You Buy (This Will Shock You)",
-        "description": "Every purchase has a hidden cost — its future value if invested instead. A $500 purchase at age 30 represents nearly $9,000 in retirement money. This concept of opportunity cost transforms how you make spending decisions. Learn to calculate the real price of your purchases. Subscribe for more money mindset shifts.",
-        "hashtags": ["opportunitycost","personalfinance","moneymindset","moneytips","wealthbuilding","smartspending","financialtips","consciousspending","investing","financialfreedom"],
-        "tiktok_caption": "The REAL cost of everything you buy will shock you 😱 #opportunitycost #personalfinance #moneymindset",
-        "hook": "That $500 purchase actually costs you $8,700 in retirement money."
+        "script": "There's a psychological concept called learned helplessness — and it might be quietly running your life. Psychologist Martin Seligman discovered it by studying dogs who received random shocks. After a while, even when given a chance to escape, the dogs would lie down and accept the pain. They had learned that their actions had no effect. Humans develop the same pattern. After enough failure, rejection, or trauma, the brain concludes: nothing I do matters. This blocks action even when options exist. The antidote is small wins — intentional actions followed by real results — that rebuild the belief that you have agency.",
+        "title": "Learned Helplessness Why People Stop Trying Even When They Can Succeed",
+        "description": "Learned helplessness occurs when repeated failures train the brain to stop trying, even when success is possible. Small intentional wins rebuild the neural belief in personal agency.",
+        "hashtags": ["psychology","learnedhelplessness","mindfacts","brainfacts","mentalhealth","motivation","resilience","mindpower","martinSeligman","psychology101"],
+        "tiktok_caption": "Learned helplessness is silently stopping you from trying #psychology #learnedhelplessness #mindfacts",
+        "hook": "Learned helplessness might be why you've stopped trying — even when you could succeed."
     },
     {
-        "script": "Frugal living doesn't mean being cheap. It means being intentional. Here are the 5 best frugal habits that actually improve your quality of life. One: cook restaurant-quality meals at home — it's cheaper AND healthier. Two: buy experiences not things — memories last longer than products. Three: use the library for books, movies, and audiobooks — completely free. Four: exercise outside instead of gym memberships. Five: take a no-spend week every month. These habits save 500 dollars a month while making your life richer, not poorer.",
-        "title": "5 Frugal Habits That Save $500 a Month Without Sacrifice",
-        "description": "Frugal living is not about deprivation — it's about intentional spending that maximizes life satisfaction per dollar. These 5 habits save hundreds every month while actually improving your quality of life. Cook better food, have better experiences, and enjoy more freedom. Subscribe for more smart money lifestyle tips.",
-        "hashtags": ["frugalliving","savemoney","personalfinance","moneytips","frugalhabits","consciousspending","budgeting","moneyhacks","financialfreedom","simpleLiving"],
-        "tiktok_caption": "5 frugal habits that save $500/month without feeling poor 💪 #frugalliving #savemoney #personalfinance",
-        "hook": "Frugal living doesn't mean being cheap — it means being free."
+        "script": "The recency bias makes your brain give disproportionate weight to recent events. A great employee who has a bad month seems worse than a mediocre employee who had a good month. Your last experience at a restaurant matters more than your previous ten. Your most recent argument with a partner colors how you see the whole relationship. Investors sell after crashes because recent losses feel permanent. This bias evolved for survival — recent information is often most relevant. But in modern contexts, it distorts judgment. When evaluating anything important, deliberately consider the full history, not just what just happened.",
+        "title": "Recency Bias Why Your Brain Overweights What Just Happened",
+        "description": "Recency bias causes your brain to give disproportionate weight to recent events, distorting judgment in relationships, performance evaluation, and investing.",
+        "hashtags": ["psychology","recencybias","mindfacts","cognitivebias","brainfacts","decisionmaking","criticalthinking","mindpower","awareness","psychology101"],
+        "tiktok_caption": "Your brain overweights recent events — and it's distorting your reality #psychology #recencybias #mindfacts",
+        "hook": "Recency bias is causing you to judge people and situations unfairly — here's how."
     },
     {
-        "script": "Here's why your net worth matters more than your income. A doctor earning 300,000 a year with 500,000 in debt and no investments has a lower net worth than a teacher earning 50,000 who has been investing for 20 years. Net worth is assets minus liabilities. To grow your net worth: increase assets — investments, property, business. Decrease liabilities — pay off debt. Increase the gap between income and expenses. Track your net worth monthly. It's the most honest measure of your financial health. Income is vanity. Net worth is sanity.",
-        "title": "Why Net Worth Matters More Than Your Salary",
-        "description": "A high salary doesn't mean financial health. Net worth — assets minus liabilities — is the true measure of financial progress. Learn how to calculate and grow your net worth regardless of your income level. The habits that build net worth are the same at every income. Subscribe for more foundational money principles.",
-        "hashtags": ["networth","personalfinance","wealthbuilding","moneytips","financialhealth","assets","liabilities","moneymindset","financialfreedom","richhabits"],
-        "tiktok_caption": "Your salary doesn't matter as much as THIS 👇 #networth #personalfinance #wealthbuilding",
-        "hook": "Your salary is vanity. Your net worth is the real number."
+        "script": "Flow state is arguably the peak human experience. Described by psychologist Mihaly Csikszentmihalyi after studying thousands of artists, athletes, and musicians, flow is the mental state where you're fully absorbed, time disappears, and performance peaks. Your brain in flow shows reduced activity in the prefrontal cortex — the inner critic quiets. EEG studies show flow produces theta brain waves associated with deep meditation. To enter flow: eliminate distractions, match task difficulty slightly above your skill level, and work in blocks of 90 minutes. Flow is not luck — it's architecture.",
+        "title": "The Science of Flow State Why Time Disappears When You Are at Your Best",
+        "description": "Flow state is a peak performance mental state where the inner critic quiets and output soars. Csikszentmihalyi's decades of research reveal conditions for flow — and how to engineer it deliberately.",
+        "hashtags": ["psychology","flowstate","mindfacts","brainfacts","peakperformance","neuroscience","productivity","mindpower","brainscience","csikszentmihalyi"],
+        "tiktok_caption": "Flow state is the peak human experience — here's how to get there #psychology #flowstate #mindfacts",
+        "hook": "Flow state is the peak of human experience — and you can engineer it deliberately."
     },
     {
-        "script": "Buying a new car is one of the worst financial decisions you can make. Here's the math. A new car loses 20 percent of its value the moment you drive off the lot. In 5 years it's worth 40 percent of what you paid. If you finance it at 7 percent interest, you pay even more. The smart move: buy a 3 to 5 year old certified pre-owned car with under 50,000 miles. You avoid the steepest depreciation, get a reliable car, and save 10,000 to 20,000 dollars. Invest the difference. The car you drive doesn't build wealth. The money you save does.",
-        "title": "Why Buying a New Car Is One of the Worst Financial Decisions",
-        "description": "New cars lose 20% of their value the moment you drive off the lot. The smart money move is buying a certified pre-owned vehicle that has already absorbed the steepest depreciation. Learn how choosing the right car can save you tens of thousands over your lifetime. Subscribe for more smart money decisions.",
-        "hashtags": ["carshopping","personalfinance","moneytips","newcar","usedcar","financialmistakes","savemoney","smartmoney","wealthbuilding","financialadvice"],
-        "tiktok_caption": "Buying a new car is throwing money away 🚗💸 Here's why #carshopping #personalfinance #moneytips",
-        "hook": "Buying a new car is one of the worst financial decisions you can make."
+        "script": "Laughter is one of the most powerful and underused cognitive tools we have. When you laugh, your brain releases endorphins, dopamine, and oxytocin simultaneously — a chemical trifecta. Studies show laughter reduces cortisol and adrenaline, lowering stress response within seconds. It also boosts immune function, reduces pain perception, and increases creativity by relaxing prefrontal cortex constraints. Research found that people laugh 30 times more in social settings than when alone — confirming laughter's deep social function. The phrase laughter is the best medicine is actually neuroscience. Laugh more. It's maintenance.",
+        "title": "Laughter Releases 3 Feel Good Chemicals at Once It Is Brain Medicine",
+        "description": "Laughter triggers simultaneous release of endorphins, dopamine, and oxytocin while reducing cortisol. Research shows it boosts immunity, reduces pain, and increases creativity.",
+        "hashtags": ["psychology","laughter","mindfacts","brainfacts","endorphins","mentalhealth","neuroscience","happiness","brainscience","wellbeing"],
+        "tiktok_caption": "Laughter releases 3 feel-good chemicals at once — it's literally brain medicine #psychology #laughter #mindfacts",
+        "hook": "Laughter releases three feel-good chemicals simultaneously — it's one of the best things for your brain."
     },
     {
-        "script": "Here's how to build wealth on a minimum wage income. It sounds impossible but it's not. Step one: eliminate your two biggest expenses — housing and transport. Get a roommate. Use public transport or a bicycle. Step two: cook all your food at home. 300 dollars a month saved. Step three: invest even 25 dollars a week. That's 1,300 a year. Over 30 years at 10 percent return, that becomes 226,000 dollars. Step four: develop one skill on YouTube for free and get a better job within 12 months. Low income is temporary. Low financial knowledge is permanent until you change it.",
-        "title": "How to Build Wealth on Minimum Wage — It Is Possible",
-        "description": "Building wealth on a low income requires more discipline but is absolutely possible. By aggressively cutting the big expenses, cooking at home, investing small amounts consistently, and developing marketable skills, anyone can start building wealth regardless of their current income. Subscribe for more inclusive money tips.",
-        "hashtags": ["minimumwage","personalfinance","wealthbuilding","moneytips","lowincome","savemoney","investing","financialfreedom","budgeting","moneymotivation"],
-        "tiktok_caption": "Building wealth on minimum wage — yes it's possible 💪 #minimumwage #personalfinance #wealthbuilding",
-        "hook": "You can build wealth on minimum wage — here's exactly how."
+        "script": "The social comparison trap is wired into your biology. Humans have evolved to constantly gauge status relative to others — because in ancestral environments, relative status determined access to food, mates, and safety. Today, social media has weaponized this instinct. Every scroll is a highlight reel comparison that triggers the same neural threat response as falling behind in the tribe. Studies show Instagram use is directly correlated with increased depression and lower self-esteem. Knowing the mechanism doesn't make you immune, but it gives you a chance to override it. Your worth is not a comparison.",
+        "title": "Why Social Media Makes You Feel Bad The Social Comparison Trap",
+        "description": "Social comparison is an ancient survival instinct weaponized by social media. Research directly links Instagram use to depression and lower self-esteem. Understanding the evolutionary mechanism helps you consciously override it.",
+        "hashtags": ["psychology","socialcomparison","mindfacts","socialmedia","mentalhealth","brainfacts","selfworth","mindpower","awareness","psychology101"],
+        "tiktok_caption": "Social media is exploiting your ancient comparison instinct #psychology #socialcomparison #mindfacts",
+        "hook": "Social media is exploiting an ancient brain circuit to make you feel inferior."
     },
     {
-        "script": "Insurance is one of the most overlooked parts of personal finance. The right insurance protects everything you've built. Here are the 4 types everyone needs. One: health insurance — one hospital visit without it can bankrupt you. Two: term life insurance — if anyone depends on your income, get it. It's cheap in your 20s and 30s. Three: disability insurance — your income is your biggest asset. Protect it. Four: renters or homeowners insurance — your belongings and liability covered for pennies a day. Insurance isn't an expense. It's financial armor.",
-        "title": "4 Types of Insurance Everyone Needs to Protect Their Wealth",
-        "description": "Building wealth without the right insurance is like building a house without a foundation. One medical emergency, accident, or disaster can erase years of savings. Learn which 4 types of insurance are non-negotiable at every income level. Subscribe for more comprehensive personal finance guidance.",
-        "hashtags": ["insurance","personalfinance","healthinsurance","lifeinsurance","financialplanning","moneytips","financialprotection","wealthbuilding","adulting","financialsecurity"],
-        "tiktok_caption": "4 types of insurance that protect everything you've built 🛡️ #insurance #personalfinance #financialplanning",
-        "hook": "Without these 4 types of insurance, one bad day can erase your wealth."
+        "script": "The body keeps the score — that's the title of one of the most important psychology books ever written. Bessel van der Kolk's decades of research show that trauma is not just stored in your memories — it's stored in your body. Unprocessed trauma lives in muscle tension, altered breathing patterns, gut responses, and hypervigilance. The body literally holds the experience. This is why traditional talk therapy alone sometimes doesn't resolve trauma — the body needs to be part of healing through movement, breathwork, somatic therapy, or even yoga. Healing is not just mental. It is physical.",
+        "title": "Trauma Is Stored in Your Body Not Just Your Mind",
+        "description": "Bessel van der Kolk's research shows trauma is stored in the body as physical tension and altered responses — not just in memories. Healing must address the body.",
+        "hashtags": ["psychology","trauma","mindfacts","bodykeepsthescore","mentalhealth","somatictherapy","brainfacts","healing","mindbody","psychology101"],
+        "tiktok_caption": "Trauma is stored in your BODY — not just your mind #psychology #trauma #mindfacts",
+        "hook": "Trauma isn't just in your memories — it's physically stored in your body."
     },
     {
-        "script": "The psychological tricks stores use to make you spend more — and how to beat them. One: sale prices. 50 percent off feels like saving but you're still spending. Only buy sale items you planned to buy anyway. Two: buy one get one. You buy double what you need. Three: the decoy effect — they put an overpriced option next to the one they want you to buy. Four: checkout aisle impulse buys — add nothing at checkout. Five: loyalty points that expire — they create urgency. Knowing the tricks makes you immune to them.",
-        "title": "5 Store Tricks That Make You Overspend and How to Beat Them",
-        "description": "Retail stores use psychological pricing tricks designed to bypass your rational thinking and get you to spend more. Understanding these tactics makes you a smarter shopper who saves money effortlessly. Learn to recognize and resist the most common spending traps. Subscribe for more smart consumer tips.",
-        "hashtags": ["savemoney","smartshopping","personalfinance","moneyhacks","consumerpsychology","moneytips","budgeting","frugalliving","consciousspending","shoppingtips"],
-        "tiktok_caption": "Stores use these tricks to empty your wallet 🛒 #savemoney #smartshopping #personalfinance",
-        "hook": "Stores use 5 psychological tricks to make you overspend — here they are."
+        "script": "Sleep deprivation does something terrifying to your emotional regulation. Research shows that after just one night of poor sleep, the amygdala — your brain's threat detector — becomes 60 percent more reactive. The connection between the amygdala and prefrontal cortex weakens, meaning your rational brain can't calm down your emotional brain. This explains road rage, disproportionate anger, crying over small things, and catastrophic thinking after a bad night. You're not more emotional — you're less regulated. Before attributing an emotional reaction to a personality flaw, ask yourself: when did I last sleep well?",
+        "title": "One Bad Night of Sleep Makes Your Brain 60 Percent More Emotional",
+        "description": "Sleep deprivation causes the amygdala to become 60% more reactive while weakening rational control from the prefrontal cortex. Many emotional problems are actually sleep problems in disguise.",
+        "hashtags": ["psychology","sleep","emotionalregulation","mindfacts","brainfacts","amygdala","mentalhealth","neuroscience","sleepscience","mindpower"],
+        "tiktok_caption": "One bad sleep makes your brain 60% more emotional — not a personality flaw #psychology #sleep #mindfacts",
+        "hook": "One bad night of sleep makes your brain 60 percent more emotionally reactive."
     },
     {
-        "script": "Want to retire early? Here's the FIRE movement explained simply. FIRE stands for Financial Independence Retire Early. The goal: save 50 to 70 percent of your income, invest it aggressively, and retire in 10 to 15 years instead of 40. Here's the math. If you save 50 percent of your income, you can retire in about 17 years from any starting point. If you save 70 percent, just 8 years. The higher your savings rate, the faster you reach freedom. It requires sacrifice now for freedom forever. Is it worth it? You decide.",
-        "title": "The FIRE Movement — How to Retire in 10 Years Not 40",
-        "description": "The FIRE movement — Financial Independence Retire Early — is a growing community of people choosing to save aggressively and retire decades before the traditional age. Learn the math behind FIRE, how to calculate your savings rate, and whether early retirement is right for you. Subscribe for more financial independence strategies.",
-        "hashtags": ["FIRE","financialindependence","retirearly","personalfinance","savemoney","investing","wealthbuilding","frugalliving","financialfreedom","earlyretirement"],
-        "tiktok_caption": "Retire in 10 years not 40 — the FIRE movement explained 🔥 #FIRE #financialindependence #retirearly",
-        "hook": "What if you could retire in 10 years instead of 40?"
+        "script": "The peak-end rule reveals something profound about how memory works. Psychologist Daniel Kahneman discovered that people judge an experience almost entirely by two things: the peak emotional moment and the final moment — not the overall average. In a study, patients undergoing a painful procedure who had a less painful ending rated the entire procedure as less bad — even though it lasted longer. This is why how you end conversations, relationships, and experiences matters enormously. People remember peaks and endings. Make yours memorable. The last impression becomes the lasting impression.",
+        "title": "Why How Things End Matters More Than How They Go The Peak End Rule",
+        "description": "Daniel Kahneman's Peak-End Rule shows people judge experiences by their emotional peak and final moment — not the average. Endings carry disproportionate weight in memory.",
+        "hashtags": ["psychology","peakendrule","mindfacts","kahneman","brainfacts","memory","relationships","mindpower","behavioraleconomics","psychology101"],
+        "tiktok_caption": "How things end matters MORE than how they go — the Peak-End Rule #psychology #peakendrule #mindfacts",
+        "hook": "People judge your relationship not by the whole — but by the peak and the end."
     },
     {
-        "script": "Here's how to use your tax refund to actually change your financial life. Most people spend their refund within 30 days on things they can't remember. Here's the 3-part formula. 50 percent goes to your highest interest debt or emergency fund. 30 percent goes to investments — buy index funds same day you receive the refund. 20 percent you spend on something meaningful — a course, an experience, something that adds value. A 3,000 dollar refund invested for 30 years becomes 52,000 dollars. Or you can buy a TV. Your choice.",
-        "title": "How to Use Your Tax Refund to Change Your Financial Life",
-        "description": "Most people waste their tax refund within weeks. Used strategically, a tax refund can eliminate debt, build your emergency fund, and start your investment journey all at once. Learn the exact formula to make your refund work for your future. Subscribe for more practical money strategies.",
-        "hashtags": ["taxrefund","personalfinance","moneytips","savemoney","investing","debtpayoff","smartmoney","financialtips","taxseason","wealthbuilding"],
-        "tiktok_caption": "Your tax refund can change your life — if you do this 💡 #taxrefund #personalfinance #moneytips",
-        "hook": "Your tax refund can change your financial life — if you don't waste it."
+        "script": "Your brain is essentially an energy-saving machine, and it achieves this through automaticity — turning repeated behaviors into automatic habits to conserve cognitive resources. This is why driving a familiar route requires almost no conscious attention. Habits live in the basal ganglia, separate from the conscious decision-making prefrontal cortex. Once formed, habits never fully disappear — they're just overwritten by new ones. This is the basis of habit loops: cue, routine, reward. Every habit you have was once a conscious choice repeated until it went automatic. You can use this deliberately to design the person you want to become.",
+        "title": "How Your Brain Converts Choices Into Automatic Habits",
+        "description": "The brain converts repeated behaviors into automatic habits stored in the basal ganglia, freeing cognitive resources. Understanding the habit loop lets you deliberately design new automatic behaviors.",
+        "hashtags": ["psychology","habits","mindfacts","brainfacts","automaticity","habitloop","neuroscience","basalganglia","mindpower","psychology101"],
+        "tiktok_caption": "Your brain turns repeated choices into automatic habits — here's how to use that #psychology #habits #mindfacts",
+        "hook": "Every habit you have was once a conscious choice — until your brain made it automatic."
     },
     {
-        "script": "Here's the most underrated wealth-building strategy: living below your means for just 5 years. Not forever. Just 5 years. Imagine cutting your expenses by 20 percent for 5 years and investing every saved dollar. On a 3,000 dollar monthly income, that's 600 dollars a month invested. Over 5 years at 10 percent return, you'd have 46,000 dollars. That 46,000 dollars left invested for 25 more years becomes 500,000 dollars. Five years of discipline. A lifetime of options. Most people aren't willing to sacrifice 5 years. That's why most people aren't wealthy.",
-        "title": "Live Below Your Means for 5 Years — Change Your Life Forever",
-        "description": "You don't have to be frugal forever — just for 5 focused years. Living below your means and investing the difference for 5 years can create a financial foundation that compounds into life-changing wealth. Learn how short-term sacrifice creates long-term freedom. Subscribe for more wealth-building mindset tips.",
-        "hashtags": ["livebelowmeans","personalfinance","wealthbuilding","moneytips","savemoney","investing","financialfreedom","moneymindset","frugalliving","financialdiscipline"],
-        "tiktok_caption": "Live below your means for just 5 years — change everything 🏆 #livebelowmeans #personalfinance #wealthbuilding",
-        "hook": "Just 5 years of discipline can change your entire financial life."
+        "script": "Nature deprivation is a real and growing mental health crisis. Research from Stanford shows that a 90-minute walk in a natural setting significantly reduces activity in the brain region associated with rumination and negative self-focused thought. Urban dwellers who rarely access nature show higher rates of depression and anxiety than rural populations. Even 20 minutes in a green space reduces cortisol levels measurably. Our brains evolved over millions of years in natural environments — modern urban living is a mismatch. Going outside isn't escaping — it's returning to where your brain thrives.",
+        "title": "Nature Deprivation Is a Real Mental Health Crisis Go Outside",
+        "description": "Stanford research shows nature walks reduce brain activity linked to depression and rumination. Twenty minutes in green space lowers cortisol. Urban environments create a fundamental mismatch with the brain's evolutionary habitat.",
+        "hashtags": ["psychology","nature","mentalhealth","mindfacts","brainfacts","neuroscience","outdoors","stressrelief","mindpower","biophilia"],
+        "tiktok_caption": "You need nature for your brain — science proves it #psychology #nature #mentalhealth",
+        "hook": "Your brain evolved in nature — and being deprived of it is making you mentally ill."
     },
     {
-        "script": "Buying vs renting tools and equipment — the math might surprise you. Most people buy tools they use once or twice a year. A drill used 3 times a year costs 150 dollars to own. Renting it costs 20 dollars per use — 60 dollars a year. Ownership only wins when you use something more than once a month. The same logic applies to cars in cities, vacation homes, party equipment, and sports gear. The sharing economy exists because ownership is overrated. Before buying anything, ask: how often will I actually use this?",
-        "title": "Rent vs Buy — When Ownership Is Actually Losing You Money",
-        "description": "The assumption that buying is always better than renting extends beyond homes and into everyday purchases. For items you use infrequently, renting almost always wins financially. Learn to apply the rent vs buy calculation to every major purchase and keep more money in your pocket. Subscribe for more contrarian money tips.",
-        "hashtags": ["rentVsbuy","personalfinance","moneyhacks","savemoney","smartshopping","moneytips","minimalism","consciousspending","frugalliving","financialtips"],
-        "tiktok_caption": "Buying stuff you rarely use is costing you 🛠️ #rentVsbuy #personalfinance #moneyhacks",
-        "hook": "Sometimes renting is smarter than buying — here's when."
+        "script": "The actor-observer bias is why relationships are so difficult. When you do something wrong, you explain it by circumstances: I was stressed, I was tired, I had a bad day. When someone else does the same thing, you explain it by their character: they're selfish, they don't care, that's just who they are. You're the actor seeing your circumstances. You're the observer judging their character. This asymmetry causes resentment and broken relationships. The fix: apply the same charitable interpretation to others as you do to yourself. Extend the grace you give yourself.",
+        "title": "Why You Forgive Yourself but Judge Others The Actor Observer Bias",
+        "description": "The actor-observer bias causes people to attribute their own bad behavior to circumstances while attributing others' bad behavior to character. This asymmetry is a major source of relationship conflict.",
+        "hashtags": ["psychology","actorobserver","mindfacts","socialpsychology","relationships","brainfacts","cognitivebias","empathy","mindpower","psychology101"],
+        "tiktok_caption": "Why you forgive yourself but judge others — the actor-observer bias #psychology #actorobserver #mindfacts",
+        "hook": "You forgive yourself for circumstances but judge others for their character — here's the bias."
     },
     {
-        "script": "Here's how to make your money work 24 hours a day. Step one: put your emergency fund in a high-yield savings account earning 4 to 5 percent. Step two: invest spare cash in dividend ETFs that pay you every quarter. Step three: if you have a mortgage, make one extra payment per year — saves years of interest. Step four: automate all of this — savings transfer on payday, investment contribution on the 1st. Step five: review quarterly, not daily. Your money should work constantly. You should check occasionally. Set it and grow it.",
-        "title": "How to Make Your Money Work 24 Hours a Day",
-        "description": "The difference between rich and everyone else is that rich people's money works while they sleep. Through high-yield savings, dividend investments, extra mortgage payments, and automation, you can put your entire financial life on autopilot. Learn how to build a money machine. Subscribe for more passive wealth strategies.",
-        "hashtags": ["passiveincome","moneymachine","personalfinance","wealthbuilding","automation","dividends","hysa","moneytips","financialfreedom","investing"],
-        "tiktok_caption": "Make your money work 24/7 while you sleep 😴💰 #passiveincome #moneymachine #personalfinance",
-        "hook": "Your money should be working 24 hours a day — here's how."
+        "script": "Vulnerability is not weakness — it's the birthplace of creativity, belonging, and love. Researcher Brene Brown spent a decade studying human connection and found that the people with the strongest sense of belonging had one thing in common: they had the courage to be vulnerable. They were willing to say I don't know, I was wrong, I love you first. The armor people use to protect themselves from vulnerability also blocks connection, creativity, and joy. The walls that keep pain out also keep love out. Courage is not the absence of fear — it's showing up fully when the outcome is uncertain.",
+        "title": "Vulnerability Is Not Weakness It Is the Source of Human Connection",
+        "description": "Brene Brown's decade of research found that people with the strongest sense of belonging shared one trait: courage to be vulnerable. Emotional armor blocks both pain and connection.",
+        "hashtags": ["psychology","vulnerability","mindfacts","brenebrown","connection","mentalhealth","empathy","courage","wellbeing","psychology101"],
+        "tiktok_caption": "Vulnerability is not weakness — it's where connection is born #psychology #vulnerability #mindfacts",
+        "hook": "Vulnerability is not weakness — it's the only path to genuine human connection."
     },
     {
-        "script": "Here's what nobody tells you about getting out of the paycheck-to-paycheck cycle. It's not about earning more — it's about creating margin. Margin is the gap between income and expenses. Most people have zero margin. Every raise gets spent. Every bonus disappears. To create margin: reduce your top 3 expenses by even 10 percent each. Cut one subscription. Pack lunch twice a week. That creates 200 to 300 dollars of margin. Immediately automate that margin into savings. Margin is oxygen. Without it, any financial emergency suffocates you.",
-        "title": "How to Escape the Paycheck-to-Paycheck Cycle for Good",
-        "description": "Living paycheck to paycheck is not just an income problem — it's a margin problem. Creating even a small gap between income and expenses and automating savings from that gap is the escape route. Learn how to create financial margin and break the cycle permanently. Subscribe for more foundational money strategies.",
-        "hashtags": ["paychecktopaycheck","personalfinance","budgeting","savemoney","moneytips","financialmargin","financialfreedom","moneymindset","wealthbuilding","debtfree"],
-        "tiktok_caption": "Break the paycheck-to-paycheck cycle for good 💪 #paychecktopaycheck #personalfinance #budgeting",
-        "hook": "Living paycheck to paycheck is a margin problem, not an income problem."
+        "script": "The availability heuristic makes people think events are more common than they are, based on how easily examples come to mind. Plane crashes feel more dangerous than car accidents because they're dramatic and widely covered. Shark attacks feel more common than lightning strikes because sharks are scarier in our imagination. Your risk assessment is calibrated by media coverage and emotional salience, not actual statistics. This bias distorts everything from fear to policy decisions. Before concluding something is common or rare, check the data. Your instincts are measuring memorability, not probability.",
+        "title": "Why You Fear the Wrong Things The Availability Heuristic",
+        "description": "The availability heuristic makes dramatic memorable events seem more probable than they are. Media coverage and emotional salience distort our risk assessment.",
+        "hashtags": ["psychology","availabilityheuristic","mindfacts","cognitivebias","brainfacts","fear","risk","criticalthinking","mindpower","psychology101"],
+        "tiktok_caption": "Your brain is terrible at measuring real risk — the availability heuristic #psychology #availabilityheuristic #mindfacts",
+        "hook": "Your brain measures risk by how scary something sounds, not how likely it actually is."
     },
     {
-        "script": "The 1 percent rule for improving your finances. Improve by just 1 percent every week. Week one: cancel one unused subscription. Week two: cook one more meal at home. Week three: automate 10 more dollars to savings. Week four: read one chapter of a finance book. 1 percent improvement per week compounds to 52 percent better in a year. You don't need dramatic changes. You need consistent tiny improvements. The most successful people in the world don't overhaul their lives — they improve their systems by 1 percent at a time.",
-        "title": "The 1% Rule That Will Transform Your Finances in One Year",
-        "description": "Dramatic financial overhauls rarely last. The 1 percent rule — making tiny consistent improvements every week — compounds into massive results over a year. No willpower required, no sacrifice needed, just small sustainable steps. Learn how to apply the 1 percent rule to every area of your financial life. Subscribe for more sustainable money strategies.",
-        "hashtags": ["onepercent","personalfinance","moneytips","financialhabits","wealthbuilding","consistengy","moneymindset","smallsteps","financialfreedom","continuousimprovement"],
-        "tiktok_caption": "Improve your finances by just 1% per week — watch what happens 📈 #onepercent #personalfinance #moneytips",
-        "hook": "Improve your finances by just 1% every week and watch what happens."
+        "script": "Breathing is the only autonomic function you can consciously control — and that makes it a direct gateway to your nervous system. When you're stressed, your sympathetic nervous system activates. But slow, deep breathing — particularly exhale-longer-than-inhale patterns — directly activates the parasympathetic system, your rest and digest response. Box breathing: 4 counts in, 4 hold, 4 out, 4 hold. Used by Navy SEALs to perform under fire. The 4-7-8 breathing pattern can induce calm in 60 seconds. You have a biological override switch for stress built into every breath.",
+        "title": "Breathing Is Your Biological Override Switch for Stress",
+        "description": "Breathing is the only autonomic function under conscious control, making it a direct gateway to the nervous system. Slow exhalation activates parasympathetic response. Box breathing reduces stress in under 60 seconds.",
+        "hashtags": ["psychology","breathing","mindfacts","stressrelief","nervoussystem","breathwork","neuroscience","mentalhealth","mindpower","anxiety"],
+        "tiktok_caption": "Breathing is your biological override switch for stress #psychology #breathing #mindfacts",
+        "hook": "You have a biological override switch for stress — and it's in every single breath."
     },
     {
-        "script": "Here's why most people never become wealthy despite earning good money. They confuse income with wealth. Income is a river. Wealth is a lake. Most people let the river flow through them without filling the lake. The formula is simple: earn money, keep some, invest the rest, repeat. But lifestyle inflation drains the lake as fast as the river fills it. The solution: every time your income increases, increase your investment rate by the same percentage. Your lifestyle stays the same. Your wealth grows exponentially. Fill the lake.",
-        "title": "Why High Earners Stay Broke — The Income vs Wealth Trap",
-        "description": "Earning a high income and building wealth are not the same thing. Many high earners remain financially fragile because they confuse cash flow with net worth. Learn the critical distinction between income and wealth and how to make sure your river of income fills your lake of wealth. Subscribe for more financial wisdom.",
-        "hashtags": ["wealthmindset","personalfinance","highearners","moneytips","wealthbuilding","incomevswea lth","financialfreedom","richhabits","moneymindset","financialwisdom"],
-        "tiktok_caption": "Why high earners stay broke — income vs wealth explained 💡 #wealthmindset #personalfinance #highearners",
-        "hook": "You can earn great money and still stay broke — here's why."
+        "script": "The science of procrastination reveals it's not a time management problem — it's an emotion management problem. Research shows people procrastinate not because they're lazy, but because the task triggers negative emotions — anxiety, self-doubt, boredom, or resentment. Avoidance temporarily relieves those emotions, which reinforces procrastination as a coping strategy. The fix is not discipline — it's identifying and reducing the emotional charge around the task. Break it into a 2-minute start. Change the environment. Pair it with something pleasant. Make starting feel safe, and the doing will follow.",
+        "title": "Procrastination Is an Emotion Problem Not a Time Problem",
+        "description": "Research shows procrastination is emotional avoidance of tasks that trigger anxiety or self-doubt, not laziness or poor time management. Reducing the emotional charge around starting is the only reliable fix.",
+        "hashtags": ["psychology","procrastination","mindfacts","emotionalregulation","brainfacts","productivity","mentalhealth","mindpower","habits","psychology101"],
+        "tiktok_caption": "Procrastination is an emotion problem — not laziness #psychology #procrastination #mindfacts",
+        "hook": "Procrastination has nothing to do with time management — it's emotional avoidance."
     },
     {
-        "script": "Here's the smartest thing you can do with 100 dollars right now. Option A: spend it on something that brings temporary pleasure. Option B: invest it and let compound interest work. 100 dollars invested at 25 years old at 10 percent annual return becomes 4,526 dollars at 65. That's a 45x return. But here's the real lesson — it's not about the 100 dollars. It's about the habit. The person who invests 100 dollars today will invest 200 next month and 500 the month after. Wealth is a habit before it's a number.",
-        "title": "The Smartest Thing to Do With $100 Right Now",
-        "description": "What you do with small amounts of money reveals your financial habits and predicts your financial future. A 100 dollar investment at 25 becomes over 4,500 dollars by retirement. But more importantly, starting the habit of investing small amounts is the foundation of all wealth. Subscribe for more actionable money moves.",
-        "hashtags": ["invest100dollars","personalfinance","moneytips","investing","wealthbuilding","compoundinterest","moneyhabits","financialfreedom","beginnerinvesting","smartmoney"],
-        "tiktok_caption": "The smartest thing to do with $100 right now 💯 #invest100dollars #personalfinance #moneytips",
-        "hook": "Here's the smartest thing you can do with $100 right now."
+        "script": "Your sense of smell is the only sense with a direct neural pathway to the amygdala and hippocampus — your emotion and memory centers. This is why a smell can instantly transport you to a specific memory with all its emotional intensity intact. Scent bypasses the thalamus, which filters all other senses. This is why aromatherapy has real neurological effects — lavender genuinely reduces cortisol. The scent of a loved one lowers stress hormones. Your nose is the most direct route to your emotional brain. The memories tied to smell are among the most vivid and emotionally powerful you have.",
+        "title": "Why Smell Instantly Triggers Memories The Neuroscience of Scent",
+        "description": "Smell has a direct neural pathway to the amygdala and hippocampus, bypassing the thalamus that filters other senses. This explains why scents trigger vivid emotional memories instantly.",
+        "hashtags": ["psychology","smell","memory","mindfacts","brainfacts","neuroscience","senses","brainscience","mindpower","emotion"],
+        "tiktok_caption": "Smell bypasses every filter to hit your emotional brain directly #psychology #smell #mindfacts",
+        "hook": "Smell is the only sense with a direct line to your emotional brain — here's why."
     },
     {
-        "script": "Groceries are eating your budget alive. Here's how to cut your grocery bill in half without eating worse. One: shop with a list and never deviate — impulse buys add 30 percent to your bill. Two: buy store brands for basics — same product, half the price. Three: buy meat in bulk and freeze it. Four: plan meals around what's on sale that week. Five: use cashback apps like Ibotta every single shop. The average family wastes 1,500 dollars a year on groceries they throw away. Buy only what you'll eat. Plan what you'll buy.",
-        "title": "Cut Your Grocery Bill in Half With These 5 Simple Hacks",
-        "description": "Groceries are one of the most controllable expenses in any budget. With strategic shopping habits — lists, store brands, bulk buying, sale-based meal planning, and cashback apps — most families can cut their grocery bill by 30 to 50 percent without eating worse. Subscribe for more practical money-saving tips.",
-        "hashtags": ["groceryshopping","savemoney","personalfinance","moneyhacks","budgeting","moneytips","frugalliving","grocerysavings","mealplanning","financialtips"],
-        "tiktok_caption": "Cut your grocery bill in HALF with these 5 hacks 🛒 #groceryshopping #savemoney #personalfinance",
-        "hook": "You're wasting hundreds every month at the grocery store."
+        "script": "Anger is a secondary emotion — it almost always masks a primary emotion underneath. When someone feels hurt, they often express anger. When someone feels scared, they often show rage. When someone feels ashamed, they often become hostile. Anger feels more powerful than hurt or fear, which is why the brain uses it as a shield. But because the anger addresses none of the underlying emotions, it never resolves anything. The next time you feel angry, pause and ask: what emotion am I actually protecting? The answer almost always leads to the real conversation — and real resolution.",
+        "title": "Anger Is Almost Always Masking a Deeper Emotion Here Is What",
+        "description": "Anger is typically a secondary emotion masking hurt, fear, or shame. Because anger feels more powerful, the brain deploys it as emotional armor. True resolution requires identifying the primary emotion underneath.",
+        "hashtags": ["psychology","anger","emotionalintelligence","mindfacts","brainfacts","mentalhealth","emotions","relationships","mindpower","psychology101"],
+        "tiktok_caption": "Anger is almost never the real emotion — here's what's actually underneath #psychology #anger #mindfacts",
+        "hook": "Anger is almost always masking a deeper emotion — and here's how to find it."
     },
     {
-        "script": "Here's the difference between being cheap and being frugal — and why it matters. Cheap people avoid all spending regardless of value. They buy the cheapest option even when it costs more long term. Frugal people maximize value. They spend on things that matter and cut ruthlessly on things that don't. A cheap person buys the 20-dollar shoes that fall apart in 3 months. A frugal person buys 80-dollar shoes that last 5 years. Total cost: cheap 80 dollars, frugal 80 dollars. Same price, better experience. Be frugal, not cheap.",
-        "title": "Cheap vs Frugal — Why the Difference Makes You Richer",
-        "description": "Being cheap and being frugal are not the same thing. Cheap focuses on spending less regardless of value. Frugal focuses on maximizing value per dollar spent. Understanding this distinction is key to a fulfilling financial life that doesn't feel like deprivation. Subscribe for more money mindset upgrades.",
-        "hashtags": ["frugalliving","cheapvfrugal","personalfinance","moneytips","smartspending","moneymindset","consciousspending","wealthbuilding","financialtips","savemoney"],
-        "tiktok_caption": "Cheap vs frugal — one makes you richer, one makes you miserable 😅 #frugalliving #cheapvfrugal #personalfinance",
-        "hook": "There's a big difference between being cheap and being frugal."
+        "script": "The bystander effect explains why people fail to help in emergencies when others are present. When Kitty Genovese was attacked outside her New York apartment, dozens of witnesses reportedly watched and did nothing. The psychology: in a group, individuals feel less personal responsibility — someone else will help. And social proof makes inaction seem acceptable because no one else is acting. To overcome the bystander effect, make it personal: make direct eye contact with one specific person and say: you, please call 911. Specificity breaks diffusion of responsibility.",
+        "title": "The Bystander Effect Why People Do Nothing in Emergencies",
+        "description": "The bystander effect causes individuals to feel less personal responsibility in groups, leading to inaction in emergencies. Understanding this phenomenon — and how to override it — can save lives.",
+        "hashtags": ["psychology","bystandereffect","mindfacts","socialpsychology","brainfacts","emergencies","diffusionofresponsibility","mindpower","socialbehavior","psychology101"],
+        "tiktok_caption": "Why people do nothing in emergencies — the bystander effect #psychology #bystandereffect #mindfacts",
+        "hook": "The Bystander Effect explains why crowds watch emergencies unfold — and no one helps."
     },
     {
-        "script": "Here's how to invest when you're scared of losing money. Fear of loss is the number one reason people don't invest. Here's the truth: not investing guarantees you lose to inflation. Here's how to invest with confidence. Start with a high-yield savings account — 4 to 5 percent with zero risk. Then invest small amounts in a total market index fund — diversified across thousands of companies. Set it to automatic so emotions don't interfere. Never check it daily. Review quarterly. The stock market has never permanently lost value over any 20-year period in history. Time beats fear.",
-        "title": "How to Start Investing When You're Scared of Losing Money",
-        "description": "Fear of losing money keeps millions of people from investing and guarantees they lose to inflation instead. Learn how to start investing gradually and confidently, from high-yield savings accounts to diversified index funds. Time and automation are the antidotes to investment fear. Subscribe for more beginner investing guidance.",
-        "hashtags": ["investingforbeginners","personalfinance","fearofinvesting","indexfunds","moneytips","wealthbuilding","financialfreedom","beginnerinvesting","overcomefear","smartmoney"],
-        "tiktok_caption": "Scared to invest? Watch this first 😰➡️💪 #investingforbeginners #personalfinance #fearofinvesting",
-        "hook": "Scared of losing money investing? Here's how to start safely."
+        "script": "Your brain literally cannot multitask. What you experience as multitasking is actually rapid task-switching — and it comes at a significant cognitive cost. Every time you switch tasks, your brain needs time to reload the context of the new task. This switching cost reduces productivity by up to 40 percent. It also increases error rates and mental fatigue. The people who think they're best at multitasking are, according to Stanford research, actually the worst at it — they're more distracted, less able to filter irrelevance, and worse at switching. Single-task. Sequentially. Deeply.",
+        "title": "Your Brain Cannot Multitask Here Is What Is Actually Happening",
+        "description": "Multitasking is a myth — your brain rapidly switches tasks, costing up to 40% productivity and increasing errors. Stanford found self-described multitaskers are actually the worst at it.",
+        "hashtags": ["psychology","multitasking","mindfacts","productivity","brainfacts","focus","neuroscience","attentionpsychology","mindpower","psychology101"],
+        "tiktok_caption": "Your brain literally cannot multitask — here's what's really happening #psychology #multitasking #mindfacts",
+        "hook": "Multitasking is a myth — and believing in it is costing you 40 percent of your productivity."
     },
     {
-        "script": "Your phone bill is probably costing you twice what it should. Here's how to cut it. First, check if you actually use all your data — most people use half their plan. Second, switch to a budget carrier like Mint Mobile, Visible, or Cricket. Same towers as major carriers, half the price. 25 dollars a month versus 80 dollars a month is 660 dollars saved per year. Third, remove insurance on older phones — replace it with your credit card's phone protection benefit. Four: negotiate every year — carriers always have retention deals. Your phone bill should not be 100 dollars a month.",
-        "title": "You're Overpaying for Your Phone Plan — Here's How to Fix It",
-        "description": "Most people overpay for their phone plan by $50 or more every month without realizing it. Switching to a budget carrier, right-sizing your data plan, dropping unnecessary insurance, and negotiating annually can save over $600 per year for the exact same service. Subscribe for more bill-cutting money hacks.",
-        "hashtags": ["phonebill","savemoney","personalfinance","moneyhacks","moneytips","budgeting","frugalliving","billsavings","moneysaving","financialtips"],
-        "tiktok_caption": "You're overpaying for your phone plan by $50+/month 📱💸 #phonebill #savemoney #personalfinance",
-        "hook": "You're probably paying double what you should for your phone plan."
+        "script": "Physical touch is not a luxury — it's a biological necessity. Research shows that premature babies who are held and touched regularly gain weight 47 percent faster than those in standard care. Touch triggers oxytocin release, lowers blood pressure, and reduces cortisol. Studies from UC Berkeley show that NBA teams with more physical contact — high-fives, chest bumps, team huddles — perform significantly better over the season. Touch communicates trust, cooperation, and safety faster than words. In an increasingly touchless world, the deprivation of physical contact has measurable mental and physical health consequences.",
+        "title": "Physical Touch Is a Biological Necessity Not a Luxury",
+        "description": "Touch triggers oxytocin, reduces cortisol, and is essential for development and health. Research shows premature babies who are touched regularly grow 47% faster. Touch deprivation has measurable health consequences.",
+        "hashtags": ["psychology","touch","mindfacts","oxytocin","brainfacts","mentalhealth","neuroscience","connection","wellbeing","psychology101"],
+        "tiktok_caption": "Physical touch is a biological need — not a luxury #psychology #touch #mindfacts",
+        "hook": "Physical touch is as essential as food and water — and science proves it."
     },
     {
-        "script": "Here's a hard truth about money that nobody wants to hear. Your financial situation is mostly your responsibility. Not the economy. Not your employer. Not the government. You choose how much to spend. You choose whether to invest. You choose whether to develop your skills. This isn't about blame — it's about power. The moment you accept responsibility for your finances, you gain the power to change them. Victims wait for things to change. Players make things change. You have more control over your financial future than you've been led to believe. Use it.",
-        "title": "The Hard Truth About Money Nobody Wants to Hear",
-        "description": "Personal responsibility is the foundation of personal finance. While systemic factors matter, the daily choices you make about spending, saving, and investing are within your control. Accepting this responsibility doesn't mean blaming yourself — it means empowering yourself to change your situation. Subscribe for more honest financial perspective.",
-        "hashtags": ["financialmindset","personalfinance","moneymindset","moneytips","wealthbuilding","hardtruth","financialresponsibility","moneymotivation","richhabits","financialfreedom"],
-        "tiktok_caption": "The hard truth about money nobody wants to hear 🎯 #financialmindset #personalfinance #moneymindset",
-        "hook": "The hard truth about money that nobody wants to hear."
+        "script": "Growth mindset versus fixed mindset — the research by Carol Dweck at Stanford is some of the most important in modern psychology. People with a fixed mindset believe intelligence and talent are innate and unchangeable. When they fail, it threatens their identity. So they avoid challenges. People with a growth mindset believe abilities develop through effort and learning. Failure is data. Criticism is useful. Challenges are interesting. The remarkable finding: teaching children that the brain grows through effort changed their academic trajectories within weeks. The belief about the nature of ability determines whether you use it.",
+        "title": "Growth Mindset vs Fixed Mindset The Stanford Research That Changes Everything",
+        "description": "Carol Dweck's Stanford research shows that beliefs about intelligence shape behavior, resilience, and achievement. Teaching that the brain grows through effort changes academic outcomes within weeks.",
+        "hashtags": ["psychology","growthmindset","fixedmindset","mindfacts","carolDweck","brainfacts","education","selfdevelopment","mindpower","psychology101"],
+        "tiktok_caption": "Growth mindset vs fixed mindset — the Stanford research that changes everything #psychology #growthmindset #mindfacts",
+        "hook": "Your belief about whether you can grow determines whether you actually grow."
+    },
+    {
+        "script": "Studies show that people who have a strong sense of purpose live longer, get sick less often, and recover from illness faster. Research published in Psychological Science tracked 6,000 people and found that having purpose reduced all-cause mortality by 15 percent — regardless of age, income, or health status. The Japanese concept of Ikigai — your reason for being — has been linked to exceptional longevity in Okinawa, which has one of the highest concentrations of centenarians in the world. Purpose is not something you find — it's something you build through contribution, craft, and connection. It's also medicine.",
+        "title": "Having a Strong Sense of Purpose Makes You Live Longer Science Confirms",
+        "description": "Research shows purpose reduces all-cause mortality by 15%. The Japanese concept of Ikigai has been linked to exceptional longevity. Purpose improves immune function and extends lifespan.",
+        "hashtags": ["psychology","purpose","ikigai","mindfacts","brainfacts","longevity","mentalhealth","wellbeing","mindpower","psychology101"],
+        "tiktok_caption": "Having purpose makes you live longer — science confirms it #psychology #purpose #ikigai",
+        "hook": "People with a strong sense of purpose live longer — and here's the science."
+    },
+    {
+        "script": "The psychological immune system is one of the most fascinating features of the human mind. Research by Daniel Gilbert at Harvard shows that humans are remarkably poor predictors of how long negative events will affect them. People consistently overestimate how bad losing a job, a relationship, or even a limb will feel one year later. The psychological immune system — a combination of rationalization, perspective-shifting, and meaning-making — automatically activates to help you adapt. You are more resilient than you think. The worst-case scenarios you fear will hurt less and heal faster than your predictions.",
+        "title": "You Are More Resilient Than You Think The Psychological Immune System",
+        "description": "Harvard's Daniel Gilbert found people consistently overestimate how long and how badly negative events will affect them. The psychological immune system automatically activates resilience through rationalization and meaning-making.",
+        "hashtags": ["psychology","resilience","mindfacts","danielgilbert","brainfacts","mentalhealth","adaptation","wellbeing","mindpower","psychology101"],
+        "tiktok_caption": "You're far more resilient than you think — the psychological immune system #psychology #resilience #mindfacts",
+        "hook": "You are far more resilient than you believe — and Harvard science proves it."
+    },
+    {
+        "script": "The self-serving bias is one of the most pervasive in human psychology. When good things happen, we attribute them to our own skill and effort. When bad things happen, we blame external circumstances. You got the job because you're talented. You didn't get it because the interviewer was biased. This bias protects self-esteem — which is useful. But it also blocks learning from failure and damages relationships, because others around you don't see things the same way. After a failure, ask: what role did I play? After a success, ask: what helped me that I didn't control? Humility and growth live in the gap.",
+        "title": "The Self Serving Bias Why You Take Credit but Avoid Blame",
+        "description": "The self-serving bias causes people to attribute successes to themselves and failures to external factors. While it protects self-esteem, it blocks learning and damages relationships.",
+        "hashtags": ["psychology","selfservingbias","mindfacts","cognitivebias","brainfacts","selfawareness","accountability","mindpower","criticalthinking","psychology101"],
+        "tiktok_caption": "You take credit for wins and blame others for losses — everyone does this #psychology #selfservingbias #mindfacts",
+        "hook": "You take credit for your successes and blame circumstances for failures — without realizing it."
+    },
+    {
+        "script": "Humans are the only animals that can feel embarrassed — and it's because of a brain region called the medial prefrontal cortex, which is responsible for self-awareness and imagining how others see you. This same region is overactive in people with social anxiety. But here's the fascinating part: people with damage to this brain area literally cannot feel embarrassed, and they also lose the ability to empathize. Embarrassment and empathy share the same neural machinery. Being able to feel embarrassed means your brain is working as designed for social connection.",
+        "title": "Why Humans Are the Only Animals That Feel Embarrassed",
+        "description": "Embarrassment requires a brain region that enables self-awareness and social imagination. The same neural circuitry underlies empathy. Understanding the neuroscience of embarrassment reveals how deeply social our brains are.",
+        "hashtags": ["psychology","embarrassment","mindfacts","brainfacts","socialpsychology","neuroscience","brainscience","empathy","psychology101","mindpower"],
+        "tiktok_caption": "Humans are the only animals that feel embarrassed — here's why #psychology #mindfacts #brainfacts",
+        "hook": "Humans are the only animals capable of feeling embarrassed — here's the neuroscience."
+    },
+    {
+        "script": "Your brain's reticular activating system — or RAS — is the filter system that determines what your consciousness pays attention to out of the 11 million bits of sensory data hitting you per second. It prioritizes what you've deemed important. If you focus on problems, it filters for problems. If you focus on opportunities, it finds opportunities. You can deliberately program your RAS through intention-setting and journaling. Write down three things you want to notice today — opportunities, kindness, beauty. Your brain will start finding them everywhere. This is not mysticism — it's how filtering works.",
+        "title": "Your Brain Has a Filter System That Determines What Reality You Experience",
+        "description": "The reticular activating system filters 11 million bits of sensory data per second based on what you focus on. Deliberately programming it through intention-setting shapes which aspects of reality your consciousness accesses.",
+        "hashtags": ["psychology","RAS","reticularsystem","mindfacts","brainfacts","neuroscience","attention","mindpower","brainscience","awareness"],
+        "tiktok_caption": "Your brain's filter determines what reality you experience #psychology #RAS #mindfacts",
+        "hook": "Your brain filters reality based on what you focus on — and you can deliberately reprogram it."
+    },
+    {
+        "script": "Adrenaline and cortisol — your stress hormones — were designed for short-term crises. The fight-or-flight response evolved to handle a predator charging at you: 2 minutes of intense physical response, then resolution. In modern life, we activate the same response for emails, traffic, and social media comments — and it never fully resolves. Chronic low-level stress keeps cortisol elevated 24 hours a day. Over time this damages the immune system, cardiovascular system, digestive system, and brain. Your body doesn't know the difference between a predator and a difficult boss. But the physiological damage is identical.",
+        "title": "Your Stress System Was Designed for 2 Minutes Not All Day",
+        "description": "The fight-or-flight stress response evolved for short acute threats. Modern chronic stress keeps cortisol elevated permanently, damaging the immune system, heart, gut, and brain over time.",
+        "hashtags": ["psychology","stress","cortisol","mindfacts","brainfacts","fightorflight","mentalhealth","neuroscience","stressmanagement","mindpower"],
+        "tiktok_caption": "Your stress system was built for 2 minutes — not a 40-hour work week #psychology #stress #cortisol",
+        "hook": "Your stress response was designed for 2 minutes — modern life runs it all day."
     },
 ]
 
@@ -498,20 +534,16 @@ def main():
     used = load_used()
     all_indices = list(range(len(SCRIPTS)))
 
-    # Find unused scripts
     unused = [i for i in all_indices if i not in used]
 
-    # If all used, reset and start over
     if not unused:
-        print("All 30 scripts used — resetting cycle.")
+        print(f"All {len(SCRIPTS)} scripts used — resetting cycle.")
         used = []
         unused = all_indices
 
-    # Pick a random unused script
     index = random.choice(unused)
     script_data = SCRIPTS[index]
 
-    # Mark as used
     used.append(index)
     save_used(used)
 
