@@ -38,7 +38,7 @@ jobs:
 
       # ── 6. Assemble video with FFmpeg ────────────────────────────────────────
       - name: Assemble video
-        run: bash scripts/assemble.sh
+        run: python3 scripts/assemble_video.py
 
       # ── 7. Upload to YouTube ─────────────────────────────────────────────────
       - name: Upload to YouTube
