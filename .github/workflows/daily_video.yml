@@ -50,12 +50,14 @@ jobs:
 
       # ── 8. Upload to TikTok ──────────────────────────────────────────────────
       - name: Upload to TikTok
+        continue-on-error: true
         env:
           TIKTOK_ACCESS_TOKEN: ${{ secrets.TIKTOK_ACCESS_TOKEN }}
         run: python3 scripts/upload_tiktok.py
 
       # ── 9. Upload to Facebook ────────────────────────────────────────────────
       - name: Upload to Facebook
+        continue-on-error: true
         env:
           FACEBOOK_PAGE_TOKEN: ${{ secrets.FACEBOOK_PAGE_TOKEN }}
           FACEBOOK_PAGE_ID:    ${{ secrets.FACEBOOK_PAGE_ID }}
