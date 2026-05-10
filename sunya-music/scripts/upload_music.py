@@ -126,9 +126,9 @@ def parse_lyrics_md(lyrics_file):
 def make_video(audio_path, day_folder):
     os.makedirs(TEMP_DIR, exist_ok=True)
 
-    bg_image = os.path.join(BG_DIR, f"{day_folder}.jpg")
+    bg_image = next((os.path.join(BG_DIR, f"{day_folder}.{ext}") for ext in ["jpg", "png"] if os.path.exists(os.path.join(BG_DIR, f"{day_folder}.{ext}"))), None)
 
-    if os.path.exists(bg_image):
+    if bg_image:
         print(f"Using background: {bg_image}")
         cmd = [
             FFMPEG, "-y",
