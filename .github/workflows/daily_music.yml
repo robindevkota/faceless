@@ -2,7 +2,7 @@ name: Daily Music Upload
 
 on:
   schedule:
-    - cron: '0 9 * * *'   # every day at 9am UTC = 2:45pm Nepal time
+    - cron: '15 22 * * *'   # every day at 10:15pm UTC = 4:00am Nepal time
   workflow_dispatch:
 
 jobs:

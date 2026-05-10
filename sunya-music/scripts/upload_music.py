@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """
-upload_music.py — picks a random unused song from ./audio/ and uploads to SUNYAMusic YouTube channel
-Reads:  ./audio/*.mp3        (your Suno songs)
-        ./audio/songs.json   (optional metadata: title, description per song)
-Writes: ./temp/used_songs.json  (tracks which songs have been posted)
+upload_music.py — picks today's day folder, uploads one unused song to SUNYAMusic.
+Structure:
+  sunya-music/audio/monday/   ← mp3s for Monday (Shiva)
+  sunya-music/audio/tuesday/  ← mp3s for Tuesday (Hanuman)
+  ... etc.
+Metadata (title, description, tags) is read from sunya-music/lyrics/dayN_<day>_<god>.md
 """
 
 import os
 import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 import json
 import random
 import subprocess
@@ -15,6 +20,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import platform
+from datetime import datetime
 
 # load .env from parent folder
 _env_path = os.path.join(os.path.dirname(__file__), "..", "..", ".env")
@@ -30,18 +36,28 @@ CLIENT_ID     = os.environ.get("YOUTUBE_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("YOUTUBE_CLIENT_SECRET", "")
 REFRESH_TOKEN = os.environ.get("YOUTUBE_MUSIC_REFRESH_TOKEN", "")
 
-AUDIO_DIR      = os.path.join(os.path.dirname(__file__), "..", "audio")
-TEMP_DIR       = os.path.join(os.path.dirname(__file__), "..", "temp")
-USED_FILE      = os.path.join(TEMP_DIR, "used_songs.json")
-SONGS_META     = os.path.join(AUDIO_DIR, "songs.json")
-OUTPUT_VIDEO   = os.path.join(TEMP_DIR, "music_output.mp4")
+BASE_DIR    = os.path.join(os.path.dirname(__file__), "..")
+AUDIO_DIR   = os.path.join(BASE_DIR, "audio")
+LYRICS_DIR  = os.path.join(BASE_DIR, "lyrics")
+TEMP_DIR    = os.path.join(BASE_DIR, "temp")
+USED_FILE   = os.path.join(TEMP_DIR, "used_songs.json")
+OUTPUT_VIDEO = os.path.join(TEMP_DIR, "music_output.mp4")
+BG_IMAGE    = os.path.join(BASE_DIR, "bg.jpg")
 
-# background image for video (place a bg.jpg in sunya-music/ or we use black)
-BG_IMAGE = os.path.join(os.path.dirname(__file__), "..", "bg.jpg")
+# day index → (folder name, lyrics file prefix)
+DAY_MAP = {
+    0: "monday",
+    1: "tuesday",
+    2: "wednesday",
+    3: "thursday",
+    4: "friday",
+    5: "saturday",
+    6: "sunday",
+}
 
 if platform.system() == "Windows":
     _ff = r"C:\Users\user\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1-full_build\bin"
-    FFMPEG  = os.path.join(_ff, "ffmpeg.exe")
+    FFMPEG = os.path.join(_ff, "ffmpeg.exe")
 else:
     FFMPEG = "ffmpeg"
 
@@ -69,36 +85,48 @@ def get_access_token():
 def load_used():
     os.makedirs(TEMP_DIR, exist_ok=True)
     if os.path.exists(USED_FILE):
-        with open(USED_FILE) as f:
-            return json.load(f)
-    return []
-
-
-def save_used(used):
-    with open(USED_FILE, "w") as f:
-        json.dump(used, f)
-
-
-def get_songs():
-    songs = [
-        f for f in os.listdir(AUDIO_DIR)
-        if f.endswith(".mp3")
-    ]
-    return songs
-
-
-def load_metadata():
-    if os.path.exists(SONGS_META):
-        with open(SONGS_META, encoding="utf-8") as f:
+        with open(USED_FILE, encoding="utf-8") as f:
             return json.load(f)
     return {}
 
 
-def make_video(audio_path: str, title: str) -> str:
+def save_used(used):
+    with open(USED_FILE, "w", encoding="utf-8") as f:
+        json.dump(used, f, ensure_ascii=False, indent=2)
+
+
+def parse_lyrics_md(lyrics_file):
+    """Extract YOUTUBE TITLE, DESCRIPTION, and TAGS from a lyrics .md file."""
+    title, description, tags = "", "", []
+
+    if not os.path.exists(lyrics_file):
+        return title, description, tags
+
+    with open(lyrics_file, encoding="utf-8") as f:
+        content = f.read()
+
+    # extract title
+    if "## YOUTUBE TITLE:" in content:
+        after = content.split("## YOUTUBE TITLE:")[1]
+        title = after.split("##")[0].strip()
+
+    # extract description (everything between YOUTUBE DESCRIPTION: and YOUTUBE TAGS:)
+    if "## YOUTUBE DESCRIPTION:" in content and "## YOUTUBE TAGS:" in content:
+        after = content.split("## YOUTUBE DESCRIPTION:")[1]
+        description = after.split("## YOUTUBE TAGS:")[0].strip()
+
+    # extract tags (comma-separated last section)
+    if "## YOUTUBE TAGS:" in content:
+        after = content.split("## YOUTUBE TAGS:")[1].strip()
+        tags = [t.strip() for t in after.split(",") if t.strip()]
+
+    return title, description, tags
+
+
+def make_video(audio_path):
     os.makedirs(TEMP_DIR, exist_ok=True)
 
     if os.path.exists(BG_IMAGE):
-        # use background image
         cmd = [
             FFMPEG, "-y",
             "-loop", "1", "-i", BG_IMAGE,
@@ -111,7 +139,6 @@ def make_video(audio_path: str, title: str) -> str:
             OUTPUT_VIDEO
         ]
     else:
-        # black background
         cmd = [
             FFMPEG, "-y",
             "-f", "lavfi", "-i", "color=c=black:size=1080x1920:rate=1",
@@ -128,13 +155,13 @@ def make_video(audio_path: str, title: str) -> str:
     return OUTPUT_VIDEO
 
 
-def upload_to_youtube(access_token: str, video_path: str, title: str, description: str, tags: list):
+def upload_to_youtube(access_token, video_path, title, description, tags):
     metadata = {
         "snippet": {
             "title": title[:100],
             "description": description,
             "tags": tags,
-            "categoryId": "10",  # Music category
+            "categoryId": "10",  # Music
         },
         "status": {
             "privacyStatus": "public",
@@ -152,7 +179,7 @@ def upload_to_youtube(access_token: str, video_path: str, title: str, descriptio
     with urllib.request.urlopen(init_req) as r:
         upload_uri = r.getheader("Location")
 
-    print(f"Upload URI obtained. Uploading {os.path.getsize(video_path) // (1024*1024)} MB...")
+    print(f"Uploading {os.path.getsize(video_path) // (1024*1024)} MB...")
 
     with open(video_path, "rb") as f:
         video_data = f.read()
@@ -164,48 +191,63 @@ def upload_to_youtube(access_token: str, video_path: str, title: str, descriptio
         result = json.loads(r.read())
 
     video_id = result.get("id", "")
-    print(f"YouTube upload complete! Video ID: {video_id}")
-    print(f"URL: https://www.youtube.com/watch?v={video_id}")
+    print(f"Upload complete! https://www.youtube.com/watch?v={video_id}")
     return video_id
 
 
 def main():
     if not all([CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN]):
-        print("ERROR: YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_MUSIC_REFRESH_TOKEN must be set in .env")
+        print("ERROR: YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_MUSIC_REFRESH_TOKEN must be set")
         sys.exit(1)
 
-    songs = get_songs()
+    # get today's day (0=Monday, 6=Sunday)
+    weekday = datetime.utcnow().weekday()
+    day_folder = DAY_MAP[weekday]
+
+    audio_day_dir = os.path.join(AUDIO_DIR, day_folder)
+    if not os.path.isdir(audio_day_dir):
+        print(f"ERROR: No folder found at {audio_day_dir} — create it and add mp3 files.")
+        sys.exit(1)
+
+    songs = [f for f in os.listdir(audio_day_dir) if f.endswith(".mp3")]
     if not songs:
-        print(f"ERROR: No .mp3 files found in {AUDIO_DIR}")
+        print(f"ERROR: No .mp3 files in {audio_day_dir}")
         sys.exit(1)
 
+    # track used songs per day folder
     used = load_used()
-    unused = [s for s in songs if s not in used]
+    used_for_day = used.get(day_folder, [])
+    unused = [s for s in songs if s not in used_for_day]
 
     if not unused:
-        print("All songs used — resetting cycle.")
-        used = []
+        print(f"All {day_folder} songs used — resetting cycle.")
+        used_for_day = []
         unused = songs
 
     song_file = random.choice(unused)
-    used.append(song_file)
+    used_for_day.append(song_file)
+    used[day_folder] = used_for_day
     save_used(used)
 
-    audio_path = os.path.join(AUDIO_DIR, song_file)
-    print(f"Selected: {song_file} ({len(used)}/{len(songs)})")
+    audio_path = os.path.join(audio_day_dir, song_file)
+    print(f"Day: {day_folder} | Song: {song_file} ({len(used_for_day)}/{len(songs)})")
 
-    # get metadata from songs.json or use filename
-    metadata = load_metadata()
-    song_name = os.path.splitext(song_file)[0]
-    song_info = metadata.get(song_file, metadata.get(song_name, {}))
+    # pick a random lyrics file from the day's lyrics subfolder
+    lyrics_day_dir = os.path.join(LYRICS_DIR, day_folder)
+    lyrics_files = [f for f in os.listdir(lyrics_day_dir) if f.endswith(".md")] if os.path.isdir(lyrics_day_dir) else []
+    lyrics_file = os.path.join(lyrics_day_dir, random.choice(lyrics_files)) if lyrics_files else None
+    title, description, tags = parse_lyrics_md(lyrics_file) if lyrics_file else ("", "", [])
 
-    title       = song_info.get("title", song_name)
-    description = song_info.get("description", f"{title} — AI generated music by SUNYAMusic")
-    tags        = song_info.get("tags", ["music", "aimusic", "suno", "relaxing", "SUNYAMusic"])
+    if not title:
+        title = os.path.splitext(song_file)[0]
+    if not description:
+        description = f"{title} — SUNYAMusic"
+    if not tags:
+        tags = ["bhajan", "hindi bhajan", "devotional", "SUNYAMusic"]
 
     print(f"Title: {title}")
 
-    video_path = make_video(audio_path, title)
+    video_path = make_video(audio_path)
     access_token = get_access_token()
     upload_to_youtube(access_token, video_path, title, description, tags)
 
