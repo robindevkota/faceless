@@ -42,7 +42,7 @@ LYRICS_DIR  = os.path.join(BASE_DIR, "lyrics")
 TEMP_DIR    = os.path.join(BASE_DIR, "temp")
 USED_FILE   = os.path.join(TEMP_DIR, "used_songs.json")
 OUTPUT_VIDEO = os.path.join(TEMP_DIR, "music_output.mp4")
-BG_IMAGE    = os.path.join(BASE_DIR, "bg.jpg")
+BG_DIR      = os.path.join(BASE_DIR, "backgrounds")
 
 # day index → (folder name, lyrics file prefix)
 DAY_MAP = {
@@ -123,13 +123,16 @@ def parse_lyrics_md(lyrics_file):
     return title, description, tags
 
 
-def make_video(audio_path):
+def make_video(audio_path, day_folder):
     os.makedirs(TEMP_DIR, exist_ok=True)
 
-    if os.path.exists(BG_IMAGE):
+    bg_image = os.path.join(BG_DIR, f"{day_folder}.jpg")
+
+    if os.path.exists(bg_image):
+        print(f"Using background: {bg_image}")
         cmd = [
             FFMPEG, "-y",
-            "-loop", "1", "-i", BG_IMAGE,
+            "-loop", "1", "-i", bg_image,
             "-i", audio_path,
             "-c:v", "libx264", "-preset", "fast", "-crf", "28",
             "-c:a", "aac", "-b:a", "192k",
@@ -139,6 +142,7 @@ def make_video(audio_path):
             OUTPUT_VIDEO
         ]
     else:
+        print("No background image found — using black background.")
         cmd = [
             FFMPEG, "-y",
             "-f", "lavfi", "-i", "color=c=black:size=1080x1920:rate=1",
@@ -247,7 +251,7 @@ def main():
 
     print(f"Title: {title}")
 
-    video_path = make_video(audio_path)
+    video_path = make_video(audio_path, day_folder)
     access_token = get_access_token()
     upload_to_youtube(access_token, video_path, title, description, tags)
 
