@@ -1,0 +1,27 @@
+name: Daily Music Upload
+
+on:
+  schedule:
+    - cron: '0 9 * * *'   # every day at 9am UTC = 2:45pm Nepal time
+  workflow_dispatch:
+
+jobs:
+  upload-music:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pip
+
+      - name: Upload music to SUNYAMusic
+        env:
+          YOUTUBE_CLIENT_ID:            ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET:        ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_MUSIC_REFRESH_TOKEN:  ${{ secrets.YOUTUBE_MUSIC_REFRESH_TOKEN }}
+        run: python3 sunya-music/scripts/upload_music.py
