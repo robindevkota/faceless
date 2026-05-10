@@ -141,14 +141,14 @@ def make_video(audio_path, day_folder):
             "-c:a", "aac", "-b:a", "192k",
             "-shortest",
             "-movflags", "+faststart",
-            "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+            "-vf", "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080",
             OUTPUT_VIDEO
         ]
     else:
         print("No background image found — using black background.")
         cmd = [
             FFMPEG, "-y",
-            "-f", "lavfi", "-i", "color=c=black:size=1080x1920:rate=1",
+            "-f", "lavfi", "-i", "color=c=black:size=1920x1080:rate=1",
             "-i", audio_path,
             "-c:v", "libx264", "-preset", "fast", "-crf", "28",
             "-c:a", "aac", "-b:a", "192k",
