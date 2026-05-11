@@ -44,7 +44,7 @@ USED_FILE      = os.path.join(TEMP_DIR, "used_types.json")
 OUTPUT_VIDEO   = os.path.join(TEMP_DIR, "meditation_output.mp4")
 CONCAT_LIST    = os.path.join(TEMP_DIR, "concat.txt")
 
-TYPES = ["peace", "sleep", "focus", "healing"]
+TYPES = ["peace", "sleep", "focus", "healing", "rain"]
 
 TOKEN_URL  = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status"
@@ -99,6 +99,21 @@ Boost your concentration and productivity with this calming background music. De
 
 #focusmusic #studymusic #concentration #productivity #workmusic #deepwork #flowstate #sunyamusic""",
 
+    "rain": """Rain & Thunder Sounds for Deep Sleep 🌧️
+
+Let the soothing sound of rainfall and distant thunder lull you into a deep, peaceful sleep.
+Perfect for sleep, relaxation, studying, or simply unwinding.
+
+✨ Benefits:
+• Blocks out background noise
+• Helps you fall asleep faster
+• Deep relaxation and stress relief
+• Perfect white noise for sleep and focus
+
+🎵 SUNYAMusic — Sounds for the Soul
+
+#rainsounds #thundersounds #sleepmusic #rainfordeepsleep #whitenoise #relaxingsounds #stormsounds #sunyamusic""",
+
     "healing": """Healing Meditation Music | Positive Energy & Stress Relief 💚
 
 Allow this healing music to restore balance and harmony to your mind, body and spirit.
@@ -119,6 +134,7 @@ TAGS = {
     "sleep":   ["sleep music", "deep sleep", "relaxing music", "calm music", "sleep meditation", "peaceful night", "insomnia relief", "SUNYAMusic"],
     "focus":   ["focus music", "study music", "concentration music", "productivity music", "work music", "deep work", "flow state", "SUNYAMusic"],
     "healing": ["healing music", "432hz", "meditation music", "positive energy", "stress relief", "healing frequency", "SUNYAMusic"],
+    "rain":    ["rain sounds", "thunder sounds", "sleep music", "rain for sleep", "white noise", "relaxing rain", "storm sounds", "SUNYAMusic"],
 }
 
 

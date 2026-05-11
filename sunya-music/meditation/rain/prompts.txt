@@ -1,0 +1,14 @@
+== RAIN & THUNDER - SUNO PROMPTS ==
+Generate 4 tracks. Leave lyrics blank or write [Instrumental] for each.
+
+--- Track 1 ---
+ambient, heavy rain sounds, distant thunder rumbling, no vocals, dark and peaceful, deep sleep music, nature sounds, relaxing rainfall, cozy night, sleep therapy
+
+--- Track 2 ---
+ambient, gentle rain on window, soft thunder in distance, no lyrics, minimal, soothing, sleep sounds, dark ambient, peaceful storm, relaxing night
+
+--- Track 3 ---
+ambient, rain and thunder, soft piano underneath, no vocals, deep sleep, stormy night, cozy and calm, nature sounds, relaxing, meditation
+
+--- Track 4 ---
+ambient, heavy rainfall, light thunder, forest rain sounds, no lyrics, ultra relaxing, sleep music, dark peaceful, nature therapy, deep rest
