@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 upload_facebook.py — uploads bhajan video to Music Daily Facebook page
-Uses simple (non-resumable) upload for files under 1GB.
+Uses the Resumable Upload API to get a file handle, then publishes via /<PAGE_ID>/videos.
 """
 
 import os
@@ -10,7 +10,6 @@ import json
 import urllib.request
 import urllib.parse
 import urllib.error
-import io
 
 # load .env from parent folder
 _env_path = os.path.join(os.path.dirname(__file__), "..", "..", ".env")
@@ -24,101 +23,88 @@ if os.path.exists(_env_path):
 
 PAGE_TOKEN = os.environ.get("FACEBOOK_MUSIC_PAGE_TOKEN", "")
 PAGE_ID    = os.environ.get("FACEBOOK_MUSIC_PAGE_ID", "")
-GRAPH_BASE = "https://graph.facebook.com/v19.0"
+APP_ID     = os.environ.get("FACEBOOK_APP_ID", "")
+
+GRAPH_BASE       = "https://graph.facebook.com/v19.0"
+GRAPH_VIDEO_BASE = "https://graph-video.facebook.com/v19.0"
 
 TEMP_DIR   = os.path.join(os.path.dirname(__file__), "..", "temp")
 VIDEO_FILE = os.path.join(TEMP_DIR, "music_output.mp4")
 META_FILE  = os.path.join(TEMP_DIR, "music_meta.json")
 
 
-def encode_multipart(fields, files):
-    """Build multipart/form-data body."""
-    boundary = b"----FacebookUploadBoundary7a8b9c"
-    body = io.BytesIO()
-    for name, value in fields.items():
-        body.write(b"--" + boundary + b"\r\n")
-        body.write(f'Content-Disposition: form-data; name="{name}"\r\n\r\n'.encode())
-        body.write(value.encode() + b"\r\n")
-    for name, (filename, data) in files.items():
-        body.write(b"--" + boundary + b"\r\n")
-        body.write(f'Content-Disposition: form-data; name="{name}"; filename="{filename}"\r\n'.encode())
-        body.write(b"Content-Type: video/mp4\r\n\r\n")
-        body.write(data + b"\r\n")
-    body.write(b"--" + boundary + b"--\r\n")
-    content_type = f"multipart/form-data; boundary={boundary.decode()}"
-    return body.getvalue(), content_type
-
-
-def upload_video_resumable(title, description):
-    video_size = os.path.getsize(VIDEO_FILE)
-    print(f"Uploading to Facebook ({video_size // (1024*1024)} MB) via resumable upload...")
-
-    # Phase 1: start
-    params = urllib.parse.urlencode({
+def start_upload_session(file_size):
+    """Step 1: Start upload session, get upload session ID."""
+    url = f"{GRAPH_BASE}/{APP_ID}/uploads?" + urllib.parse.urlencode({
+        "file_name":   "music_output.mp4",
+        "file_length": file_size,
+        "file_type":   "video/mp4",
         "access_token": PAGE_TOKEN,
-        "upload_phase":  "start",
-        "file_size":     video_size
     })
-    url = f"{GRAPH_BASE}/{PAGE_ID}/videos?{params}"
     req = urllib.request.Request(url, method="POST")
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             result = json.loads(r.read())
     except urllib.error.HTTPError as e:
-        body = e.read().decode()
-        print(f"Facebook start error {e.code}: {body}")
-        raise
+        raise RuntimeError(f"Upload session start error {e.code}: {e.read().decode()}")
 
-    session_id = result.get("upload_session_id")
+    session_id = result.get("id")
     if not session_id:
-        raise RuntimeError(f"No upload_session_id: {result}")
+        raise RuntimeError(f"No upload session ID returned: {result}")
     print(f"Upload session: {session_id}")
+    return session_id
 
-    # Phase 2: transfer (multipart)
-    with open(VIDEO_FILE, "rb") as f:
+
+def upload_file(session_id, file_path):
+    """Step 2: Upload file bytes, get file handle."""
+    url = f"{GRAPH_BASE}/{session_id}"
+    with open(file_path, "rb") as f:
         video_data = f.read()
 
-    body_bytes, content_type = encode_multipart(
-        {
-            "access_token":      PAGE_TOKEN,
-            "upload_phase":      "transfer",
-            "upload_session_id": session_id,
-            "start_offset":      "0",
-        },
-        {"video_file_chunk": ("chunk.mp4", video_data)}
-    )
-    url = f"{GRAPH_BASE}/{PAGE_ID}/videos"
-    req = urllib.request.Request(url, data=body_bytes, method="POST")
-    req.add_header("Content-Type", content_type)
+    req = urllib.request.Request(url, data=video_data, method="POST")
+    req.add_header("Authorization", f"OAuth {PAGE_TOKEN}")
+    req.add_header("file_offset", "0")
+    req.add_header("Content-Type", "video/mp4")
     try:
         with urllib.request.urlopen(req, timeout=300) as r:
-            chunk_result = json.loads(r.read())
-            print(f"Chunk uploaded: {chunk_result}")
+            result = json.loads(r.read())
     except urllib.error.HTTPError as e:
-        body = e.read().decode()
-        print(f"Facebook chunk error {e.code}: {body}")
-        raise
+        raise RuntimeError(f"Upload error {e.code}: {e.read().decode()}")
 
-    # Phase 3: finish
-    params = urllib.parse.urlencode({
-        "access_token":      PAGE_TOKEN,
-        "upload_phase":      "finish",
-        "upload_session_id": session_id,
-        "title":             title[:255],
-        "description":       description[:2200],
-        "published":         "true"
-    })
-    url = f"{GRAPH_BASE}/{PAGE_ID}/videos?{params}"
-    req = urllib.request.Request(url, method="POST")
+    handle = result.get("h")
+    if not handle:
+        raise RuntimeError(f"No file handle returned: {result}")
+    print(f"File handle obtained: {handle[:30]}...")
+    return handle
+
+
+def publish_video(file_handle, title, description):
+    """Step 3: Publish the video using the file handle."""
+    url = f"{GRAPH_VIDEO_BASE}/{PAGE_ID}/videos"
+
+    boundary = "----FacebookPublishBoundary"
+    body = ""
+    for name, value in [
+        ("access_token", PAGE_TOKEN),
+        ("title", title[:255]),
+        ("description", description[:2200]),
+        ("fbuploader_video_file_chunk", file_handle),
+        ("published", "true"),
+    ]:
+        body += f"--{boundary}\r\n"
+        body += f'Content-Disposition: form-data; name="{name}"\r\n\r\n'
+        body += f"{value}\r\n"
+    body += f"--{boundary}--\r\n"
+
+    req = urllib.request.Request(url, data=body.encode(), method="POST")
+    req.add_header("Content-Type", f"multipart/form-data; boundary={boundary}")
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
             result = json.loads(r.read())
     except urllib.error.HTTPError as e:
-        body = e.read().decode()
-        print(f"Facebook finish error {e.code}: {body}")
-        raise
+        raise RuntimeError(f"Publish error {e.code}: {e.read().decode()}")
 
-    video_id = result.get("video_id") or result.get("id", "unknown")
+    video_id = result.get("id", "unknown")
     print(f"Facebook upload complete! Video ID: {video_id}")
     return video_id
 
@@ -129,6 +115,9 @@ def main():
         sys.exit(1)
     if not PAGE_ID:
         print("ERROR: FACEBOOK_MUSIC_PAGE_ID is not set")
+        sys.exit(1)
+    if not APP_ID:
+        print("ERROR: FACEBOOK_APP_ID is not set")
         sys.exit(1)
     if not os.path.exists(VIDEO_FILE):
         print(f"ERROR: {VIDEO_FILE} not found — YouTube step must run first")
@@ -142,7 +131,12 @@ def main():
         description = meta.get("description", description)
 
     print(f"Title: {title}")
-    upload_video_resumable(title, description)
+    file_size = os.path.getsize(VIDEO_FILE)
+    print(f"Video size: {file_size // (1024*1024)} MB")
+
+    session_id  = start_upload_session(file_size)
+    file_handle = upload_file(session_id, VIDEO_FILE)
+    publish_video(file_handle, title, description)
 
 
 if __name__ == "__main__":
