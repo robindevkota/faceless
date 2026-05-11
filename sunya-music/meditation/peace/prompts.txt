@@ -1,0 +1,14 @@
+== PEACE MUSIC - SUNO PROMPTS ==
+Generate 4 tracks. Leave lyrics blank or write [Instrumental] for each.
+
+--- Track 1 ---
+ambient, peaceful meditation, soft sitar, gentle flute, inner peace, no vocals, calm, serene, indian classical, relaxing, stress relief
+
+--- Track 2 ---
+ambient, peace music, soft piano, nature sounds, birds chirping background, no lyrics, tranquil, gentle, mindfulness music, relaxing
+
+--- Track 3 ---
+ambient, peaceful, tibetan singing bowls, soft drone, meditation music, no vocals, calming, serene, spiritual, healing vibrations
+
+--- Track 4 ---
+ambient, inner peace, soft acoustic guitar, gentle wind sounds, no lyrics, calm, flowing, stress relief music, nature, tranquil

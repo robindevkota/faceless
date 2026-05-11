@@ -1,0 +1,14 @@
+== SLEEP MUSIC - SUNO PROMPTS ==
+Generate 4 tracks. Leave lyrics blank or write [Instrumental] for each.
+
+--- Track 1 ---
+ambient, deep sleep music, soft piano, delta waves, no vocals, very slow, dreamy, peaceful night, insomnia relief, calming, quiet
+
+--- Track 2 ---
+ambient, sleep meditation, gentle rain sounds, soft synthesizer, no lyrics, slow, dark and peaceful, deep rest, relaxing, night music
+
+--- Track 3 ---
+ambient, sleep music, soft strings, crickets background, no vocals, very slow tempo, dreamy, lullaby feel, calm, peaceful night
+
+--- Track 4 ---
+ambient, deep sleep, ocean waves, soft pad sounds, no lyrics, ultra slow, dark ambient, sleep therapy, relaxing, night meditation
