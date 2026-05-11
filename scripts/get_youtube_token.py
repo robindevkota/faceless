@@ -9,6 +9,8 @@ import urllib.parse
 import json
 import os
 import webbrowser
+import http.server
+import threading
 
 # load .env file manually
 env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
@@ -22,33 +24,63 @@ if os.path.exists(env_path):
 
 CLIENT_ID     = os.environ.get("YOUTUBE_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("YOUTUBE_CLIENT_SECRET", "")
-REDIRECT_URI  = "urn:ietf:wg:oauth:2.0:oob"
+REDIRECT_URI  = "http://localhost:8080"
 SCOPE         = "https://www.googleapis.com/auth/youtube.upload"
+
+auth_code = None
+
+class CallbackHandler(http.server.BaseHTTPRequestHandler):
+    def do_GET(self):
+        global auth_code
+        parsed = urllib.parse.urlparse(self.path)
+        params = urllib.parse.parse_qs(parsed.query)
+        if "code" in params:
+            auth_code = params["code"][0]
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"<h2>Authorization successful! You can close this tab.</h2>")
+        else:
+            self.send_response(400)
+            self.end_headers()
+            self.wfile.write(b"<h2>Error: no code received.</h2>")
+    def log_message(self, format, *args):
+        pass  # suppress server logs
 
 def main():
     if not CLIENT_ID or not CLIENT_SECRET:
         print("ERROR: YOUTUBE_CLIENT_ID and YOUTUBE_CLIENT_SECRET must be set in .env")
         return
 
-    auth_url = (
-        "https://accounts.google.com/o/oauth2/auth"
-        f"?client_id={CLIENT_ID}"
-        f"&redirect_uri={REDIRECT_URI}"
-        f"&scope={SCOPE}"
-        "&response_type=code"
-        "&access_type=offline"
-        "&prompt=consent"
-    )
+    params = urllib.parse.urlencode({
+        "client_id":     CLIENT_ID,
+        "redirect_uri":  REDIRECT_URI,
+        "scope":         SCOPE,
+        "response_type": "code",
+        "access_type":   "offline",
+        "prompt":        "select_account",
+    })
+    auth_url = f"https://accounts.google.com/o/oauth2/auth?{params}"
+
+    # start local server to catch the redirect
+    server = http.server.HTTPServer(("localhost", 8080), CallbackHandler)
+    thread = threading.Thread(target=server.handle_request)
+    thread.daemon = True
+    thread.start()
 
     print("\nOpening browser for YouTube authorization...")
     print("If browser doesn't open, visit this URL manually:")
     print(f"\n{auth_url}\n")
     webbrowser.open(auth_url)
 
-    code = input("Paste the authorization code here: ").strip()
+    print("Waiting for authorization (complete in browser)...")
+    thread.join(timeout=120)
+
+    if not auth_code:
+        print("ERROR: No authorization code received. Try again.")
+        return
 
     body = urllib.parse.urlencode({
-        "code":          code,
+        "code":          auth_code,
         "client_id":     CLIENT_ID,
         "client_secret": CLIENT_SECRET,
         "redirect_uri":  REDIRECT_URI,
@@ -67,7 +99,7 @@ def main():
         print(f"Error: {data}")
         return
 
-    print("\n✅ SUCCESS! Add this to your .env file:")
+    print("\nSUCCESS! Add this to your .env file:")
     print(f"\nYOUTUBE_REFRESH_TOKEN={data['refresh_token']}\n")
 
 if __name__ == "__main__":
