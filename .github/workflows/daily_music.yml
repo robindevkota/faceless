@@ -27,7 +27,6 @@ jobs:
         run: python3 sunya-music/scripts/upload_music.py
 
       - name: Upload music to Facebook
-        continue-on-error: true
         env:
           FACEBOOK_MUSIC_PAGE_TOKEN: ${{ secrets.FACEBOOK_MUSIC_PAGE_TOKEN }}
           FACEBOOK_MUSIC_PAGE_ID:    ${{ secrets.FACEBOOK_MUSIC_PAGE_ID }}
