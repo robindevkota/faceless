@@ -258,6 +258,13 @@ def main():
     print(f"Title: {title}")
 
     video_path = make_video(audio_path, day_folder)
+
+    # save metadata for Facebook upload script
+    meta_file = os.path.join(TEMP_DIR, "music_meta.json")
+    os.makedirs(TEMP_DIR, exist_ok=True)
+    with open(meta_file, "w", encoding="utf-8") as f:
+        json.dump({"title": title, "description": description, "tags": tags}, f, ensure_ascii=False)
+
     access_token = get_access_token()
     upload_to_youtube(access_token, video_path, title, description, tags)
 

@@ -19,9 +19,16 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg python3-pip
 
-      - name: Upload music to SUNYAMusic
+      - name: Upload music to SUNYAMusic (YouTube)
         env:
           YOUTUBE_CLIENT_ID:            ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET:        ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_MUSIC_REFRESH_TOKEN:  ${{ secrets.YOUTUBE_MUSIC_REFRESH_TOKEN }}
         run: python3 sunya-music/scripts/upload_music.py
+
+      - name: Upload music to Facebook
+        continue-on-error: true
+        env:
+          FACEBOOK_MUSIC_PAGE_TOKEN: ${{ secrets.FACEBOOK_MUSIC_PAGE_TOKEN }}
+          FACEBOOK_MUSIC_PAGE_ID:    ${{ secrets.FACEBOOK_MUSIC_PAGE_ID }}
+        run: python3 sunya-music/scripts/upload_facebook.py
