@@ -207,9 +207,12 @@ def main():
         print("ERROR: YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_MUSIC_REFRESH_TOKEN must be set")
         sys.exit(1)
 
-    # get today's day (0=Monday, 6=Sunday)
-    weekday = datetime.utcnow().weekday()
+    # get today's day in Nepal time (UTC+5:45)
+    from datetime import timezone, timedelta
+    nepal_tz = timezone(timedelta(hours=5, minutes=45))
+    weekday = datetime.now(nepal_tz).weekday()
     day_folder = DAY_MAP[weekday]
+    print(f"Nepal time: {datetime.now(nepal_tz).strftime('%A %H:%M')} → using {day_folder}")
 
     audio_day_dir = os.path.join(AUDIO_DIR, day_folder)
     if not os.path.isdir(audio_day_dir):
