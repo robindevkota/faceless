@@ -44,7 +44,7 @@ USED_FILE      = os.path.join(TEMP_DIR, "used_types.json")
 OUTPUT_VIDEO   = os.path.join(TEMP_DIR, "meditation_output.mp4")
 CONCAT_LIST    = os.path.join(TEMP_DIR, "concat.txt")
 
-TYPES = ["peace", "sleep", "focus", "healing", "rain"]
+TYPES = ["peace", "sleep", "focus", "healing"]
 
 TOKEN_URL  = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status"
