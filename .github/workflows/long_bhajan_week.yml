@@ -2,13 +2,13 @@ name: Long Bhajan Week Upload
 
 on:
   schedule:
-    - cron: '16 22 13 5 *'   # May 13 (Tue) 10:16pm UTC = 4:01am Nepal
-    - cron: '16 22 14 5 *'   # May 14 (Wed)
-    - cron: '16 22 15 5 *'   # May 15 (Thu)
-    - cron: '16 22 16 5 *'   # May 16 (Fri)
-    - cron: '16 22 17 5 *'   # May 17 (Sat)
-    - cron: '16 22 18 5 *'   # May 18 (Sun)
-    - cron: '16 22 19 5 *'   # May 19 (Mon)
+    - cron: '15 20 14 5 *'   # May 14 (Wed) 8:15pm UTC = 2:00am Nepal
+    - cron: '15 20 15 5 *'   # May 15 (Thu)
+    - cron: '15 20 16 5 *'   # May 16 (Fri)
+    - cron: '15 20 17 5 *'   # May 17 (Sat)
+    - cron: '15 20 18 5 *'   # May 18 (Sun)
+    - cron: '15 20 19 5 *'   # May 19 (Mon)
+    - cron: '15 20 20 5 *'   # May 20 (Tue)
   workflow_dispatch:
 
 jobs:
