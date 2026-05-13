@@ -42,7 +42,7 @@ AUDIO_DIR   = os.path.join(SONGS_DIR, "audio")
 LYRICS_DIR  = os.path.join(SONGS_DIR, "lyrics")
 BG_DIR      = os.path.join(SONGS_DIR, "backgrounds")
 TEMP_DIR    = os.path.join(SONGS_DIR, "temp")
-USED_FILE   = os.path.join(TEMP_DIR, "used_songs.json")
+USED_FILE   = os.path.join(SONGS_DIR, "used_songs.json")
 OUTPUT_VIDEO = os.path.join(TEMP_DIR, "nepali_output.mp4")
 
 TOKEN_URL  = "https://oauth2.googleapis.com/token"
@@ -74,6 +74,7 @@ def get_access_token():
 
 def load_used():
     os.makedirs(TEMP_DIR, exist_ok=True)
+    os.makedirs(SONGS_DIR, exist_ok=True)
     if os.path.exists(USED_FILE):
         with open(USED_FILE, encoding="utf-8") as f:
             return json.load(f)
