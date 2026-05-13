@@ -171,6 +171,20 @@ def upload_to_youtube(access_token, video_path, title, description, tags):
     return video_id
 
 
+def commit_used_file():
+    try:
+        subprocess.run(["git", "config", "user.email", "actions@github.com"], check=True)
+        subprocess.run(["git", "config", "user.name", "GitHub Actions"], check=True)
+        subprocess.run(["git", "add", USED_FILE], check=True)
+        result = subprocess.run(["git", "diff", "--cached", "--quiet"])
+        if result.returncode != 0:
+            subprocess.run(["git", "commit", "-m", "chore: update nepali used_songs.json [skip ci]"], check=True)
+            subprocess.run(["git", "push"], check=True)
+            print("used_songs.json committed and pushed.")
+    except Exception as e:
+        print(f"Warning: could not commit used_songs.json: {e}")
+
+
 def main():
     if not all([CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN]):
         print("ERROR: YouTube credentials not set")
@@ -191,6 +205,7 @@ def main():
     song_file = random.choice(unused)
     used.append(song_file)
     save_used(used)
+    commit_used_file()
 
     song_name  = os.path.splitext(song_file)[0]
     audio_path = os.path.join(AUDIO_DIR, song_file)

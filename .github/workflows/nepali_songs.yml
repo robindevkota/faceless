@@ -3,6 +3,9 @@ name: Nepali Songs Upload
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   upload-nepali:
     runs-on: ubuntu-latest
