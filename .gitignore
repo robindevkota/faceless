@@ -14,3 +14,9 @@ Thumbs.db
 # Secrets (never commit these)
 *.key
 secrets.json
+
+# Playwright
+.playwright-mcp/
+
+# Screenshots
+sunya-music/scripts/screen.png
