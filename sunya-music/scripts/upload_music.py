@@ -219,15 +219,28 @@ def main():
         print(f"ERROR: No folder found at {audio_day_dir} — create it and add mp3 files.")
         sys.exit(1)
 
-    # always use the merged file for this day
-    god_name = {"monday": "shiva", "tuesday": "hanuman", "wednesday": "ganesha",
-                "thursday": "vishnu", "friday": "lakshmi", "saturday": "shani", "sunday": "surya"}[day_folder]
-    song_file = f"{god_name}_merged.mp3"
-    audio_path = os.path.join(audio_day_dir, song_file)
-    if not os.path.exists(audio_path):
-        print(f"ERROR: Merged file not found: {audio_path}")
+    songs = [f for f in os.listdir(audio_day_dir) if f.endswith(".mp3") and "merged" not in f]
+    if not songs:
+        print(f"ERROR: No .mp3 files in {audio_day_dir}")
         sys.exit(1)
-    print(f"Day: {day_folder} | Song: {song_file}")
+
+    # track used songs per day folder
+    used = load_used()
+    used_for_day = used.get(day_folder, [])
+    unused = [s for s in songs if s not in used_for_day]
+
+    if not unused:
+        print(f"All {day_folder} songs used — resetting cycle.")
+        used_for_day = []
+        unused = songs
+
+    song_file = random.choice(unused)
+    used_for_day.append(song_file)
+    used[day_folder] = used_for_day
+    save_used(used)
+
+    audio_path = os.path.join(audio_day_dir, song_file)
+    print(f"Day: {day_folder} | Song: {song_file} ({len(used_for_day)}/{len(songs)})")
 
     # pick a random lyrics file from the day's lyrics subfolder
     lyrics_day_dir = os.path.join(LYRICS_DIR, day_folder)
