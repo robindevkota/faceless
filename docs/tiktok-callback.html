@@ -17,6 +17,8 @@
 <script>
   const q = new URLSearchParams(location.search);
   const code = q.get('code'), err = q.get('error');
+  // a login started from Kahani Ghar Publisher goes back to it with the code
+  if ((q.get('state') || '').startsWith('app-')) location.replace('publisher.html' + location.search);
   if (code) {
     document.getElementById('h').textContent = 'TikTok connected';
     document.getElementById('msg').textContent = 'Copy this code and paste it after TIKTOK_AUTH_CODE= in the .env file (it works for a few minutes only):';

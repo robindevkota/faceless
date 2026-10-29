@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="no-referrer" />
+<title>Kahani Ghar Publisher</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+  main { max-width: 760px; }
+  .card { background: rgba(127,127,127,.08); border: 1px solid rgba(127,127,127,.2); border-radius: 14px; padding: 20px 22px; margin: 18px 0; }
+  .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; background: rgba(127,127,127,.2); }
+  button { font: 600 16px system-ui, sans-serif; padding: 11px 20px; border-radius: 10px; border: 0; cursor: pointer; background: var(--accent); color: #fff; }
+  button.secondary { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  label.f { display: block; font-weight: 600; margin: 16px 0 6px; }
+  select, textarea { width: 100%; box-sizing: border-box; font: 16px system-ui, sans-serif; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(127,127,127,.4); background: var(--bg); color: var(--ink); }
+  textarea { min-height: 110px; }
+  video { width: 220px; max-width: 100%; border-radius: 12px; background: #000; }
+  .checks label { margin-right: 18px; }
+  .small { font-size: .9rem; color: var(--mute); }
+  .ok { color: #15803d; } .err { color: #dc2626; }
+  #status { white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<main>
+  <div class="row"><img src="tiktok-app-icon.png" alt="" class="avatar" style="border-radius:12px" /><h1 style="margin:0">Kahani Ghar Publisher</h1></div>
+  <p class="small">Posts the Kahani Ghar channel's own videos to its TikTok account. Runs on the owner's computer:
+    this page talks only to the local helper on 127.0.0.1.</p>
+
+  <div class="card" id="helperCard"><b>Local helper:</b> <span id="helper">checking…</span></div>
+
+  <div class="card" id="accountCard" hidden>
+    <div class="row" id="account"></div>
+  </div>
+
+  <div class="card" id="postCard" hidden>
+    <h2 style="margin-top:0">Post a video</h2>
+    <p id="creator" class="small"></p>
+    <div class="row" style="align-items:flex-start">
+      <video id="preview" controls muted playsinline></video>
+      <div style="flex:1;min-width:240px">
+        <label class="f" for="video">Video</label>
+        <select id="video"></select>
+        <p id="vinfo" class="small"></p>
+      </div>
+    </div>
+
+    <label class="f" for="title">Caption</label>
+    <textarea id="title" maxlength="2200" placeholder="Write a caption with hashtags"></textarea>
+
+    <label class="f" for="privacy">Who can view this video</label>
+    <select id="privacy"><option value="" selected disabled>Select privacy</option></select>
+
+    <label class="f">Allow users to</label>
+    <div class="checks">
+      <label><input type="checkbox" id="c_comment" /> Comment</label>
+      <label><input type="checkbox" id="c_duet" /> Duet</label>
+      <label><input type="checkbox" id="c_stitch" /> Stitch</label>
+    </div>
+
+    <label class="f"><input type="checkbox" id="disclose" /> Disclose video content</label>
+    <div id="discloseBox" hidden style="margin-left:24px">
+      <p class="small">Turn on to disclose that this video promotes goods or services in exchange for something of value.</p>
+      <label><input type="checkbox" id="yourBrand" /> Your brand <span class="small">(labelled “Promotional content”)</span></label><br />
+      <label><input type="checkbox" id="branded" /> Branded content <span class="small">(labelled “Paid partnership”)</span></label>
+    </div>
+
+    <p class="small" id="consent"></p>
+    <div class="row">
+      <button id="postBtn" disabled>Post to TikTok</button>
+      <button id="draftBtn" class="secondary">Send to TikTok as draft</button>
+    </div>
+    <p id="status"></p>
+  </div>
+</main>
+<script>
+const H = 'http://127.0.0.1:8765';
+const $ = (id) => document.getElementById(id);
+const api = async (path, body) => {
+  const r = await fetch(H + path, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
+  const j = await r.json();
+  if (!r.ok || j.error) throw new Error(j.error || r.status);
+  return j;
+};
+const LABEL = { PUBLIC_TO_EVERYONE: 'Everyone', MUTUAL_FOLLOW_FRIENDS: 'Friends', FOLLOWER_OF_CREATOR: 'Followers', SELF_ONLY: 'Only me' };
+let creator = null, vids = [];
+
+async function boot() {
+  const q = new URLSearchParams(location.search);
+  try { await api('/status').then(() => {}); } catch (e) {
+    $('helper').innerHTML = '<span class="err">not running.</span> Start it with <code>python publish/publisher_server.py</code>, then reload.';
+    return;
+  }
+  $('helper').innerHTML = '<span class="ok">running</span>';
+  if (q.get('code')) {   // back from TikTok's login
+    try { await api('/exchange', { code: q.get('code'), state: q.get('state') }); }
+    catch (e) { $('helper').innerHTML += ` · <span class="err">login failed: ${e.message}</span>`; }
+    history.replaceState(null, '', location.pathname);
+  }
+  const st = await api('/status');
+  $('accountCard').hidden = false;
+  if (!st.connected) {
+    $('account').innerHTML = '<span>No TikTok account connected.</span> <button id="connect">Connect TikTok</button>';
+    $('connect').onclick = connect;
+    return;
+  }
+  const u = st.user || {};
+  $('account').innerHTML = `<img class="avatar" src="${u.avatar_url || ''}" alt="" /><div><b>${u.display_name || 'TikTok account'}</b><div class="small ok">Connected to TikTok</div></div>
+    <button class="secondary" id="connect">Reconnect</button>`;
+  $('connect').onclick = connect;
+  await loadPostForm();
+}
+async function connect() { const { url } = await api('/auth-url'); location.href = url; }
+
+async function loadPostForm() {
+  creator = await api('/creator');
+  vids = await api('/videos');
+  $('postCard').hidden = false;
+  $('creator').innerHTML = `Posting to <b>${creator.creator_nickname}</b> (@${creator.creator_username}) · videos up to ${creator.max_video_post_duration_sec} s`;
+  for (const p of creator.privacy_level_options || []) $('privacy').insertAdjacentHTML('beforeend', `<option value="${p}">${LABEL[p] || p}</option>`);
+  [['c_comment', creator.comment_disabled], ['c_duet', creator.duet_disabled], ['c_stitch', creator.stitch_disabled]].forEach(([id, off]) => {
+    $(id).disabled = !!off; if (off) $(id).parentElement.title = 'Turned off in this account\'s TikTok settings';
+  });
+  $('video').innerHTML = vids.map((v) => `<option value="${v.id}">${v.name}</option>`).join('');
+  $('video').onchange = pickVideo; pickVideo();
+  ['privacy', 'disclose', 'yourBrand', 'branded'].forEach((id) => $(id).onchange = refresh);
+  $('postBtn').onclick = post; $('draftBtn').onclick = draft;
+  refresh();
+}
+function pickVideo() {
+  const v = vids.find((x) => x.id === $('video').value);
+  $('preview').src = `${H}/video/${v.id}`;
+  const tooLong = v.seconds > creator.max_video_post_duration_sec;
+  $('vinfo').innerHTML = `${v.seconds} s · ${v.mb} MB` + (tooLong ? ' · <span class="err">too long for this account</span>' : '');
+  refresh();
+}
+function refresh() {
+  $('discloseBox').hidden = !$('disclose').checked;
+  const branded = $('disclose').checked && $('branded').checked;
+  // branded content cannot be private (TikTok's content sharing guidelines)
+  [...$('privacy').options].forEach((o) => { if (o.value === 'SELF_ONLY') o.disabled = branded; });
+  if (branded && $('privacy').value === 'SELF_ONLY') $('privacy').value = '';
+  const music = '<a href="https://www.tiktok.com/legal/page/global/music-usage-confirmation/en" target="_blank" rel="noopener">Music Usage Confirmation</a>';
+  const bc = '<a href="https://www.tiktok.com/legal/page/global/bc-policy/en" target="_blank" rel="noopener">Branded Content Policy</a>';
+  $('consent').innerHTML = `By posting, you agree to TikTok's ${branded ? bc + ' and ' : ''}${music}.`;
+  const v = vids.find((x) => x.id === $('video').value);
+  const discloseOk = !$('disclose').checked || $('yourBrand').checked || $('branded').checked;
+  $('postBtn').disabled = !$('privacy').value || !discloseOk || (v && v.seconds > creator.max_video_post_duration_sec);
+}
+async function watch(id, what) {
+  for (let i = 0; i < 60; i++) {
+    const s = await api('/pstatus?id=' + encodeURIComponent(id));
+    $('status').innerHTML = `${what}: <b>${s.status}</b>` + (s.fail_reason ? ` <span class="err">${s.fail_reason}</span>` : '');
+    if (['PUBLISH_COMPLETE', 'SEND_TO_USER_INBOX', 'FAILED'].includes(s.status)) {
+      if (s.status === 'PUBLISH_COMPLETE') $('status').innerHTML += '\nPosted. It can take a few minutes to appear on your profile.';
+      if (s.status === 'SEND_TO_USER_INBOX') $('status').innerHTML += '\nSent. Open TikTok and check your inbox notifications to edit and post it.';
+      return;
+    }
+    await new Promise((r) => setTimeout(r, 3000));
+  }
+}
+async function post() {
+  $('postBtn').disabled = true; $('status').textContent = 'Uploading…';
+  try {
+    const r = await api('/post', { video: $('video').value, title: $('title').value, privacy: $('privacy').value,
+      allow_comment: $('c_comment').checked, allow_duet: $('c_duet').checked, allow_stitch: $('c_stitch').checked,
+      your_brand: $('disclose').checked && $('yourBrand').checked, branded: $('disclose').checked && $('branded').checked });
+    await watch(r.publish_id, 'Post');
+  } catch (e) { $('status').innerHTML = `<span class="err">${e.message}</span>`; }
+  refresh();
+}
+async function draft() {
+  $('status').textContent = 'Uploading draft…';
+  try { const r = await api('/draft', { video: $('video').value }); await watch(r.publish_id, 'Draft'); }
+  catch (e) { $('status').innerHTML = `<span class="err">${e.message}</span>`; }
+}
+boot();
+</script>
+</body>
+</html>
